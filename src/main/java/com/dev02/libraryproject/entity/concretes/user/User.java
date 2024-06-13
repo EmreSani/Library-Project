@@ -1,4 +1,4 @@
-package com.dev02.libraryproject.entity.concretes.business.user;
+package com.dev02.libraryproject.entity.concretes.user;
 
 import com.dev02.libraryproject.entity.concretes.business.Loan;
 import com.fasterxml.jackson.annotation.JsonFormat;
