@@ -73,6 +73,8 @@ public class User {
     @OneToMany(mappedBy = "userId",cascade = CascadeType.REMOVE)
     private List<Loan> userId;
 
-
+    @OneToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private UserRole userRole;
 
 }

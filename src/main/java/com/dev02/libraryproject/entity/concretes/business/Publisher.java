@@ -22,7 +22,7 @@ public class Publisher {
     private Long id;
 
     @NotNull(message = "Name can not be null")
-    @Size(min = 2,max = 30,message = "Publisher name (${validatedValue}) {min} and {max} lengths allowed. !")
+    @Size(min = 2, max = 30, message = "Publisher name (${validatedValue}) {min} and {max} lengths allowed. !")
     private String name;
 
     @NotNull
