@@ -33,7 +33,7 @@ public class Book {
 
     @ManyToOne
     @JsonIgnore
-    private Long authorId; //5
+    private Long authorId; //5 idli yazar
 
     @ManyToOne
     private Long publisherId;
@@ -42,7 +42,7 @@ public class Book {
     private int publishDate;
 
     @ManyToOne
-    private Long categoryId;
+    private Long categoryId; //4 idli kategori - Bilim Kurgu
 
     @Column(nullable = true)
     private File image;
@@ -64,7 +64,5 @@ public class Book {
 
     @Column(nullable = false)
     private boolean builtIn; //default false
-
-
 
 }

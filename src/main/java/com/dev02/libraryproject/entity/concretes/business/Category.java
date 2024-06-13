@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-@Entity
-public class Author {
+public class Category {
 
+    //Abstract Base Entity (ortak fieldlar olduğu için düşünülemez mi?)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,8 +27,10 @@ public class Author {
     private Boolean builtIn;
 
     // Dökümantasyonda burası yok, doğrusu nasıl olmalı?
-   @OneToMany(mappedBy = "authorId")
-   private List<Book> bookList;
+    @OneToMany(mappedBy = "categoryId")
+    private List<Book> bookList;
 
+    @Column(nullable = false)
+    private int sequence; //TODO: Bu kısmı araştır
 
 }
