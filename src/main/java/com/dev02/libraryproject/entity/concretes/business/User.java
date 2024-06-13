@@ -69,5 +69,4 @@ public class User {
     private Boolean builtIn;
 
 
-
 }
