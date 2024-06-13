@@ -1,4 +1,4 @@
-package com.dev02.libraryproject.entity.concretes.business;
+package com.dev02.libraryproject.entity.concretes.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
