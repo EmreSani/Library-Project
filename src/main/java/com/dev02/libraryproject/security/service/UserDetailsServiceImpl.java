@@ -1,6 +1,6 @@
 package com.dev02.libraryproject.security.service;
 
-import com.dev02.libraryproject.entity.concretes.business.User;
+import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,10 +22,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return new UserDetailsImpl(
                     user.getId(),
                     user.getUsername(),
-                    user.getName(),
                     false,
                     user.getPassword(),
-                    user.getUserRole().getRoleType().name(),
+                    //user.getUserRole().getRoleType().name(),
                     user.getSsn());
         }
         throw new UsernameNotFoundException("User' " + username + " not found");
