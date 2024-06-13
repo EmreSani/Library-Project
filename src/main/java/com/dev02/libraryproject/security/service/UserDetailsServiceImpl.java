@@ -1,5 +1,6 @@
 package com.dev02.libraryproject.security.service;
 
+import com.dev02.libraryproject.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
