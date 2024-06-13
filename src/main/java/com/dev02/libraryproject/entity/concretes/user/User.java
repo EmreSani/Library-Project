@@ -1,6 +1,7 @@
 package com.dev02.libraryproject.entity.concretes.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -67,6 +69,9 @@ public class User {
 
     @NotNull
     private Boolean builtIn;
+
+    @OneToMany(mappedBy = "userId",cascade = CascadeType.REMOVE)
+    private List<Loan> userId;
 
 
 
