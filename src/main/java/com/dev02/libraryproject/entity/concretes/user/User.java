@@ -1,5 +1,7 @@
 package com.dev02.libraryproject.entity.concretes.user;
 
+import com.dev02.libraryproject.entity.concretes.business.Loan;
+import com.dev02.libraryproject.entity.enums.RoleType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -75,6 +77,6 @@ public class User {
 
     @OneToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private UserRole userRole;
+    private RoleType userRole;
 
 }
