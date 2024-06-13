@@ -1,5 +1,6 @@
-package com.dev02.libraryproject.entity.concretes.business;
+package com.dev02.libraryproject.entity.concretes.business.user;
 
+import com.dev02.libraryproject.entity.concretes.business.Loan;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -73,6 +74,11 @@ public class User {
     @OneToMany(mappedBy = "userId",cascade = CascadeType.REMOVE)
     private List<Loan> userId;
 
+    @OneToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private UserRole userRole;
 
+    @Column(unique = true)
+    private String username;
 
 }
