@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -64,5 +65,8 @@ public class Book {
 
     @Column(nullable = false)
     private boolean builtIn; //default false
+
+    @OneToMany(mappedBy = "bookId",cascade = CascadeType.REMOVE)
+    private List<Loan> bookId;
 
 }
