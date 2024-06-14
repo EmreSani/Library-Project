@@ -1,17 +1,18 @@
 package com.dev02.libraryproject.entity.concretes.user;
 
 import com.dev02.libraryproject.entity.concretes.business.Loan;
-import com.dev02.libraryproject.entity.enums.RoleType;
+
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,23 +28,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 2, max = 30, message = "(${validatedValue}) {min} and {max} lengths allowed!")
     private String firstName;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 2, max = 30, message = "(${validatedValue}) {min} and {max} lengths allowed!")
     private String lastName;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = -2, max = 2, message = "(${validatedValue}) {min} and {max} lengths allowed!")
     private int score = 0;
 
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 10, max = 100, message = "(${validatedValue}) {min} and {max} lengths allowed!")
     private String address;
 
-    @NotNull(message = "Please enter your phone number")
+    @Column(nullable = false)
     @Size(min = 12, max = 12, message = "Your phone number should be 12 characters long")
     @Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$", message = "Please enter a valid phone number in the format 999-999-9999")
     private String phoneNumber;
@@ -54,22 +55,22 @@ public class User {
     private LocalDate birthDate;
 
     @Email
-    @NotNull
+    @Column(nullable = false)
     @Size(min = 10, max = 80, message = "(${validatedValue}) {min} and {max} lengths allowed!")
     private String email;
 
-    @NotNull
+    @Column(nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @NotNull
+    @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createDate;
 
-    @NotNull
+    @Column(nullable = false)
     private String resetPasswordCode;
 
-    @NotNull
+    @Column(nullable = false)
     private Boolean builtIn;
 
     @OneToMany(mappedBy = "userId",cascade = CascadeType.REMOVE)
@@ -78,5 +79,8 @@ public class User {
     @OneToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Role userRole;
+
+    @Column(unique = true)
+    private String username;
 
 }
