@@ -1,6 +1,5 @@
 package com.dev02.libraryproject.service.user;
 
-import com.dev02.libraryproject.entity.concretes.user.Role;
 import com.dev02.libraryproject.payload.request.user.SigninRequest;
 import com.dev02.libraryproject.payload.response.user.SigninResponse;
 import com.dev02.libraryproject.repository.user.UserRepository;
@@ -16,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,9 +37,8 @@ public class UserService {
 
         String token = "Bearer " + jwtUtils.generateJwtToken(authentication);
 
-       UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        // !!!  Response olarak login islemini yapan kullaniciyi donecegiz gerekli fieldlar setleniyor
         // GrantedAuthority turundeki role yapisini String turune ceviriliyor
         Set<String> roles = userDetails.getAuthorities()
                 .stream()
@@ -49,13 +46,14 @@ public class UserService {
                 .collect(Collectors.toSet());
 
         // AuthResponse nesnesi olusturuluyor ve gerekli alanlar setleniyor
-        SigninResponse.SigninResponseBuilder signInResponse = SigninResponse.builder();
-        signInResponse.email(userDetails.getUsername());
-        signInResponse.token(token.substring(7));
-        signInResponse.name(userDetails.getName());
-        signInResponse.roles(roles);
+        SigninResponse signinResponse = SigninResponse.builder()
+                .email(userDetails.getUsername())
+                .token(token.substring(7))
+                .name(userDetails.getName())
+                .roles(roles)
+                .build();
 
         // SigninResponse nesnesi ResponseEntity ile donduruluyor
-        return ResponseEntity.ok(signInResponse.build());
+        return ResponseEntity.ok(signinResponse);
     }
 }
