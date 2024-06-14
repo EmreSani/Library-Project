@@ -2,7 +2,7 @@ package com.dev02.libraryproject.service.user;
 
 import com.dev02.libraryproject.entity.concretes.user.Role;
 import com.dev02.libraryproject.payload.request.user.SigninRequest;
-import com.dev02.libraryproject.payload.request.user.SigninResponse;
+import com.dev02.libraryproject.payload.response.user.SigninResponse;
 import com.dev02.libraryproject.repository.UserRepository;
 import com.dev02.libraryproject.security.jwt.JwtUtils;
 import com.dev02.libraryproject.security.service.UserDetailsImpl;
@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 

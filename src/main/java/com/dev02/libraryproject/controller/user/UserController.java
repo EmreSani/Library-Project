@@ -1,7 +1,7 @@
 package com.dev02.libraryproject.controller.user;
 
 import com.dev02.libraryproject.payload.request.user.SigninRequest;
-import com.dev02.libraryproject.payload.request.user.SigninResponse;
+import com.dev02.libraryproject.payload.response.user.SigninResponse;
 import com.dev02.libraryproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
