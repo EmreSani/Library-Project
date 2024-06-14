@@ -2,18 +2,17 @@ package com.dev02.libraryproject.entity.concretes.user;
 
 import com.dev02.libraryproject.entity.concretes.business.Loan;
 
-import com.dev02.libraryproject.entity.enums.RoleType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -83,7 +82,5 @@ public class User {
 
     @Column(unique = true)
     private String username;
-
-
 
 }
