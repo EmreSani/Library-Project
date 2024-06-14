@@ -80,13 +80,14 @@ public class User {
     private Boolean builtIn;
 
     @OneToMany(mappedBy = "userId",cascade = CascadeType.REMOVE)
-    private List<Loan> userId;
+    private List<Loan> loanList;
 
     @OneToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Role userRole;
 
-    @Column(unique = true)
-    private String username;
+    //Bunun yerine email kullanılacak.
+//    @Column(unique = true)
+//    private String username;
 
 }
