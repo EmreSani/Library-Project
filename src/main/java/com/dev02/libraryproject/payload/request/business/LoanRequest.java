@@ -26,18 +26,6 @@ public class LoanRequest {
     @NotNull
     private Long bookId;
 
-    @Past
-    @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime loanDate;
-
-    @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime expireDate;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime returnDate;
-
     @Size(max=300,message="Max of 300 characters can be entered.")
     private String notes;
 }

@@ -40,14 +40,27 @@ public class LoanService {
         int userScore = user.getScore();
         int userLoanListSize = user.getLoanList().size();
 
-        if(userScore==2 && userLoanListSize<=4){
-            book.isLoanable()=false;
+        //Mapper oluşturulup devam edilecek
+
+
+        if((userScore==2 && userLoanListSize<5)){
+            book.setLoanable(false);
+            //loan.setExpireDate(LocalDateTime().now()+20);
+
+        } else if (userScore==1 && userLoanListSize<4) {
+            book.setLoanable(false);
+            //loan.setExpireDate(LocalDateTime().now()+15);
+
+        } else if (userScore==0 && userLoanListSize<3) {
+            book.setLoanable(false);
+
+        } else if (userScore==-1 && userLoanListSize<2) {
+            book.setLoanable(false);
+
+        } else if (userScore==-2 && userLoanListSize<1) {
+            book.setLoanable(false);
 
         }
-
-
-
-
 
     }
 }
