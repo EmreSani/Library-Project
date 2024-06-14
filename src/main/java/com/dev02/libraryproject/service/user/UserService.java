@@ -42,12 +42,20 @@ public class UserService {
        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         // !!!  Response olarak login islemini yapan kullaniciyi donecegiz gerekli fieldlar setleniyor
-        // !!! GrantedAuthority turundeki role yapisini String turune ceviriliyor
+        // GrantedAuthority turundeki role yapisini String turune ceviriliyor
         Set<String> roles = userDetails.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
 
-        List<Role> role = roles.stream().map
+        // AuthResponse nesnesi olusturuluyor ve gerekli alanlar setleniyor
+        SigninResponse.SigninResponseBuilder signInResponse = SigninResponse.builder();
+        signInResponse.email(userDetails.getUsername());
+        signInResponse.token(token.substring(7));
+        signInResponse.name(userDetails.getName());
+        signInResponse.roles(roles);
+
+        // SigninResponse nesnesi ResponseEntity ile donduruluyor
+        return ResponseEntity.ok(signInResponse.build());
     }
 }
