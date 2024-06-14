@@ -1,4 +1,10 @@
 package com.dev02.libraryproject.repository;
 
-public class UserRepository {
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class UserRepository extends JpaRepository<User,Long> {
+
+
 }
