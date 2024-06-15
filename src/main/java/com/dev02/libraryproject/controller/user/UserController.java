@@ -5,6 +5,7 @@ import com.dev02.libraryproject.payload.request.user.UserRequest;
 import com.dev02.libraryproject.payload.response.user.SigninResponse;
 import com.dev02.libraryproject.payload.response.user.UserResponse;
 import com.dev02.libraryproject.service.user.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
