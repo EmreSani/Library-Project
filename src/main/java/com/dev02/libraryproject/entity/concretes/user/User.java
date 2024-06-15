@@ -6,13 +6,19 @@ import com.dev02.libraryproject.entity.concretes.business.Loan;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -74,13 +80,14 @@ public class User {
     private Boolean builtIn;
 
     @OneToMany(mappedBy = "userId",cascade = CascadeType.REMOVE)
-    private List<Loan> userId;
+    private List<Loan> loanList;
 
     @OneToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Role userRole;
 
-    @Column(unique = true)
-    private String username;
+    //Bunun yerine email kullanılacak.
+//    @Column(unique = true)
+//    private String username;
 
 }
