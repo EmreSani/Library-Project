@@ -77,12 +77,13 @@ public class User {
     @OneToMany(mappedBy = "userId",cascade = CascadeType.REMOVE)
     private List<Loan> loanList;
 
-    @OneToOne
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Role userRole;
-
-    //Bunun yerine email kullanılacak.
-//    @Column(unique = true)
-//    private String username;
+    private List<Role> roles;
 
 }

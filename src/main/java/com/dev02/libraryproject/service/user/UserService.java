@@ -92,7 +92,7 @@ public class UserService {
         User user = userMapper.mapUserRequestToUser(userRequest);
 
         // !!! Rol bilgisi setleniyor
-        user.setUserRole(userRoleService.getUserRole(RoleType.MEMBER));
+        user.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
 
         // !!! password encode ediliyor
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
