@@ -5,7 +5,7 @@ import com.dev02.libraryproject.payload.request.business.AuthorRequest;
 import com.dev02.libraryproject.payload.response.business.AuthorResponse;
 import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.service.business.AuthorService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
