@@ -8,6 +8,7 @@ import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.request.business.LoanRequest;
 import com.dev02.libraryproject.payload.response.business.LoanResponse;
 import com.dev02.libraryproject.repository.business.LoanRepository;
+import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,12 @@ public class LoanService {
     private final LoanRepository loanRepository;
     private final BookService bookService;
     private final UserService userService;
+    private final MethodHelper methodHelper;
 
     public LoanResponse createLoan(LoanRequest loanRequest) {
 
         Book book = bookService.getBookById(loanRequest.getBookId());
-        User user = userService.getUserById(loanRequest.getUserId());
+        User user = methodHelper.isUserExist(loanRequest.getUserId());
 
         if(!book.isLoanable()){
             throw new BadRequestException(ErrorMessages.BOOK_NOT_LOANABLE);
