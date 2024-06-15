@@ -27,7 +27,7 @@ public class Author {
     private Boolean builtIn;
 
     // Dökümantasyonda burası yok, doğrusu nasıl olmalı?
-   @OneToMany(mappedBy = "authorId")
+   @OneToMany(mappedBy = "authorId",cascade = CascadeType.REMOVE)
    private List<Book> bookList;
 
 
