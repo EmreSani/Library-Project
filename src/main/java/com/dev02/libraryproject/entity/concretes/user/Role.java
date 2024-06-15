@@ -1,13 +1,15 @@
 package com.dev02.libraryproject.entity.concretes.user;
 
 import com.dev02.libraryproject.entity.enums.RoleType;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "roles")
