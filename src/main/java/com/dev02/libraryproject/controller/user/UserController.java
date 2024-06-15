@@ -32,8 +32,8 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register (@RequestBody @Valid UserRequest userRequest, String userRole){
-        return userService.register(userRequest,userRole);
+    public ResponseEntity<UserResponse> register (@RequestBody @Valid UserRequest userRequest){
+        return userService.register(userRequest);
     }
 
     @PostMapping
@@ -53,6 +53,31 @@ public class UserController {
 
         return userService.getAllLoansByUserByPage(httpServletRequest,page,size,sort,type);
     }
+
+    @PostMapping("/s")
+    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
+    public ResponseMessage<Page<UserResponse>> getAllUsers (
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size",defaultValue = "20") int size,
+            @RequestParam(value = "sort",defaultValue = "createDate") String sort,
+            @RequestParam(value = "type",defaultValue = "desc") String type){
+
+        return userService.getAllUsersByPage(page,size,sort,type);
+    }
+
+    @GetMapping("/s/{userId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
+    public ResponseEntity<UserResponse> getUserById (@PathVariable Long userId){
+        return userService.getUserById(userId);
+    }
+
+    @DeleteMapping("/s/{userId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<UserResponse> deleteUserById(@PathVariable Long userId){
+        return userService.deleteUserById(userId);
+    }
+
+
 
 
 
