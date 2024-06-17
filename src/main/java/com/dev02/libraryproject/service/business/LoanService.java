@@ -84,7 +84,7 @@ public class LoanService {
         } else {
             throw new BadRequestException(ErrorMessages.USER_CAN_NOT_LOAN);
         }
-        user.getLoanList().add(loan); //From 84 to 87 added by emre
+        user.getLoanList().add(loan); //user's loan list size added this loan
         //Loan is saving by using LoanRepository.save() methods
         loanRepository.save(loan);
 
