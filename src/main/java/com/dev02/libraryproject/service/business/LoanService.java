@@ -153,7 +153,8 @@ public class LoanService {
 
 
     public ResponseEntity<LoanResponseWithUserAndBook> getLoanById(Long loanId) {
-
+        Loan foundLoan = isLoanExistsById(loanId);
+        return ResponseEntity.ok(loanMapper.mapLoanToLoanResponseWithUserAndBook(foundLoan));
 
     }
 
