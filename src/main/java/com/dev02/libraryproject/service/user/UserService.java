@@ -122,8 +122,7 @@ public class UserService {
 
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
 
-        User user = (User) httpServletRequest.getAttribute("email");
-        String email = user.getEmail();
+        String email = (String) httpServletRequest.getAttribute("email");
 
         //     Page<LoanResponse> loans = loanService.getAllLoansByUsersEmail(email);
         // loan servicedeki methodun yazılmasını bekliyoruz
