@@ -122,4 +122,12 @@ public class LoanService {
         return  loanRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessages.LOAN_NOT_FOUND, id)));
     }
+
+    public ResponseEntity<Page<LoanResponse>> getAllLoansByUserIdByPage(Long userId, int page, int size, String sort, String type) {
+
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+        User user = methodHelper.isUserExist(userId);
+
+        return ResponseEntity.ok(loanRepository.findAllLoansByUser_Id(user.getLoanList(), pageable).map(loanMapper::mapLoanToLoanResponse));
+    }
 }
