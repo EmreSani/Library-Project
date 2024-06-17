@@ -14,4 +14,6 @@ public class SuccessMessages {
 
     public static final String USER_FOUND = "USER Found." ;
 
+    public static final String LOAN_FOUND = "Loan Found..." ;
+
 }

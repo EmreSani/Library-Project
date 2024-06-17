@@ -4,6 +4,7 @@ import com.dev02.libraryproject.entity.concretes.business.Book;
 import com.dev02.libraryproject.entity.concretes.business.Loan;
 import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.exception.BadRequestException;
+import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.mappers.LoanMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
@@ -105,5 +106,20 @@ public class LoanService {
         User member = (User) httpServletRequest.getAttribute("email");
 
         return ResponseEntity.ok(loanRepository.findByUser_IdEquals(member.getId(), pageable).map(loanMapper::mapLoanToLoanResponse));
+    }
+
+    public ResponseMessage<LoanResponse> getLoanById(Long id) {
+        isLoanExistsById(id);
+        Loan loan = loanRepository.findByLoanId(id);
+        return ResponseMessage.<LoanResponse>builder()
+                .message(SuccessMessages.LOAN_FOUND)
+                .httpStatus(HttpStatus.OK)
+                .object(loanMapper.mapLoanToLoanResponse(loan))
+                .build();
+    }
+
+    public Loan isLoanExistsById(Long id) {
+        return  loanRepository.findById(id).orElseThrow(()->
+                new ResourceNotFoundException(String.format(ErrorMessages.LOAN_NOT_FOUND, id)));
     }
 }

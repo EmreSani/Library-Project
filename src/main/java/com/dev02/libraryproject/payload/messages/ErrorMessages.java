@@ -18,6 +18,8 @@ public class ErrorMessages {
     public static final String USER_CAN_NOT_LOAN = "User can not loan this book now. Check loanlist and score";
     public static final String NOT_FOUND_USER_MESSAGE = "Error: User not found with id %s";
 
+    public static final String LOAN_NOT_FOUND="Loan is not found by id : %s.";
+
 
 
 }

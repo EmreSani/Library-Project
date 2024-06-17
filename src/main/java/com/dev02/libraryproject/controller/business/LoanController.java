@@ -41,4 +41,10 @@ public class LoanController {
             @RequestParam(value = "type",defaultValue = "desc") String type){
         return loanService.getAllLoansByMemberByPage(httpServletRequest,page,size,sort,type);
     }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('MEMBER')")
+    public ResponseMessage<LoanResponse> getLoanById(@PathVariable Long id){
+        return loanService.getLoanById(id);
+    }
 }
