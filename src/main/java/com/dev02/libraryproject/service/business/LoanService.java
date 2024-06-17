@@ -12,6 +12,7 @@ import com.dev02.libraryproject.payload.request.business.LoanRequest;
 import com.dev02.libraryproject.payload.response.business.LoanResponse;
 import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.repository.business.LoanRepository;
+import com.dev02.libraryproject.repository.user.UserRepository;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.helper.PageableHelper;
 import com.dev02.libraryproject.service.user.UserService;
@@ -36,6 +37,7 @@ public class LoanService {
     private final MethodHelper methodHelper;
     private final LoanMapper loanMapper;
     private final PageableHelper pageableHelper;
+    private final UserRepository userRepository;
 
     public LoanResponse createLoan(LoanRequest loanRequest) {
 
@@ -108,9 +110,16 @@ public class LoanService {
         return ResponseEntity.ok(loanRepository.findByUser_IdEquals(member.getId(), pageable).map(loanMapper::mapLoanToLoanResponse));
     }
 
-    public ResponseMessage<LoanResponse> getLoanById(Long id) {
-        isLoanExistsById(id);
-        Loan loan = loanRepository.findByLoanId(id);
+    public ResponseMessage<LoanResponse> getLoanById(Long id, HttpServletRequest httpServletRequest) {
+        String email = (String) httpServletRequest.getAttribute("email");
+
+        User foundUser = userRepository.findByEmailEquals(email);
+
+        Loan loan = isLoanExistsById(id);
+
+        if(!foundUser.getLoanList().contains(loan)){
+            throw new BadRequestException(String.format(ErrorMessages.LOAN_NOT_FOUND_BY_USER,foundUser.getId()));
+        }
         return ResponseMessage.<LoanResponse>builder()
                 .message(SuccessMessages.LOAN_FOUND)
                 .httpStatus(HttpStatus.OK)
@@ -126,8 +135,8 @@ public class LoanService {
     public ResponseEntity<Page<LoanResponse>> getAllLoansByUserIdByPage(Long userId, int page, int size, String sort, String type) {
 
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        User user = methodHelper.isUserExist(userId);
+        methodHelper.isUserExist(userId);
 
-        return ResponseEntity.ok(loanRepository.findAllLoansByUser_Id(user.getLoanList(), pageable).map(loanMapper::mapLoanToLoanResponse));
+        return ResponseEntity.ok(loanRepository.findByUser_IdEquals(userId, pageable).map(loanMapper::mapLoanToLoanResponse));
     }
 }

@@ -37,15 +37,15 @@ public class LoanController {
             HttpServletRequest httpServletRequest,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size",defaultValue = "20") int size,
-            @RequestParam(value = "sort",defaultValue = "createDate") String sort,
+            @RequestParam(value = "sort",defaultValue = "loanDate") String sort,
             @RequestParam(value = "type",defaultValue = "desc") String type){
         return loanService.getAllLoansByMemberByPage(httpServletRequest,page,size,sort,type);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('MEMBER')") // http://localhost:8080/loans/2
-    public ResponseMessage<LoanResponse> getLoanById(@PathVariable Long id){
-        return loanService.getLoanById(id);
+    public ResponseMessage<LoanResponse> getLoanById(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        return loanService.getLoanById(id, httpServletRequest);
     }
 
 
@@ -53,8 +53,8 @@ public class LoanController {
     @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')") // http://localhost:8080/loans/user/3
     public ResponseEntity<Page<LoanResponse>> getAllLoansByUserIdByPage(
             @PathVariable Long userId,
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size",defaultValue = "10") int size,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size",defaultValue = "20") int size,
             @RequestParam(value = "sort",defaultValue = "loanDate") String sort,
             @RequestParam(value = "type",defaultValue = "desc") String type){
         return loanService.getAllLoansByUserIdByPage(userId,page,size,sort,type);

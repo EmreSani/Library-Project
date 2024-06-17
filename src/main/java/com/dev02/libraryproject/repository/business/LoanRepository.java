@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface LoanRepository extends JpaRepository<Loan, Long> {
     Page<Loan> findByUser_IdEquals(Long id, Pageable pageable);
 
-    Loan findByLoanId(Long id);
 
-    Page<Loan> findAllLoansByUser_Id(List<Loan> userLoanList, Pageable pageable);
+
 }
