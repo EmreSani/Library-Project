@@ -17,11 +17,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class LoanRequest {
-    @JsonIgnore
+
     @NotNull
     private Long userId;
 
-    @JsonIgnore
+
     @NotNull
     private Long bookId;
 

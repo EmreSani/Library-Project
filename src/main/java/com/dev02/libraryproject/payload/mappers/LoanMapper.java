@@ -5,6 +5,7 @@ import com.dev02.libraryproject.payload.request.business.LoanRequest;
 import com.dev02.libraryproject.payload.response.business.BookResponse;
 import com.dev02.libraryproject.payload.response.business.LoanResponse;
 import com.dev02.libraryproject.payload.response.business.LoanResponseWithUser;
+import com.dev02.libraryproject.payload.response.business.LoanResponseWithUserAndBook;
 import com.dev02.libraryproject.service.business.BookService;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.user.UserService;
@@ -44,5 +45,16 @@ public class LoanMapper {
                 .user(methodHelper.isUserExist(loan.getUserId()))
                 .build();
     }
+
+    public LoanResponseWithUserAndBook mapLoanToLoanResponseWithUserAndBook(Loan loan){
+        return LoanResponseWithUserAndBook.builder()
+                .id(loan.getId())
+                .userId(loan.getUserId())
+                .bookId(loan.getBookId())
+                .user(methodHelper.isUserExist(loan.getUserId()))
+                .book(bookService.findBookById(loan.getBookId()))
+                .build();
+    }
+
 
 }
