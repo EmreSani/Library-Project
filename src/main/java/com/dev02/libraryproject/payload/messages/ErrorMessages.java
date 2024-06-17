@@ -15,6 +15,7 @@ public class ErrorMessages {
 
     public static final String USER_HAS_EXPIRE_LOAN = "User has expired date loan by id : %s";
     public static final String USER_HAS_LOAN = "User has loan, so user cant be deleted";
+    public static final String USER_CAN_NOT_LOAN = "User can not loan this book now. Check loanlist and score";
     public static final String NOT_FOUND_USER_MESSAGE = "Error: User not found with id %s";
 
 

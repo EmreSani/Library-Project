@@ -81,8 +81,10 @@ public class LoanService {
             book.setLoanable(false);
             //loan.setExpireDate(LocalDateTime().now()+3);
             loan.setExpireDate(LocalDateTime.now().plusDays(3));
+        } else {
+            throw new BadRequestException(ErrorMessages.USER_CAN_NOT_LOAN);
         }
-
+        user.getLoanList().add(loan); //From 84 to 87 added by emre
         //Loan is saving by using LoanRepository.save() methods
         loanRepository.save(loan);
 
