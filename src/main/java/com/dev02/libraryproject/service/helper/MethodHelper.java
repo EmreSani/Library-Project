@@ -17,4 +17,5 @@ public class MethodHelper {
                 new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE,
                         userId)));
     }
+
 }

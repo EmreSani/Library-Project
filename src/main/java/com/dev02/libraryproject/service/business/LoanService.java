@@ -10,6 +10,8 @@ import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
 import com.dev02.libraryproject.payload.request.business.LoanRequest;
 import com.dev02.libraryproject.payload.response.business.LoanResponse;
+import com.dev02.libraryproject.payload.response.business.LoanResponseWithUser;
+import com.dev02.libraryproject.payload.response.business.LoanResponseWithUserAndBook;
 import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.repository.business.LoanRepository;
 import com.dev02.libraryproject.repository.user.UserRepository;
@@ -25,7 +27,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -110,7 +111,7 @@ public class LoanService {
         return ResponseEntity.ok(loanRepository.findByUser_IdEquals(member.getId(), pageable).map(loanMapper::mapLoanToLoanResponse));
     }
 
-    public ResponseMessage<LoanResponse> getLoanById(Long id, HttpServletRequest httpServletRequest) {
+    public ResponseMessage<LoanResponse> getLoanByIdWithMember(Long id, HttpServletRequest httpServletRequest) {
         String email = (String) httpServletRequest.getAttribute("email");
 
         User foundUser = userRepository.findByEmailEquals(email);
@@ -127,6 +128,7 @@ public class LoanService {
                 .build();
     }
 
+    //Diger classlarda kullanılacaksa methodHelper a tasınabilir.
     public Loan isLoanExistsById(Long id) {
         return  loanRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessages.LOAN_NOT_FOUND, id)));
@@ -139,4 +141,21 @@ public class LoanService {
 
         return ResponseEntity.ok(loanRepository.findByUser_IdEquals(userId, pageable).map(loanMapper::mapLoanToLoanResponse));
     }
+
+    public ResponseEntity<Page<LoanResponseWithUser>> getAllLoansByBookIdByPage(Long bookId, int page, int size, String sort, String type) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+        methodHelper.isBookExist(bookId);
+
+        return ResponseEntity.ok(loanRepository.findByBook_IdEquals(bookId, pageable).map(loanMapper::mapLoanToLoanResponseWithUser));
+
+
+    }
+
+
+    public ResponseEntity<LoanResponseWithUserAndBook> getLoanById(Long loanId) {
+
+
+    }
+
+
 }
