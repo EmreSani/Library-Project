@@ -43,8 +43,21 @@ public class LoanController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('MEMBER')")
+    @PreAuthorize("hasAnyAuthority('MEMBER')") // http://localhost:8080/loans/2
     public ResponseMessage<LoanResponse> getLoanById(@PathVariable Long id){
         return loanService.getLoanById(id);
     }
+
+
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')") // http://localhost:8080/loans/user/3
+    public ResponseEntity<Page<LoanResponse>> getAllLoansByUserIdByPage(
+            @PathVariable Long userId,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size",defaultValue = "10") int size,
+            @RequestParam(value = "sort",defaultValue = "loanDate") String sort,
+            @RequestParam(value = "type",defaultValue = "desc") String type){
+        return loanService.getAllLoansByUserIdByPage(userId,page,size,sort,type);
+    }
+
 }
