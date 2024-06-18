@@ -68,6 +68,11 @@ public class User {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createDate;
 
+    @PrePersist
+    protected void onCreate() {
+        createDate = LocalDateTime.now();
+    }
+
     @Column(nullable = false)
     private String resetPasswordCode;
 
