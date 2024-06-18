@@ -24,7 +24,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     user.getEmail(),
                     false,
                     user.getPassword();
-                    //user.getUserRole().getRoleType().name()
+                    //user.getUserRole().getRoleType().name() bizde bir kullanıcının birden fazla rolü olabiliyor.
+                    // bu durumda bu kısmı nasıl düşünmek lazım?
+
         }
         throw new UsernameNotFoundException("User' " + email + " not found");
     }

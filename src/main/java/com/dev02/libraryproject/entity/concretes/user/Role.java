@@ -1,13 +1,18 @@
 package com.dev02.libraryproject.entity.concretes.user;
 
 import com.dev02.libraryproject.entity.enums.RoleType;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+
+import javax.persistence.*;
+import java.util.List;
+
 
 @Entity
 @Table(name = "roles")
@@ -23,7 +28,10 @@ public class Role {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    @NotNull
-    private RoleType name;
+    private RoleType roleType;
 
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
+
+    private String name;
 }
