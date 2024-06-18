@@ -35,6 +35,12 @@ public class ErrorMessages {
     public static final String DONT_HAVE_AUTHORITY="You don't have permission to do that";
     public static final String NOT_PERMITTED_METHOD_MESSAGE = "You do not have any permission to do this operation";
 
+    public static final String PUBLISHER_NOT_FOUND = "Publisher is not found by id : %s";
+    public static final String CANT_DELETE_PUBLISHER = "Publisher can not deleted";
+
+
+
+
 
 
 
