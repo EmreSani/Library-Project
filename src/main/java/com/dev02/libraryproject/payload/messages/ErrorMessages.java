@@ -21,6 +21,9 @@ public class ErrorMessages {
     public static final String LOAN_NOT_FOUND="Loan is not found by id : %s";
     public static final String LOAN_NOT_FOUND_BY_USER="This loan does not belong to this user id: %s";
 
+    public static final String DONT_HAVE_AUTHORITY="You dont have permission to do that";
+    public static final String NOT_PERMITTED_METHOD_MESSAGE = "You do not have any permission to do this operation";
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.dev02.libraryproject.service.helper;
 
 import com.dev02.libraryproject.entity.concretes.user.User;
+import com.dev02.libraryproject.exception.BadRequestException;
 import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.repository.user.UserRepository;
@@ -16,6 +17,12 @@ public class MethodHelper {
         return userRepository.findById(userId).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE,
                         userId)));
+    }
+
+    public void checkBuiltIn(User user){
+        if(Boolean.TRUE.equals(user.getBuiltIn())) {
+            throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+        }
     }
 
 }

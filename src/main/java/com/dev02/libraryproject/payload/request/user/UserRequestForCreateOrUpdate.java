@@ -1,9 +1,10 @@
 package com.dev02.libraryproject.payload.request.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -12,8 +13,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class UserRequest {
+public class UserRequestForCreateOrUpdate {
 
     @NotNull
     @Size(min = 2, max = 30, message = "(${validatedValue}) {min} and {max} lengths allowed!")
@@ -44,5 +44,6 @@ public class UserRequest {
     @NotNull
     private String password;
 
+   // private String userRole; controllerda pathvariable olarak almaktansa burdan da alınabilir.
 
 }
