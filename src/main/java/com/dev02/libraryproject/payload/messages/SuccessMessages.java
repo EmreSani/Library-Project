@@ -2,11 +2,22 @@ package com.dev02.libraryproject.payload.messages;
 
 public class SuccessMessages {
 
-    public static final String AUTHOR_FOUND = "Author Found." ;
+
 
     private SuccessMessages() {
     }
 
+    public static final String AUTHOR_FOUND = "Author Found..." ;
+    public static final String AUTHOR_CREATED = "Author Created Successfully...";
+    public static final String AUTHOR_UPDATED = "Author Updated Successfully...";
+    public static final String AUTHOR_DELETED = "Author Deleted Successfully";
 
+    public static final String SUCCESS = "Completed Successfully";
 
+    public static final String USER_FOUND = "USER Found." ;
+
+    public static final String LOAN_FOUND = "Loan Found..." ;
+
+    public static final String BOOK_FOUND ="Book is found by id : %s" ;
+    public static final String BOOK_SAVED ="Book is saved successfully!" ;
 }

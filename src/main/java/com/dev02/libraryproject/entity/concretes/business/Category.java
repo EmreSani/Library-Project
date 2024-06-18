@@ -1,11 +1,19 @@
 package com.dev02.libraryproject.entity.concretes.business;
 
+<<<<<<< HEAD
 import javax.persistence.*;
+=======
+>>>>>>> main
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+<<<<<<< HEAD
+=======
+
+import javax.persistence.*;
+>>>>>>> main
 import java.util.List;
 
 @Entity
