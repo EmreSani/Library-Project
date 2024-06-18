@@ -16,4 +16,9 @@ public class SuccessMessages {
 
     public static final String LOAN_FOUND = "Loan Found..." ;
 
+    public static final String PUBLISHER_FOUND = "Publisher Found" ;
+    public static final String PUBLISHER_CREATED = "Publisher Created Successfully" ;
+    public static final String PUBLISHER_DELETED = "Publisher Updated Successfully" ;
+    public static final String PUBLISHER_UPDATED = "Publisher Deleted Successfully" ;
+
 }
