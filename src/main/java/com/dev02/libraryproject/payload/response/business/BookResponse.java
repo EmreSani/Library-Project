@@ -42,7 +42,6 @@ public class BookResponse {
 
     private boolean featured;
 
-
     private LocalDateTime createDate;
 
     private boolean builtIn;

@@ -3,11 +3,13 @@ package com.dev02.libraryproject.entity.concretes.user;
 import com.dev02.libraryproject.entity.concretes.business.Loan;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
