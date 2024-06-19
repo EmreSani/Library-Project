@@ -22,6 +22,7 @@ public class AuthorController {
 
 
     @GetMapping// http://localhost:8080/authors/ +GET
+    @PreAuthorize("hasAnyAuthority('Anonymous')")
     public ResponseEntity<Page<AuthorResponse>> getAuthorsByPage(
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -34,6 +35,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}") // http://localhost:8080/authors/4 + GET
+    @PreAuthorize("hasAnyAuthority('Anonymous')")
     public ResponseMessage<AuthorResponse> getAuthorById(@PathVariable Long id){
         return authorService.getAuthorById(id);
     }

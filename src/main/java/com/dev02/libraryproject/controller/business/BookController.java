@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+
 @RestController
 @RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
 
     private final BookService bookService;
+
 
 
     @GetMapping("/q")
@@ -34,7 +36,7 @@ public class BookController {
             @RequestParam(name = "sort", defaultValue = "name") String sort,
             @RequestParam(name = "type", defaultValue = "asc") String type) {
 
-        return bookService.getBooks(query, category, author, publisher, page, size, sort, type);
+        return bookService.getBooks(httpServletRequest,query, categoryId, authorId, publisherId, page, size, sort, type);
     }
 
 
