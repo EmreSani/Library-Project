@@ -66,7 +66,7 @@ public class BookService {
         bookRequest.setCreateDate(LocalDateTime.now());
 
         Book savedBook = bookRepository.save(bookMapper.mapBookRequestToBook(bookRequest));
-//todo: check
+        //todo: check
 
         return ResponseMessage.<BookResponse>builder()
                 .object(bookMapper.mapBookToBookResponse(savedBook))
@@ -83,5 +83,23 @@ public class BookService {
             throw new ConflictException(String.format(ErrorMessages.BOOK_ALREADY_EXISTS_WITH_NAME, bookName));
         } else return false;
 
+    }
+
+    public ResponseMessage<BookResponse> updateBook(HttpServletRequest httpServletRequest, Long bookId, BookRequest bookRequest) {
+        Book book = methodHelper.isBookExists(bookId);
+//todo devam edilecek method -> update te neler kontrol edilecek?
+
+
+    }
+
+    public ResponseMessage<BookResponse> deleteBook(HttpServletRequest httpServlet, Long bookId) {
+        Book book = methodHelper.isBookExists(bookId);
+
+        bookRepository.deleteById(bookId);
+        return ResponseMessage.<BookResponse>builder()
+                .object(bookMapper.mapBookToBookResponse(book))
+                .message(SuccessMessages.BOOK_DELETED)
+                .httpStatus(HttpStatus.OK)
+                .build();
     }
 }
