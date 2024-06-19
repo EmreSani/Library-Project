@@ -42,7 +42,7 @@ public class LoanService {
 
     public LoanResponse createLoan(LoanRequest loanRequest) {
 
-        Book book = bookService.getBookById(loanRequest.getBookId());
+        Book book = methodHelper.isBookExists(loanRequest.getBookId());
         User user = methodHelper.isUserExist(loanRequest.getUserId());
 
         if(!book.isLoanable()){

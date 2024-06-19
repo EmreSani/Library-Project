@@ -52,6 +52,18 @@ public class BookController {
 
 
     }
-
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+public ResponseMessage<BookResponse> updateBook(HttpServletRequest httpServletRequest,
+                                                @PathVariable Long bookId,
+                                                @Valid @RequestBody BookRequest bookRequest){
+        return bookService.updateBook(httpServletRequest, bookId,bookRequest);
+    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public  ResponseMessage<BookResponse> deleteBook(HttpServletRequest httpServlet,
+                                                     @PathVariable Long bookId){
+        return bookService.deleteBook(httpServlet, bookId);
+    }
 }
 
