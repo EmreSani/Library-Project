@@ -1,12 +1,12 @@
 package com.dev02.libraryproject.entity.concretes.business;
 
+
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-
 
 import java.util.List;
 
@@ -27,9 +27,8 @@ public class Author {
     @Column(nullable = false)
     private Boolean builtIn;
 
-    // Dökümantasyonda burası yok, doğrusu nasıl olmalı?
-   @OneToMany(mappedBy = "authorId",cascade = CascadeType.REMOVE)
-   private List<Book> bookList;
+    @OneToMany(mappedBy = "authorId", cascade = CascadeType.REMOVE)
+    private List<Book> bookList;
 
 
 }

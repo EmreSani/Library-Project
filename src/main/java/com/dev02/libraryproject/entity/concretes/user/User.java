@@ -3,11 +3,13 @@ package com.dev02.libraryproject.entity.concretes.user;
 import com.dev02.libraryproject.entity.concretes.business.Loan;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -68,6 +70,11 @@ public class User {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createDate;
 
+    @PrePersist
+    protected void onCreate() {
+        createDate = LocalDateTime.now();
+    }
+
     @Column(nullable = false)
     private String resetPasswordCode;
 
@@ -77,12 +84,13 @@ public class User {
     @OneToMany(mappedBy = "userId",cascade = CascadeType.REMOVE)
     private List<Loan> loanList;
 
-    @OneToOne
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Role userRole;
-
-    //Bunun yerine email kullanılacak.
-//    @Column(unique = true)
-//    private String username;
+    private List<Role> roles;
 
 }

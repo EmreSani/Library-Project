@@ -8,7 +8,8 @@ import com.dev02.libraryproject.payload.mappers.UserMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
 import com.dev02.libraryproject.payload.request.user.SigninRequest;
-import com.dev02.libraryproject.payload.request.user.UserRequest;
+import com.dev02.libraryproject.payload.request.user.UserRequestForCreateOrUpdate;
+import com.dev02.libraryproject.payload.request.user.UserRequestForRegister;
 import com.dev02.libraryproject.payload.response.business.LoanResponse;
 import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.payload.response.user.SigninResponse;
@@ -83,19 +84,19 @@ public class UserService {
         return ResponseEntity.ok(signinResponse);
     }
 
-    public ResponseEntity<UserResponse> register(UserRequest userRequest) {
+    public ResponseEntity<UserResponse> register(UserRequestForRegister userRequestForRegister) {
 
         //!!! username - ssn- phoneNumber unique mi kontrolu ??
-        uniquePropertyValidator.checkDuplicate(userRequest.getEmail(),
-                userRequest.getPhone());
+        uniquePropertyValidator.checkDuplicate(userRequestForRegister.getEmail(),
+                userRequestForRegister.getPhone());
         //!!! DTO --> POJO
-        User user = userMapper.mapUserRequestToUser(userRequest);
+        User user = userMapper.mapUserRequestToUser(userRequestForRegister);
 
         // !!! Rol bilgisi setleniyor
-        user.setUserRole(userRoleService.getUserRole(RoleType.MEMBER));
+        user.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
 
         // !!! password encode ediliyor
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setPassword(passwordEncoder.encode(userRequestForRegister.getPassword()));
 
         User savedUser = userRepository.save(user);
 
@@ -122,8 +123,7 @@ public class UserService {
 
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
 
-        User user = (User) httpServletRequest.getAttribute("email");
-        String email = user.getEmail();
+        String email = (String) httpServletRequest.getAttribute("email");
 
         //     Page<LoanResponse> loans = loanService.getAllLoansByUsersEmail(email);
         // loan servicedeki methodun yazılmasını bekliyoruz
@@ -165,7 +165,92 @@ public class UserService {
         userRepository.delete(user);
 
         return ResponseEntity.ok(userMapper.mapUserToUserResponse(user));   //Aslında no content 204 kodu
-                                                                            // döndürmek daha mantıklı olabilir
+        // döndürmek daha mantıklı olabilir
+
+    }
+
+
+    public ResponseEntity<UserResponse> createUser(UserRequestForCreateOrUpdate userRequestForCreateOrUpdate, HttpServletRequest httpServletRequest, String userRole) {
+
+        String email = (String) httpServletRequest.getAttribute("email");
+
+        User foundUser = userRepository.findByEmailEquals(email);
+
+        //!!! email - phoneNumber unique mi kontrolu ??
+        uniquePropertyValidator.checkDuplicate(userRequestForCreateOrUpdate.getEmail(),
+                userRequestForCreateOrUpdate.getPhone());
+        //!!! DTO --> POJO
+        User userToCreate = userMapper.mapUserRequestToUser(userRequestForCreateOrUpdate);
+
+
+        //ROLE BİLGİSİNİ SETLEMEK
+        if (foundUser.getRoles().contains(userRoleService.getUserRole(RoleType.ADMIN))) { //Admin olduğu zaman başka bir kontrole gerek kalmıyor
+
+            if (userRole.equalsIgnoreCase("Member")) {
+
+                userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
+
+            } else if (userRole.equalsIgnoreCase("Employee")) {
+
+                userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.EMPLOYEE));
+
+            } else if (userRole.equalsIgnoreCase("Admin")) {
+
+                userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.ADMIN));
+
+            } else {
+
+                throw new ResourceNotFoundException((ErrorMessages.ROLE_NOT_FOUND));
+
+            }
+
+        } else if (!foundUser.getRoles().contains(userRoleService.getUserRole(RoleType.ADMIN))) {
+
+            if (userRole.equalsIgnoreCase("Member")) {
+
+                userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
+
+            } else {
+
+                throw new BadRequestException(ErrorMessages.DONT_HAVE_AUTHORITY);
+
+            }
+        }
+
+        // !!! password encode ediliyor
+        userToCreate.setPassword(passwordEncoder.encode(userRequestForCreateOrUpdate.getPassword()));
+
+        User savedUser = userRepository.save(userToCreate);
+
+        return ResponseEntity.ok(userMapper.mapUserToUserResponse(savedUser));
+
+    }
+
+    public ResponseEntity<UserResponse> updateUser(UserRequestForCreateOrUpdate userRequestForCreateOrUpdate, Long userId, HttpServletRequest httpServletRequest) {
+
+        String email = (String) httpServletRequest.getAttribute("email");
+        //işlemi yapan user
+        User foundUser = userRepository.findByEmailEquals(email);
+
+        //güncellenecek user
+       User userToUpdate = methodHelper.isUserExist(userId);
+
+       //built in kontrolü
+        methodHelper.checkBuiltIn(userToUpdate);
+
+       //!!! email - phoneNumber unique mi kontrolu ??
+        uniquePropertyValidator.checkUniqueProperties(userToUpdate,
+                userRequestForCreateOrUpdate);
+
+      User updatedUser =  userMapper.mapUserRequestToUpdatedUser(userRequestForCreateOrUpdate, userId);
+
+      updatedUser.setPassword(passwordEncoder.encode(userRequestForCreateOrUpdate.getPassword()));
+      updatedUser.setRoles(userToUpdate.getRoles());
+
+      User savedUser = userRepository.save(updatedUser);
+
+      return ResponseEntity.ok(userMapper.mapUserToUserResponse(savedUser));
+
 
     }
 }

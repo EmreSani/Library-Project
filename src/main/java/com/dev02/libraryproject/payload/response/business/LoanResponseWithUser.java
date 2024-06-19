@@ -1,25 +1,22 @@
 package com.dev02.libraryproject.payload.response.business;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
-import com.dev02.libraryproject.entity.concretes.business.Book;
+import com.dev02.libraryproject.entity.concretes.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoanResponse {
+public class LoanResponseWithUser {
 
     private Long id;
 
-    private Long userId;
-
     private Long bookId;
-    private Book book;
+
+    private User user;
+
 }

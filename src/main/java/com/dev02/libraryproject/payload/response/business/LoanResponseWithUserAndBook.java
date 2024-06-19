@@ -1,33 +1,29 @@
 package com.dev02.libraryproject.payload.response.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Book;
+import com.dev02.libraryproject.entity.concretes.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryResponse {
-
+public class LoanResponseWithUserAndBook {
 
 
     private Long id;
 
+    private Long userId;
 
-    private String name;
+    private Long bookId;
+
+    private User user;
+
+    private Book book;
 
 
-    private Boolean builtIn;
 
-
-    private List<Book> bookList;
-
-
-    private int sequence;
 }
