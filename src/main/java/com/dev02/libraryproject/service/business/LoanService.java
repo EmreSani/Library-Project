@@ -144,7 +144,7 @@ public class LoanService {
 
     public ResponseEntity<Page<LoanResponseWithUser>> getAllLoansByBookIdByPage(Long bookId, int page, int size, String sort, String type) {
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        methodHelper.isBookExist(bookId);
+        methodHelper.isBookExists(bookId);
 
         return ResponseEntity.ok(loanRepository.findByBook_IdEquals(bookId, pageable).map(loanMapper::mapLoanToLoanResponseWithUser));
 
