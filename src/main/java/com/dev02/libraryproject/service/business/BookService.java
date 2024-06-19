@@ -62,10 +62,10 @@ public class BookService {
            methodHelper.isAuthorExistsById(authorId);
        }
        if (categoryId != null) {
-           methodHelper.isCategoryExist(categoryId);
+           methodHelper.isCategoryExists(categoryId);
        }
        if (publisherId != null) {
-           methodHelper.isPublisherExist(publisherId);
+           methodHelper.isPublisherExists(publisherId);
        }
 
        boolean isAdmin = methodHelper.isAdmin(httpServletRequest);
@@ -110,13 +110,12 @@ public class BookService {
         methodHelper.checkRole(admin, RoleType.ADMIN);
 
 
-        categoryService.isCategoryExists(bookRequest.getCategoryId());
-        authorService.isAuthorExistsById(bookRequest.getAuthorId());
-        publisherService.isPublisherExists(bookRequest.getPublisherId());
+        methodHelper.isCategoryExists(bookRequest.getCategoryId());
+        methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
+        methodHelper.isPublisherExists(bookRequest.getPublisherId());
         bookRequest.setCreateDate(LocalDateTime.now());
 
         Book savedBook = bookRepository.save(bookMapper.mapBookRequestToBook(bookRequest));
-        //todo: check
 
         return ResponseMessage.<BookResponse>builder()
                 .object(bookMapper.mapBookToBookResponse(savedBook))
@@ -137,12 +136,21 @@ public class BookService {
 
     public ResponseMessage<BookResponse> updateBook(HttpServletRequest httpServletRequest, Long bookId, BookRequest bookRequest) {
         Book book = methodHelper.isBookExists(bookId);
-//todo devam edilecek method -> update te neler kontrol edilecek?
 
+        methodHelper.isCategoryExists(bookRequest.getCategoryId());
+        methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
+        methodHelper.isPublisherExists(bookRequest.getPublisherId());
 
+      Book updatedBook =  bookRepository.save(bookMapper.mapBookUpdateRequestToBook(bookRequest,bookId));
+
+        return ResponseMessage.<BookResponse>builder()
+                .object(bookMapper.mapBookToBookResponse(updatedBook))
+                .message(SuccessMessages.BOOK_UPDATED)
+                .httpStatus(HttpStatus.OK)
+                .build();
     }
 
-    public ResponseMessage<BookResponse> deleteBook(HttpServletRequest httpServlet, Long bookId) {
+    public ResponseMessage<BookResponse> deleteBook( Long bookId) {
         Book book = methodHelper.isBookExists(bookId);
 
         bookRepository.deleteById(bookId);
