@@ -1,9 +1,6 @@
 package com.dev02.libraryproject.payload.response.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Loan;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,16 +33,15 @@ public class BookResponse {
 
     private File image;
 
-    private boolean loanable = true;
-
     private String shelfCode;
-
-    private boolean active = true;
 
     private boolean featured;
 
-
     private LocalDateTime createDate;
+
+    private boolean active = true;
+
+    private boolean loanable = true;
 
     private boolean builtIn;
 

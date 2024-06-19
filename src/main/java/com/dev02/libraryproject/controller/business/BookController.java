@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/books")
@@ -17,18 +20,21 @@ public class BookController {
 
 
     @GetMapping("/q") // http://localhost:8080/books?q=sefiller&cat=4&author=34&publisher=42&page=1&size=10&sort=name&type=asc
+    @PreAuthorize("hasAnyAuthority('Admin','Member','Employee')")
     public Page<BookResponse> getAllBookByPage(
+            HttpServletRequest httpServletRequest,
             @RequestParam(name = "q", defaultValue="sefiller") String query,
-            @RequestParam(name = "cat", defaultValue="4") Integer category,
-            @RequestParam(name = "author", defaultValue="34") Long author,
-            @RequestParam(name = "publisher", defaultValue="42") Integer publisher,
+            @RequestParam(name = "cat", defaultValue="4") Long categoryId,
+            @RequestParam(name = "author", defaultValue="34") Long authorId,
+            @RequestParam(name = "publisher", defaultValue="42") Long publisherId,
             @RequestParam(name = "page", defaultValue = "1") Integer page,
             @RequestParam(name = "size", defaultValue = "10") Integer size,
             @RequestParam(name = "sort", defaultValue = "name") String sort,
-            @RequestParam(name = "type", defaultValue = "asc") String type)
+            @RequestParam(name = "type", defaultValue = "asc") String type
+            )
     {
 
-        return bookService.getBooks(query, category, author, publisher, page, size, sort, type);
+        return bookService.getBooks(httpServletRequest,query, categoryId, authorId, publisherId, page, size, sort, type);
     }
 
 

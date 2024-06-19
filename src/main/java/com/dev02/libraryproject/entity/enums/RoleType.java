@@ -4,8 +4,8 @@ public enum RoleType {
 
     ADMIN("Admin"),
     EMPLOYEE("Employee"),
-    MEMBER("Member");
-
+    MEMBER("Member"),
+    ANONYMOUS("Anonymous");
 
     public final String name;
 

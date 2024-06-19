@@ -2,6 +2,10 @@ package com.dev02.libraryproject.payload.messages;
 
 public class ErrorMessages {
 
+    public static final String USER_NOT_ADMIN = "User is not Admin";
+    public static final String CATEGORY_NOT_FOUND = "Category is not found";
+    public static final String PUBLISHER_NOT_FOUND = "Publisher is not found";
+
     private ErrorMessages() {
     }
 
