@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class MethodHelper {
     private final UserRepository userRepository;
-
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
     private final PublisherRepository publisherRepository;
@@ -53,17 +52,17 @@ public class MethodHelper {
                 new ResourceNotFoundException(String.format(ErrorMessages.AUTHOR_NOT_FOUND, id)));
     }
 
-    public Category isCategoryExist(Long categoryId) {
+    public Category isCategoryExists(Long categoryId) {
         return  categoryRepository.findById(categoryId).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessages.CATEGORY_NOT_FOUND, categoryId)));
     }
 
-    public Publisher isPublisherExist(Long publisherId) {
+    public Publisher isPublisherExists(Long publisherId) {
         return publisherRepository.findById(publisherId).orElseThrow(()->
                 new ResourceNotFoundException(String.format(ErrorMessages.PUBLISHER_NOT_FOUND, publisherId)));
 
     }
-}
+
 
     public void checkBuiltIn(User user) {
         if (Boolean.TRUE.equals(user.getBuiltIn())) {

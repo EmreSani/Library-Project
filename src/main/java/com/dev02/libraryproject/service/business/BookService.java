@@ -1,15 +1,12 @@
 package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Book;
-import com.dev02.libraryproject.entity.concretes.business.Category;
-import com.dev02.libraryproject.entity.concretes.business.Publisher;
 import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 
-import com.dev02.libraryproject.entity.concretes.user.User;
+
 import com.dev02.libraryproject.entity.enums.RoleType;
 import com.dev02.libraryproject.exception.ConflictException;
-import com.dev02.libraryproject.payload.mappers.BookMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
 import com.dev02.libraryproject.payload.request.business.BookRequest;
@@ -20,7 +17,6 @@ import com.dev02.libraryproject.repository.business.BookRepository;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 
@@ -56,16 +49,17 @@ public class BookService {
        if (query.isEmpty() && categoryId == null && authorId == null && publisherId == null) {
            throw new IllegalArgumentException("At least one of the fields (q, cat, author and publisher) is required");
        }
-
+       String username = (String) httpServletRequest.getAttribute("username");
+       methodHelper.isUserExistByUsername(username);
 
        if (authorId != null) {
            methodHelper.isAuthorExistsById(authorId);
        }
        if (categoryId != null) {
-           methodHelper.isCategoryExist(categoryId);
+           methodHelper.isCategoryExists(categoryId);
        }
        if (publisherId != null) {
-           methodHelper.isPublisherExist(publisherId);
+           methodHelper.isPublisherExists(publisherId);
        }
 
        boolean isAdmin = methodHelper.isAdmin(httpServletRequest);
@@ -105,18 +99,16 @@ public class BookService {
 
         Long id = bookMapper.mapBookRequestToBook(bookRequest).getId();
         methodHelper.isBookExists(id);
+        methodHelper.isCategoryExists(bookRequest.getCategoryId());
+        methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
+        methodHelper.isPublisherExists(bookRequest.getPublisherId());
 
-        User admin = methodHelper.isUserExist(id);
-        methodHelper.checkRole(admin, RoleType.ADMIN);
+       // User admin = methodHelper.isUserExist(id);
+       // methodHelper.checkRole(admin, RoleType.ADMIN);
 
-
-        categoryService.isCategoryExists(bookRequest.getCategoryId());
-        authorService.isAuthorExistsById(bookRequest.getAuthorId());
-        publisherService.isPublisherExists(bookRequest.getPublisherId());
         bookRequest.setCreateDate(LocalDateTime.now());
 
         Book savedBook = bookRepository.save(bookMapper.mapBookRequestToBook(bookRequest));
-        //todo: check
 
         return ResponseMessage.<BookResponse>builder()
                 .object(bookMapper.mapBookToBookResponse(savedBook))
@@ -136,13 +128,23 @@ public class BookService {
     }
 
     public ResponseMessage<BookResponse> updateBook(HttpServletRequest httpServletRequest, Long bookId, BookRequest bookRequest) {
-        Book book = methodHelper.isBookExists(bookId);
-//todo devam edilecek method -> update te neler kontrol edilecek?
 
+       Book book = methodHelper.isBookExists(bookId);
+        methodHelper.isCategoryExists(bookRequest.getCategoryId());
+        methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
+        methodHelper.isPublisherExists(bookRequest.getPublisherId());
+
+        Book updatedBook = bookRepository.save(bookMapper.mapBookUpdateRequestToBook(bookRequest,bookId));
+
+        return ResponseMessage.<BookResponse>builder()
+                .object(bookMapper.mapBookToBookResponse(updatedBook))
+                .message(SuccessMessages.UPDATED_BOOK)
+                .httpStatus(HttpStatus.CREATED)
+                .build();
 
     }
 
-    public ResponseMessage<BookResponse> deleteBook(HttpServletRequest httpServlet, Long bookId) {
+    public ResponseMessage<BookResponse> deleteBook(Long bookId) {
         Book book = methodHelper.isBookExists(bookId);
 
         bookRepository.deleteById(bookId);
