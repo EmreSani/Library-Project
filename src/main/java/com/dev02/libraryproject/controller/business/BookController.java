@@ -61,9 +61,9 @@ public ResponseMessage<BookResponse> updateBook(HttpServletRequest httpServletRe
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public  ResponseMessage<BookResponse> deleteBook(HttpServletRequest httpServlet,
+    public  ResponseMessage<BookResponse> deleteBook(
                                                      @PathVariable Long bookId){
-        return bookService.deleteBook(httpServlet, bookId);
+        return bookService.deleteBook( bookId);
     }
 }
 

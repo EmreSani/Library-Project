@@ -4,6 +4,7 @@ import com.dev02.libraryproject.entity.concretes.business.Book;
 
 import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.entity.enums.RoleType;
+import com.dev02.libraryproject.exception.BadRequestException;
 import com.dev02.libraryproject.exception.ConflictException;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
@@ -29,6 +30,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final CategoryService categoryService;
     private final PublisherService publisherService;
+    private final LoanService loanService;
     private final BookMapper bookMapper;
     private final MethodHelper methodHelper;
 
@@ -87,14 +89,19 @@ public class BookService {
 
     public ResponseMessage<BookResponse> updateBook(HttpServletRequest httpServletRequest, Long bookId, BookRequest bookRequest) {
         Book book = methodHelper.isBookExists(bookId);
+        String userName = (String) httpServletRequest.getAttribute("username");
+        methodHelper.isUserExistByUsername(userName);
+
 //todo devam edilecek method -> update te neler kontrol edilecek?
 
 
     }
 
-    public ResponseMessage<BookResponse> deleteBook(HttpServletRequest httpServlet, Long bookId) {
+    public ResponseMessage<BookResponse> deleteBook(Long bookId) {
         Book book = methodHelper.isBookExists(bookId);
-
+        if (!book.isLoanable()) {
+            throw new BadRequestException(ErrorMessages.BOOK_CAN_NOT_BE_DELETED);
+        }
         bookRepository.deleteById(bookId);
         return ResponseMessage.<BookResponse>builder()
                 .object(bookMapper.mapBookToBookResponse(book))

@@ -16,11 +16,10 @@ public class ErrorMessages {
 
     public static final String ROLE_NOT_FOUND = "Role doesn't exist";
 
-
     public static final String BOOK_NOT_FOUND_MESSAGE ="Book is not found by id : %s.";
     public static final String BOOK_NOT_LOANABLE="Book is not loanable";
     public static final String BOOK_ALREADY_EXISTS_WITH_NAME ="Book is already exists" ;
-
+    public static final String BOOK_CAN_NOT_BE_DELETED ="Book can not be deleted" ;
     public static final String ALREADY_REGISTER_MESSAGE_EMAIL= "Email is exists already : %s";
     public static final String ALREADY_REGISTER_MESSAGE_PHONE= "Email is exists already : %s";
 
