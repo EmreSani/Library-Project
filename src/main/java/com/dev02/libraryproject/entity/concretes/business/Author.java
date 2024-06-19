@@ -1,21 +1,13 @@
 package com.dev02.libraryproject.entity.concretes.business;
 
-<<<<<<< HEAD
+
 import javax.persistence.*;
-=======
->>>>>>> main
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-
-<<<<<<< HEAD
-import javax.persistence.GenerationType;
-=======
-import javax.persistence.*;
->>>>>>> main
 import java.util.List;
 
 @Data

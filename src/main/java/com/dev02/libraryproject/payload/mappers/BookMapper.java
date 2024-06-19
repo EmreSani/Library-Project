@@ -1,8 +1,8 @@
 package com.dev02.libraryproject.payload.mappers;
 
 import com.dev02.libraryproject.entity.concretes.business.Book;
-import com.dev02.libraryproject.payload.request.business.BookRequest;
 import com.dev02.libraryproject.payload.response.business.BookResponse;
+import com.dev02.libraryproject.payload.response.business.BookRequest;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 

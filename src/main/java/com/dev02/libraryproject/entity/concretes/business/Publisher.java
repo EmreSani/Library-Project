@@ -1,5 +1,6 @@
 package com.dev02.libraryproject.entity.concretes.business;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

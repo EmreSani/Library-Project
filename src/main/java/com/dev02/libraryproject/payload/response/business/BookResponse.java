@@ -34,15 +34,15 @@ public class BookResponse {
 
     private File image;
 
-    private boolean loanable = true;
-
     private String shelfCode;
-
-    private boolean active = true;
 
     private boolean featured;
 
     private LocalDateTime createDate;
+
+    private boolean active = true;
+
+    private boolean loanable = true;
 
     private boolean builtIn;
 
