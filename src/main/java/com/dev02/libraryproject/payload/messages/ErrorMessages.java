@@ -11,8 +11,8 @@ public class ErrorMessages {
 //7-15 author
     public static final String AUTHOR_NOT_FOUND="Author is not found by id : %s.";
     public static final String USER_NOT_ADMIN = "User is not Admin";
-    public static final String CATEGORY_NOT_FOUND = "Category is not found";
-    public static final String PUBLISHER_NOT_FOUND = "Publisher is not found";
+    public static final String CATEGORY_NOT_FOUND = "Category is not found with id %s";
+
 
 
 
