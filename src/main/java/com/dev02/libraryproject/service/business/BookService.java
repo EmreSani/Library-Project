@@ -1,12 +1,10 @@
 package com.dev02.libraryproject.service.business;
 
-import com.dev02.libraryproject.entity.concretes.business.Author;
 import com.dev02.libraryproject.entity.concretes.business.Book;
-import com.dev02.libraryproject.entity.concretes.business.Category;
+
 import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.entity.enums.RoleType;
 import com.dev02.libraryproject.exception.ConflictException;
-import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
@@ -21,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +40,7 @@ public class BookService {
     }
 
     public ResponseMessage<BookResponse> findBookById(Long id) {
-        Book foundBook = isBookExists(id);
+        Book foundBook = methodHelper.isBookExists(id);
         return ResponseMessage.<BookResponse>builder()
                 .message(SuccessMessages.BOOK_FOUND)
                 .httpStatus(HttpStatus.OK)
@@ -49,23 +48,23 @@ public class BookService {
                 .build();
     }
 
-    public Book isBookExists(Long id) {
-        return bookRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException(String.format(ErrorMessages.BOOK_NOT_FOUND_MESSAGE, id)));
-
-    }
 
     public ResponseMessage<BookResponse> saveBook(HttpServletRequest httpServletRequest, BookRequest bookRequest) {
         String username = (String) httpServletRequest.getAttribute("username");
         methodHelper.isUserExistByUsername(username);
 
         Long id = bookMapper.mapBookRequestToBook(bookRequest).getId();
-        isBookExists(id);
+        methodHelper.isBookExists(id);
+
+        User admin = methodHelper.isUserExist(id);
+        methodHelper.checkRole(admin, RoleType.ADMIN);
+
+
         categoryService.isCategoryExists(bookRequest.getCategoryId());
         authorService.isAuthorExistsById(bookRequest.getAuthorId());
         publisherService.isPublisherExists(bookRequest.getPublisherId());
-        User admin = methodHelper.isUserExist(id);
-        methodHelper.checkRole(admin, RoleType.ADMIN);
+        bookRequest.setCreateDate(LocalDateTime.now());
+
         Book savedBook = bookRepository.save(bookMapper.mapBookRequestToBook(bookRequest));
 //todo: check
 
@@ -75,7 +74,6 @@ public class BookService {
                 .httpStatus(HttpStatus.CREATED)
                 .build();
     }
-
 
 
     private boolean isBookExistsByName(String bookName) {

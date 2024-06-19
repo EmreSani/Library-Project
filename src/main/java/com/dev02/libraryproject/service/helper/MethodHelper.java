@@ -1,10 +1,12 @@
 package com.dev02.libraryproject.service.helper;
 
+import com.dev02.libraryproject.entity.concretes.business.Book;
 import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.entity.enums.RoleType;
 import com.dev02.libraryproject.exception.BadRequestException;
 import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
+import com.dev02.libraryproject.repository.business.BookRepository;
 import com.dev02.libraryproject.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MethodHelper {
     private final UserRepository userRepository;
+    private final BookRepository bookRepository;
 
     public User isUserExist(Long userId) {
         return userRepository.findById(userId).orElseThrow(() ->
@@ -43,5 +46,10 @@ public class MethodHelper {
             throw new ResourceNotFoundException(
                     String.format(ErrorMessages.ROLE_NOT_FOUND, user.getId(),roleType));
         }
+    }
+    public Book isBookExists(Long id) {
+        return bookRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(String.format(ErrorMessages.BOOK_NOT_FOUND_MESSAGE, id)));
+
     }
 }
