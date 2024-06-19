@@ -56,7 +56,7 @@ public class UserController {
         return userService.getAllLoansByUserByPage(httpServletRequest, page, size, sort, type);
     }
 
-    // http://localhost:8080/user/users + Get
+    // http://localhost:8080/user + Get
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
     public ResponseMessage<Page<UserResponse>> getAllUsers(
