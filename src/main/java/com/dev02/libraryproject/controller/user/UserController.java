@@ -24,23 +24,26 @@ public class UserController {
 
     private final UserService userService;
 
-    //signin
+    // http://localhost:8080/user/signin + POST
     @PostMapping("/signin")
     public ResponseEntity<SigninResponse> signIn(@RequestBody @Valid SigninRequest signInRequest) {
         return userService.authenticateUser(signInRequest);
     }
 
+    // http://localhost:8080/user/register + POST
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody @Valid UserRequestForRegister userRequestForRegister) {
         return userService.register(userRequestForRegister);
     }
 
+    // http://localhost:8080/user + POST
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE','MEMBER')")
     public ResponseMessage<UserResponse> getAuthenticatedUser(HttpServletRequest httpServletRequest) {
         return userService.getAuthenticatedUser(httpServletRequest);
     }
 
+    // http://localhost:8080/user/loans + POST
     @PostMapping("/loans")
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE','MEMBER')")
     public ResponseMessage<Page<LoanResponse>> getAllLoansByUserByPage(
@@ -53,7 +56,8 @@ public class UserController {
         return userService.getAllLoansByUserByPage(httpServletRequest, page, size, sort, type);
     }
 
-    @PostMapping("s")
+    // http://localhost:8080/user/users + Get
+    @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
     public ResponseMessage<Page<UserResponse>> getAllUsers(
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -64,19 +68,22 @@ public class UserController {
         return userService.getAllUsersByPage(page, size, sort, type);
     }
 
-    @GetMapping("s/{userId}")
+    // http://localhost:8080/user/{userId} + GET
+    @GetMapping("/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
 
-    @DeleteMapping("s/{userId}")
+    // http://localhost:8080/user/{userId} + DELETE
+    @DeleteMapping("/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<UserResponse> deleteUserById(@PathVariable Long userId) {
         return userService.deleteUserById(userId);
     }
 
-    @PostMapping("s/{userRole}") //Dökümantasyona göre kıyasla
+    // http://localhost:8080/user/{userRole} + POST
+    @PostMapping("/{userRole}") //Dökümantasyona göre kıyasla
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
     public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequestForCreateOrUpdate userRequestForCreateOrUpdate,
                                                    HttpServletRequest httpServletRequest,
@@ -84,7 +91,8 @@ public class UserController {
         return userService.createUser(userRequestForCreateOrUpdate, httpServletRequest, userRole);
     }
 
-    @PutMapping("s/{userId}")
+    // http://localhost:8080/user/{userId} + PUT
+    @PutMapping("/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
     public ResponseEntity<UserResponse> updateUser(@RequestBody @Valid UserRequestForCreateOrUpdate userRequestForCreateOrUpdate, //farklı dto düşünülebilir create-->update
                                                    @PathVariable Long userId,
