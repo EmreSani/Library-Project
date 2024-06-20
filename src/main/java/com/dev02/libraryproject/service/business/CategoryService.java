@@ -1,9 +1,11 @@
 package com.dev02.libraryproject.service.business;
 
+import com.dev02.libraryproject.entity.concretes.business.Category;
 import com.dev02.libraryproject.payload.mappers.CategoryMapper;
 import com.dev02.libraryproject.payload.response.business.CategoryResponse;
 import com.dev02.libraryproject.payload.response.business.LoanResponseWithUser;
 import com.dev02.libraryproject.repository.business.CategoryRepository;
+import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final PageableHelper pageableHelper;
     private final CategoryMapper categoryMapper;
+    private final MethodHelper methodHelper;
 
 
     public ResponseEntity<Page<CategoryResponse>> getAllCategoriesByPage(int page, int size, String sort, String type) {
@@ -31,4 +34,8 @@ public class CategoryService {
     }
 
 
+    public CategoryResponse getCategoryById(Long categoryId) {
+        Category foundCategory = methodHelper.isCategoryExist(categoryId);
+        return categoryMapper.mapCategoryToCategoryResponse(foundCategory);
+    }
 }

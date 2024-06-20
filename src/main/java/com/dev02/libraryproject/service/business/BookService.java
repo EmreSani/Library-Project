@@ -61,7 +61,7 @@ public class BookService {
 
         Long id = bookMapper.mapBookRequestToBook(bookRequest).getId();
         isBookExists(id);
-        categoryService.isCategoryExists(bookRequest.getCategoryId());
+        methodHelper.isCategoryExist(bookRequest.getCategoryId());
         authorService.isAuthorExistsById(bookRequest.getAuthorId());
         publisherService.isPublisherExists(bookRequest.getPublisherId());
         User admin = methodHelper.isUserExist(id);

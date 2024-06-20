@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     user.getId(),
                     user.getEmail(),
                     false,
-                    user.getPassword();
+                    user.getPassword());
                     //user.getUserRole().getRoleType().name() bizde bir kullanıcının birden fazla rolü olabiliyor.
                     // bu durumda bu kısmı nasıl düşünmek lazım?
 

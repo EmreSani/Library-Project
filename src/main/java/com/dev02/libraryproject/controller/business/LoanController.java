@@ -8,11 +8,9 @@ import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.service.business.LoanService;
 
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
-=======
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
->>>>>>> main
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -50,8 +48,8 @@ public class LoanController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('MEMBER')") // http://localhost:8080/loans/2
-    public ResponseMessage<LoanResponse> getLoanByIdWithMember(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        return loanService.getLoanByIdWithMember(id, httpServletRequest);
+    public ResponseMessage<LoanResponse> getLoanByIdWithMember(@PathVariable Long LoanId, HttpServletRequest httpServletRequest){
+        return loanService.getLoanByIdWithMember(loanId, httpServletRequest);
     }
 
 
@@ -83,9 +81,6 @@ public class LoanController {
             @PathVariable Long loanId){
         return loanService.getLoanById(loanId);
     }
-
-
-
 
 
 

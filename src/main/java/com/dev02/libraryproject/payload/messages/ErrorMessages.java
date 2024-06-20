@@ -1,5 +1,6 @@
 package com.dev02.libraryproject.payload.messages;
 
+import javax.swing.plaf.PanelUI;
 import java.util.Locale;
 
 public class ErrorMessages {
@@ -38,6 +39,7 @@ public class ErrorMessages {
     public static final String PUBLISHER_NOT_FOUND = "Publisher is not found by id : %s";
     public static final String CANT_DELETE_PUBLISHER = "Publisher can not deleted";
 
+    public static final String CATEGORY_NOT_FOUND = "Category cannot found";
 
 
 
