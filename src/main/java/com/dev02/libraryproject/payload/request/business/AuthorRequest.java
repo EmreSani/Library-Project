@@ -1,5 +1,8 @@
 package com.dev02.libraryproject.payload.request.business;
 
+import com.dev02.libraryproject.entity.concretes.business.Book;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -41,7 +41,7 @@ public class LoanService {
 
     public LoanResponse createLoan(LoanRequest loanRequest) {
 
-        Book book = bookService.getBookById(loanRequest.getBookId());
+        Book book = methodHelper.isBookExists(loanRequest.getBookId());
         User user = methodHelper.isUserExist(loanRequest.getUserId());
 
         if(!book.isLoanable()){
@@ -143,7 +143,7 @@ public class LoanService {
 
     public ResponseEntity<Page<LoanResponseWithUser>> getAllLoansByBookIdByPage(Long bookId, int page, int size, String sort, String type) {
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        methodHelper.isBookExist(bookId);
+        methodHelper.isBookExists(bookId);
 
         return ResponseEntity.ok(loanRepository.findByBookId(bookId, pageable).map(loanMapper::mapLoanToLoanResponseWithUser));
 

@@ -3,6 +3,7 @@ package com.dev02.libraryproject.payload.mappers;
 import com.dev02.libraryproject.entity.concretes.business.Book;
 import com.dev02.libraryproject.payload.request.business.BookRequest;
 import com.dev02.libraryproject.payload.response.business.BookResponse;
+
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -72,5 +73,24 @@ public class BookMapper {
                 .builtIn(bookRequest.isBuiltIn())
                 .build();
 
+    }
+    public Book mapBookUpdateRequestToBook(BookRequest bookRequest, Long bookId){
+        return Book.builder()
+                .id(bookId)
+                .name(bookRequest.getName())
+                .isbn(bookRequest.getIsbn())
+                .pageCount(bookRequest.getPageCount())
+                .authorId(bookRequest.getAuthorId())
+                .publisherId(bookRequest.getPublisherId())
+                .publishDate(bookRequest.getPublishDate())
+                .categoryId(bookRequest.getCategoryId())
+                .image(bookRequest.getImage())
+                .loanable(bookRequest.isLoanable())
+                .shelfCode(bookRequest.getShelfCode())
+                .active(bookRequest.isActive())
+                .featured(bookRequest.isFeatured())
+                .createDate(bookRequest.getCreateDate())
+                .builtIn(bookRequest.isBuiltIn())
+                .build();
     }
 }

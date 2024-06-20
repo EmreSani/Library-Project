@@ -6,7 +6,7 @@ import com.dev02.libraryproject.payload.response.business.LoanResponseWithUser;
 import com.dev02.libraryproject.payload.response.business.LoanResponseWithUserAndBook;
 import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.service.business.LoanService;
-
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,10 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.List;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/loans")
@@ -48,7 +44,7 @@ public class LoanController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('MEMBER')") // http://localhost:8080/loans/2
-    public ResponseMessage<LoanResponse> getLoanByIdWithMember(@PathVariable Long LoanId, HttpServletRequest httpServletRequest){
+    public ResponseMessage<LoanResponse> getLoanByIdWithMember(@PathVariable Long loanId, HttpServletRequest httpServletRequest){
         return loanService.getLoanByIdWithMember(loanId, httpServletRequest);
     }
 

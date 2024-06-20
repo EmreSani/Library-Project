@@ -9,6 +9,7 @@ import com.dev02.libraryproject.payload.request.business.AuthorRequest;
 import com.dev02.libraryproject.payload.response.business.AuthorResponse;
 import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.repository.business.AuthorRepository;
+import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.helper.PageableHelper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ public class AuthorService {
     private AuthorRepository authorRepository;
     private AuthorMapper authorMapper;
     private ErrorMessages errorMessages;
+    private MethodHelper methodHelper;
 
 
     public Page<AuthorResponse> getAuthorByPage(int page, int size, String sort, String type) {
@@ -29,7 +31,7 @@ public class AuthorService {
     }
 
     public ResponseMessage<AuthorResponse> getAuthorById(Long id) {
-        isAuthorExistsById(id);
+        methodHelper.isAuthorExistsById(id);
         Author author=authorRepository.findByAuthorId(id);
         return ResponseMessage.<AuthorResponse>builder()
                 .message(SuccessMessages.AUTHOR_FOUND)
@@ -40,10 +42,7 @@ public class AuthorService {
 
 
 
-    public Author isAuthorExistsById(Long id){
-        return  authorRepository.findById(id).orElseThrow(()->
-                new ResourceNotFoundException(String.format(ErrorMessages.AUTHOR_NOT_FOUND, id)));
-    }
+
 
     public ResponseMessage<AuthorResponse> saveAuthor(AuthorRequest authorRequest) {
 
@@ -57,7 +56,7 @@ public class AuthorService {
     }
 
     public ResponseMessage<AuthorResponse> updateAuthor(Long id, AuthorRequest authorRequest) {
-        isAuthorExistsById(id);
+        methodHelper.isAuthorExistsById(id);
         Author author=authorRepository.save(authorMapper.mapAuthorRequestToAuthor(authorRequest));
 
         return ResponseMessage.<AuthorResponse>builder()
@@ -68,7 +67,7 @@ public class AuthorService {
     }
 
     public ResponseMessage<AuthorResponse> deleteAuthor(Long id) {
-        Author author=isAuthorExistsById(id);
+        Author author=methodHelper.isAuthorExistsById(id);
         authorRepository.deleteById(id);
 
         return ResponseMessage.<AuthorResponse>builder()
