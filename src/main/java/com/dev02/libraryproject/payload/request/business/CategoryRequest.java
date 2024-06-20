@@ -23,10 +23,6 @@ public class CategoryRequest {
     @NotNull
     private Boolean builtIn;
 
-
-    private List<Book> bookList;
-
-
     @NotNull
     private int sequence; //TODO: Bu kısmı araştır
 

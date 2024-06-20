@@ -41,6 +41,9 @@ public class ErrorMessages {
     public static final String PUBLISHER_NOT_FOUND = "Publisher is not found by id : %s";
     public static final String CANT_DELETE_PUBLISHER = "Publisher can not deleted";
 
+    public static final String CATEGORY_ALREADY_EXISTS = "Category has already exists";
+    public static final String CATEGORY_CAN_NOT_DELETED = "Category can not deleted because category has book(s)";
+
 
 
 

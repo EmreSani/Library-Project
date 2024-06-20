@@ -30,4 +30,6 @@ public class SuccessMessages {
     public static final String PUBLISHER_DELETED = "Publisher Updated Successfully";
     public static final String PUBLISHER_UPDATED = "Publisher Deleted Successfully";
 
+    public static final String CATEGORY_FOUND = "Category Found";
+
 }
