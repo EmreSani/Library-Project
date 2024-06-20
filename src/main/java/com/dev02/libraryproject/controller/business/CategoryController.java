@@ -29,25 +29,25 @@ public class CategoryController {
         return categoryService.getAllCategoriesByPage(page,size,sort,type);
     }
 
-    @GetMapping("/{categoryId}")
+    @GetMapping("/{categoryId}")  // http://localhost:8080/categories/5
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long categoryId){
         return ResponseEntity.ok(categoryService.getCategoryById(categoryId));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")   // http://localhost:8080/categories
     public ResponseEntity<CategoryResponse> createCategory(@RequestBody @Valid CategoryRequest categoryRequest){
         return new ResponseEntity<>(categoryService.createCategory(categoryRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{categoryId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")  // http://localhost:8080/categories/1
     public ResponseEntity<CategoryResponse> updateCategoryById(@PathVariable Long categoryId, @RequestBody @Valid CategoryRequest categoryRequest){
         return ResponseEntity.ok(categoryService.updateCategoryById(categoryId,categoryRequest));
     }
 
     @DeleteMapping("/{categoryId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")  // http://localhost:8080/categories/3
     public ResponseMessage<CategoryResponse> deleteCategoryById(@PathVariable Long categoryId){
         return categoryService.deleteCategoryById(categoryId);
     }
