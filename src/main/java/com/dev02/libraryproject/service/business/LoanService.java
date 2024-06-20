@@ -9,10 +9,8 @@ import com.dev02.libraryproject.payload.mappers.LoanMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
 import com.dev02.libraryproject.payload.request.business.LoanRequest;
-import com.dev02.libraryproject.payload.response.business.LoanResponse;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUser;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUserAndBook;
-import com.dev02.libraryproject.payload.response.business.ResponseMessage;
+import com.dev02.libraryproject.payload.request.business.LoanRequestForUpdate;
+import com.dev02.libraryproject.payload.response.business.*;
 import com.dev02.libraryproject.repository.business.LoanRepository;
 import com.dev02.libraryproject.repository.user.UserRepository;
 import com.dev02.libraryproject.service.helper.MethodHelper;
@@ -26,7 +24,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -157,4 +158,34 @@ public class LoanService {
     }
 
 
+    public ResponseEntity<LoanResponseForUpdate> updateLoanById(Long loanId, LoanRequestForUpdate loanRequestForUpdate) {
+        Loan foundLoan = isLoanExistsById(loanId);
+        User user = methodHelper.isUserExist(foundLoan.getUserId());
+        if(loanRequestForUpdate.getReturnDate()!=null){ //kitabı iade ediyorsa veya önceki iade alma işlemini güncelliyorsa
+            Book foundBook = methodHelper.isBookExists(foundLoan.getBookId());
+            foundBook.setLoanable(true);
+            foundLoan.setReturnDate(loanRequestForUpdate.getReturnDate());
+            if(loanRequestForUpdate.getExpireDate().isAfter(loanRequestForUpdate.getReturnDate())){
+                user.setScore(user.getScore()+1);
+            } else {
+                user.setScore(user.getScore()-1);
+            }
+        } else if(foundLoan.getReturnDate()==null&&loanRequestForUpdate.getReturnDate()==null){ //teslim tarihini uzatma talebi varsa
+            LocalDateTime requestExpDate = loanRequestForUpdate.getExpireDate();
+            LocalDateTime loanExpDate = foundLoan.getExpireDate();
+            LocalDateTime expireDateTime1 = requestExpDate; LocalDateTime expireDateTime2 = loanExpDate;
+            // İki tarih-saat arasındaki farkı gün olarak hesapla
+            long daysBetween = ChronoUnit.DAYS.between(expireDateTime1, expireDateTime2);
+
+            if (foundLoan.getExpireDate().isAfter(LocalDateTime.now())&&daysBetween<20) {
+                foundLoan.setExpireDate(loanRequestForUpdate.getExpireDate());
+                foundLoan.setNotes(loanRequestForUpdate.getNotes());
+            } else {
+                throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+            }
+        }
+
+        loanRepository.save(foundLoan);
+        return ResponseEntity.ok(loanMapper.mapLoanToLoanResponseForUpdate(foundLoan));
+    }
 }

@@ -1,10 +1,8 @@
 package com.dev02.libraryproject.controller.business;
 
 import com.dev02.libraryproject.payload.request.business.LoanRequest;
-import com.dev02.libraryproject.payload.response.business.LoanResponse;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUser;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUserAndBook;
-import com.dev02.libraryproject.payload.response.business.ResponseMessage;
+import com.dev02.libraryproject.payload.request.business.LoanRequestForUpdate;
+import com.dev02.libraryproject.payload.response.business.*;
 import com.dev02.libraryproject.service.business.LoanService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +40,7 @@ public class LoanController {
         return loanService.getAllLoansByMemberByPage(httpServletRequest,page,size,sort,type);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{loanId}")
     @PreAuthorize("hasAnyAuthority('MEMBER')") // http://localhost:8080/loans/2
     public ResponseMessage<LoanResponse> getLoanByIdWithMember(@PathVariable Long loanId, HttpServletRequest httpServletRequest){
         return loanService.getLoanByIdWithMember(loanId, httpServletRequest);
@@ -77,6 +75,14 @@ public class LoanController {
             @PathVariable Long loanId){
         return loanService.getLoanById(loanId);
     }
+
+    @PutMapping("/{loanId}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')")
+    public ResponseEntity<LoanResponseForUpdate> updateLoanById(@PathVariable Long loanId, @RequestBody @Valid LoanRequestForUpdate loanRequestForUpdate){
+        return loanService.updateLoanById(loanId, loanRequestForUpdate);
+    }
+
+
 
 
 
