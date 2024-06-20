@@ -1,11 +1,9 @@
 package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Book;
-import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 
 
-import com.dev02.libraryproject.entity.enums.RoleType;
 import com.dev02.libraryproject.exception.ConflictException;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;

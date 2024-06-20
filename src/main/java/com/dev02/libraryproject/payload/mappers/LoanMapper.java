@@ -30,7 +30,7 @@ public class LoanMapper {
                 .id(loan.getId())
                 .userId(loan.getUserId())
                 .bookId(loan.getBookId())
-                .book(bookService.findBookById(loan.getBookId())) //her response içinde Book gönderiliyor
+                .book(methodHelper.isBookExists(loan.getBookId())) //her response içinde Book gönderiliyor
                                                                   //Eğer Loan Response larda gerekmeyen varsa ayrı bir mapper oluşturulacak
                 .build();
     }
@@ -49,7 +49,7 @@ public class LoanMapper {
                 .userId(loan.getUserId())
                 .bookId(loan.getBookId())
                 .user(methodHelper.isUserExist(loan.getUserId()))
-                .book(bookService.findBookById(loan.getBookId()))
+                .book(methodHelper.isBookExists(loan.getBookId()))
                 .build();
     }
 

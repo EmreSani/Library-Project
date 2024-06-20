@@ -45,6 +45,9 @@ public class ErrorMessages {
     public static final String CATEGORY_CAN_NOT_DELETED = "Category can not deleted because category has book(s)";
 
 
+    public static final String EXRPIRED_BOOK_NOT_FOUND = "Expired book not found";
+
+
 
 
 

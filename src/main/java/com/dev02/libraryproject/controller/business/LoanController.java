@@ -77,7 +77,7 @@ public class LoanController {
     }
 
     @PutMapping("/{loanId}")
-    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')") // http://localhost:8080/loans/6
     public ResponseEntity<LoanResponseForUpdate> updateLoanById(@PathVariable Long loanId, @RequestBody @Valid LoanRequestForUpdate loanRequestForUpdate){
         return loanService.updateLoanById(loanId, loanRequestForUpdate);
     }
