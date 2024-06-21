@@ -100,19 +100,19 @@ public class ReportService {
 
     }
 
-
-    public ReportResponse getReportObject() {
-        return reportRepository.getReportObject();
-    }
-
-    public ResponseMessage2<Page<BookResponseForReport,Integer>> getMostPopularBooks(int amount,int page, int size) {
-        Pageable pageable = pageableHelper.getPageableWithProperties(page, size);
-        reportRepository.findAllPopularBooks(pageable);
-
-        Page<ReportResponse> popularBooks = reportRepository.findAllPopularBooks(pageable, amount);
-        List<BookResponseForReport> popularBooks = new ArrayList<>();
-        return new ResponseMessage<>(popularBooks);
-
+//
+//    public ReportResponse getReportObject() {
+//        return reportRepository.getReportObject();
+//    }
+//
+//    public ResponseMessage2<Page<BookResponseForReport,Integer>> getMostPopularBooks(int amount,int page, int size) {
+//        Pageable pageable = pageableHelper.getPageableWithProperties(page, size);
+//        reportRepository.findAllPopularBooks(pageable);
+//
+//        Page<ReportResponse> popularBooks = reportRepository.findAllPopularBooks(pageable, amount);
+//        List<BookResponseForReport> popularBooks = new ArrayList<>();
+//        return new ResponseMessage<>(popularBooks);
+//
     public ResponseEntity<Page<UserResponse>> getAllUsersMostBorrowersByPage(int page, int size) {
       return userService.getAllUsersMostBorrowersByPage(page, size);
 
