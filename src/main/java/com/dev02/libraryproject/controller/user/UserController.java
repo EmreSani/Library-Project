@@ -46,7 +46,7 @@ public class UserController {
     // http://localhost:8080/user/loans + POST
     @PostMapping("/loans")
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE','MEMBER')")
-    public ResponseMessage<Page<LoanResponse>> getAllLoansByUserByPage(
+    public ResponseEntity<Page<LoanResponse>> getAllLoansByUserByPage(
             HttpServletRequest httpServletRequest,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size,

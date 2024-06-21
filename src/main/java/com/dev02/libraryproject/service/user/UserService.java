@@ -119,22 +119,15 @@ public class UserService {
 
     }
 
-    public ResponseMessage<Page<LoanResponse>> getAllLoansByUserByPage(HttpServletRequest httpServletRequest,
+    public ResponseEntity<Page<LoanResponse>> getAllLoansByUserByPage(HttpServletRequest httpServletRequest,
                                                                        int page, int size,
                                                                        String sort, String type) {
 
-        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-
         String email = (String) httpServletRequest.getAttribute("email");
 
-        //     Page<LoanResponse> loans = loanService.getAllLoansByUsersEmail(email);
-        // loan servicedeki methodun yazılmasını bekliyoruz
+        User foundUser = userRepository.findByEmailEquals(email);
 
-        //Loanları pojodan dtoya dönüştürmek için loanmapper gerekli.
-        return ResponseMessage.<Page<LoanResponse>>builder().message(SuccessMessages.SUCCESS)
-                .httpStatus(HttpStatus.OK)
-                //      .object(loans)
-                .build();
+       return loanService.getAllLoansByUserIdByPage(foundUser.getId(), page, size, sort, type);
 
     }
 
@@ -184,40 +177,7 @@ public class UserService {
         //!!! DTO --> POJO
         User userToCreate = userMapper.mapUserRequestToUser(userRequestForCreateOrUpdate);
 
-
-        //ROLE BİLGİSİNİ SETLEMEK
-        if (foundUser.getRoles().contains(userRoleService.getUserRole(RoleType.ADMIN))) { //Admin olduğu zaman başka bir kontrole gerek kalmıyor
-
-            if (userRole.equalsIgnoreCase("Member")) {
-
-                userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
-
-            } else if (userRole.equalsIgnoreCase("Employee")) {
-
-                userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.EMPLOYEE));
-
-            } else if (userRole.equalsIgnoreCase("Admin")) {
-
-                userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.ADMIN));
-
-            } else {
-
-                throw new ResourceNotFoundException((ErrorMessages.ROLE_NOT_FOUND));
-
-            }
-
-        } else if (!foundUser.getRoles().contains(userRoleService.getUserRole(RoleType.ADMIN))) {
-
-            if (userRole.equalsIgnoreCase("Member")) {
-
-                userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
-
-            } else {
-
-                throw new BadRequestException(ErrorMessages.DONT_HAVE_AUTHORITY);
-
-            }
-        }
+        setRoleForNewUser(foundUser, userToCreate, userRole);
 
         // !!! password encode ediliyor
         userToCreate.setPassword(passwordEncoder.encode(userRequestForCreateOrUpdate.getPassword()));
@@ -226,34 +186,75 @@ public class UserService {
 
         return ResponseEntity.ok(userMapper.mapUserToUserResponse(savedUser));
 
+
+    }
+
+    //create user methodunda role bilgisi setlemek için yazıldı, yardımcı
+    private void setRoleForNewUser(User foundUser, User userToCreate, String userRole) {
+        if (foundUser.getRoles().contains(userRoleService.getUserRole(RoleType.ADMIN))) {
+            switch (userRole.toLowerCase()) {
+                case "member":
+                    userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
+                    break;
+                case "employee":
+                    userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.EMPLOYEE));
+                    break;
+                case "admin":
+                    userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.ADMIN));
+                    break;
+                default:
+                    throw new ResourceNotFoundException((ErrorMessages.ROLE_NOT_FOUND));
+            }
+        } else if (foundUser.getRoles().contains(userRoleService.getUserRole(RoleType.EMPLOYEE))) {
+            if (userRole.equalsIgnoreCase("Member")) {
+                userToCreate.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
+            } else {
+                throw new BadRequestException(ErrorMessages.DONT_HAVE_AUTHORITY);
+            }
+        }
     }
 
     public ResponseEntity<UserResponse> updateUser(UserRequestForCreateOrUpdate userRequestForCreateOrUpdate, Long userId, HttpServletRequest httpServletRequest) {
-
         String email = (String) httpServletRequest.getAttribute("email");
-        //işlemi yapan user
+        // işlemi yapan user
         User foundUser = userRepository.findByEmailEquals(email);
 
-        //güncellenecek user
-       User userToUpdate = methodHelper.isUserExist(userId);
+        // güncellenecek user
+        User userToUpdate = methodHelper.isUserExist(userId);
 
-       //built in kontrolü
+        // Role based update permission ve built-in kontrolü
+        checkUpdatePermission(foundUser, userToUpdate);
+
+        // email - phoneNumber unique mi kontrolü
+        uniquePropertyValidator.checkUniqueProperties(userToUpdate, userRequestForCreateOrUpdate);
+
+        User updatedUser = userMapper.mapUserRequestToUpdatedUser(userRequestForCreateOrUpdate, userId);
+
+        updatedUser.setPassword(passwordEncoder.encode(userRequestForCreateOrUpdate.getPassword()));
+        updatedUser.setRoles(userToUpdate.getRoles());
+
+        User savedUser = userRepository.save(updatedUser);
+
+        return ResponseEntity.ok(userMapper.mapUserToUserResponse(savedUser));
+
+    }
+
+    //updateUser için yazıldı controller bağlantısı yok , yardımcı
+    private void checkUpdatePermission(User foundUser, User userToUpdate) {
         methodHelper.checkBuiltIn(userToUpdate);
 
-       //!!! email - phoneNumber unique mi kontrolu ??
-        uniquePropertyValidator.checkUniqueProperties(userToUpdate,
-                userRequestForCreateOrUpdate);
-
-      User updatedUser =  userMapper.mapUserRequestToUpdatedUser(userRequestForCreateOrUpdate, userId);
-
-      updatedUser.setPassword(passwordEncoder.encode(userRequestForCreateOrUpdate.getPassword()));
-      updatedUser.setRoles(userToUpdate.getRoles());
-
-      User savedUser = userRepository.save(updatedUser);
-
-      return ResponseEntity.ok(userMapper.mapUserToUserResponse(savedUser));
-
-
+        if (foundUser.getRoles().contains(userRoleService.getUserRole(RoleType.ADMIN))) {
+            if (userToUpdate.getBuiltIn()) {
+                throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+            }
+        } else if (foundUser.getRoles().contains(userRoleService.getUserRole(RoleType.EMPLOYEE))) {
+            if (userToUpdate.getRoles().contains(userRoleService.getUserRole(RoleType.EMPLOYEE)) ||
+                    userToUpdate.getRoles().contains(userRoleService.getUserRole(RoleType.ADMIN))) {
+                throw new BadRequestException("Employee can only update member users.");
+            }
+        } else {
+            throw new BadRequestException("You do not have permission to update this user.");
+        }
     }
 
     public ResponseEntity<Page<UserResponse>> getAllUsersMostBorrowersByPage(int page, int size) {
@@ -262,7 +263,7 @@ public class UserService {
         return ResponseEntity.ok(userRepository.findByUsersMostBorrowers(pageable).map(userMapper::mapUserToUserResponse));
     }
 
-    public long countAllAdmins(){
+    public long countAllAdmins() {
         return userRepository.countAdmin(RoleType.ADMIN);
     }
 
@@ -273,8 +274,8 @@ public class UserService {
         //!!! DTO --> POJO
         User user = userMapper.mapUserRequestForAdminToUser(adminRequest);
         // !!! Rol bilgisi setleniyor
-        if(userRole.equalsIgnoreCase(RoleType.ADMIN.name())){
-            if(Objects.equals(adminRequest.getEmail(),"admin@admin.com")){
+        if (userRole.equalsIgnoreCase(RoleType.ADMIN.name())) {
+            if (Objects.equals(adminRequest.getEmail(), "admin@admin.com")) {
                 user.setBuiltIn(true);
             }
             user.getRoles().add(userRoleService.getUserRole(RoleType.ADMIN));
@@ -287,6 +288,6 @@ public class UserService {
         return ResponseMessage.<UserResponse>builder()
                 .message(SuccessMessages.ADMIN_CREATE)
                 .object(userMapper.mapUserToUserResponse(savedUser))
-                .build() ;
+                .build();
     }
 }
