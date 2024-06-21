@@ -60,9 +60,6 @@ public class ReportService {
                 expiredBooks.add(expiredBookForReport);
 
 
-            } else {
-                throw new ResourceNotFoundException(ErrorMessages.EXRPIRED_BOOK_NOT_FOUND);
-
             }
         }
         if(expiredBooks.size()==0){
@@ -91,6 +88,10 @@ public class ReportService {
                 unreturnedBooks.add(unreturnedBookForReport);
             }
 
+        }
+
+        if(unreturnedBooks.isEmpty()){
+            throw new ResourceNotFoundException(ErrorMessages.EXRPIRED_BOOK_NOT_FOUND);
         }
 
         Page<BookResponseForReport> unreturnedBooksPage = new PageImpl<>(unreturnedBooks, pageable, unreturnedBooks.size());
