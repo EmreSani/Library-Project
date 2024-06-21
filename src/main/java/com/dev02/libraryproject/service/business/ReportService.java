@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -57,4 +59,30 @@ public class ReportService {
         return ResponseEntity.ok(expiredBooksPage); //TODO : tekrar gözden geçirilmeli
 
     }
+
+
+    public ResponseEntity<Page<BookResponseForReport>> getAllUnreturnedBooksByPage(int page, int size, String sort, String type) {
+
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+
+        List<BookResponseForReport> unreturnedBooks = new ArrayList<>();
+
+        for (Loan loan : methodHelper.getAllLoans()) {
+
+            if (loan.getExpireDate().isAfter(LocalDateTime.now()) && loan.getReturnDate() == null) {
+
+                Book unreturnedBook = methodHelper.isBookExists(loan.getBookId());
+                BookResponseForReport unreturnedBookForReport = bookMapper.mapBookToBookResponseForReport(unreturnedBook);
+                unreturnedBooks.add(unreturnedBookForReport);
+            }
+
+        }
+
+        Page<BookResponseForReport> unreturnedBooksPage = new PageImpl<>(unreturnedBooks, pageable, unreturnedBooks.size());
+
+        return ResponseEntity.ok(unreturnedBooksPage);
+
+    }
 }
+
+

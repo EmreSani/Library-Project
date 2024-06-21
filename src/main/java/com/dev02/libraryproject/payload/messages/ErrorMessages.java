@@ -46,6 +46,7 @@ public class ErrorMessages {
 
 
     public static final String EXRPIRED_BOOK_NOT_FOUND = "Expired book not found";
+    public static final String UNRETURNED_BOOK_NOT_FOUND = "Unreturned book not found";
 
 
 

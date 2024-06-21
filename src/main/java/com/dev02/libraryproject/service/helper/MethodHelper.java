@@ -95,4 +95,11 @@ public class MethodHelper {
         return loanRepository.findAll();
 
     }
+
+    public List<Book> getAllBooks(){
+
+        return bookRepository.findAll();
+
+    }
+
 }
