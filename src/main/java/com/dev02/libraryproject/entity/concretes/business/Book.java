@@ -69,6 +69,6 @@ public class Book {
     private boolean builtIn; //default false
 
     @OneToMany(mappedBy = "bookId",cascade = CascadeType.REMOVE)
-    private List<Loan> bookId;
+    private List<Loan> loanId;
 
 }

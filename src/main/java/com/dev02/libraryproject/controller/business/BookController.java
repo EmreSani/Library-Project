@@ -22,8 +22,8 @@ public class BookController {
 
 
     @GetMapping("/q")
-
-    // http://localhost:8080/books?q=sefiller&cat=4&author=34&publisher=42&page=1&size=10&sort=name&type=asc
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN','MEMBER')")
+    // http://localhost:8080/books?q=sefiller&cat=4&author=34&publisher=42&page=1&size=10&sort=name&type=asc +GET
     public Page<BookResponse> getAllBookByPage(
             HttpServletRequest httpServletRequest,
             @RequestParam(name = "q", defaultValue = "sefiller") String query,
@@ -38,7 +38,7 @@ public class BookController {
         return bookService.getBooks(httpServletRequest, query, categoryId, authorId, publisherId, page, size, sort, type);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN','MEMBER')")
     @GetMapping("{/id}") // http://localhost:8080/books/5
     public ResponseMessage<BookResponse> getBookById(@RequestParam Long id) {
 
