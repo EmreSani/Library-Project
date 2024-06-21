@@ -97,6 +97,9 @@ public class UserService {
                 userRequestForRegister.getPhone());
         //!!! DTO --> POJO
         User user = userMapper.mapUserRequestToUser(userRequestForRegister);
+        if (user.getRoles() == null) {
+            user.setRoles(new ArrayList<>());
+        }
 
         // !!! Rol bilgisi setleniyor
         user.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
@@ -104,6 +107,9 @@ public class UserService {
         // !!! password encode ediliyor
         user.setPassword(passwordEncoder.encode(userRequestForRegister.getPassword()));
 
+        user.setCreateDate(LocalDateTime.now()); // Automatically set on create
+
+        user.setScore(0);
         User savedUser = userRepository.save(user);
 
         return ResponseEntity.ok(userMapper.mapUserToUserResponse(savedUser));
