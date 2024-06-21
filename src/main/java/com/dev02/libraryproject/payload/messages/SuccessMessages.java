@@ -3,8 +3,6 @@ package com.dev02.libraryproject.payload.messages;
 public class SuccessMessages {
 
 
-    public static final String ADMIN_CREATE = "Built in Admin created" ;
-
     private SuccessMessages() {
     }
 
@@ -23,6 +21,7 @@ public class SuccessMessages {
     public static final String BOOK_FOUND = "Book is found by id : %s";
     public static final String BOOK_SAVED = "Book is saved successfully!";
     public static final String BOOK_DELETED = "Book is deleted successfully!";
+    public static final String BOOK_UPDATED ="Book is updated";
 
     public static final String UPDATED_BOOK = "Book is Updated" ;
 
@@ -32,5 +31,7 @@ public class SuccessMessages {
     public static final String PUBLISHER_UPDATED = "Publisher Deleted Successfully";
 
     public static final String CATEGORY_FOUND = "Category Found";
+  
+    public static final String ADMIN_CREATE = "Built in Admin created" ;
 
 }

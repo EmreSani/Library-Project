@@ -48,14 +48,14 @@ public class AuthorController {
     }
 
     @PreAuthorize("hasAnyAuthority('Admin')")
-    @PutMapping("/{id}")
+    @PutMapping("/{id}")//http://localhost:8080/authors/4 +PUT +JSON
     public ResponseMessage<AuthorResponse> updateAuthor(@PathVariable Long id,
                                                         @RequestBody @Valid AuthorRequest authorRequest){
         return authorService.updateAuthor(id,authorRequest);
     }
 
     @PreAuthorize("hasAnyAuthority('Admin')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")//http://localhost:8080/authors/4
     public ResponseMessage<AuthorResponse> deleteAuthor(@PathVariable Long id){
         return authorService.deleteAuthor(id);
     }
