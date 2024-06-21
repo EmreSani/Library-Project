@@ -1,26 +1,21 @@
 package com.dev02.libraryproject.service.helper;
 
-import com.dev02.libraryproject.entity.concretes.business.Author;
-import com.dev02.libraryproject.entity.concretes.business.Category;
-import com.dev02.libraryproject.entity.concretes.business.Publisher;
+import com.dev02.libraryproject.entity.concretes.business.*;
 
-import com.dev02.libraryproject.entity.concretes.business.Book;
 import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.entity.enums.RoleType;
 import com.dev02.libraryproject.exception.BadRequestException;
 import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 
-import com.dev02.libraryproject.repository.business.AuthorRepository;
-import com.dev02.libraryproject.repository.business.CategoryRepository;
-import com.dev02.libraryproject.repository.business.PublisherRepository;
-import com.dev02.libraryproject.repository.business.BookRepository;
+import com.dev02.libraryproject.repository.business.*;
 import com.dev02.libraryproject.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -30,6 +25,7 @@ public class MethodHelper {
     private final CategoryRepository categoryRepository;
     private final PublisherRepository publisherRepository;
     private final BookRepository bookRepository;
+    private final LoanRepository loanRepository;
 
 
     public User isUserExist(Long userId) {
@@ -93,5 +89,17 @@ public class MethodHelper {
                 new ResourceNotFoundException(String.format(ErrorMessages.BOOK_NOT_FOUND_MESSAGE, id)));
 
     }
-}
 
+    public List<Loan> getAllLoans(){
+
+        return loanRepository.findAll();
+
+    }
+
+    public List<Book> getAllBooks(){
+
+        return bookRepository.findAll();
+
+    }
+
+}

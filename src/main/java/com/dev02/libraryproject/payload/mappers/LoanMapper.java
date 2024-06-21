@@ -2,10 +2,7 @@ package com.dev02.libraryproject.payload.mappers;
 
 import com.dev02.libraryproject.entity.concretes.business.Loan;
 import com.dev02.libraryproject.payload.request.business.LoanRequest;
-import com.dev02.libraryproject.payload.response.business.BookResponse;
-import com.dev02.libraryproject.payload.response.business.LoanResponse;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUser;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUserAndBook;
+import com.dev02.libraryproject.payload.response.business.*;
 import com.dev02.libraryproject.service.business.BookService;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.user.UserService;
@@ -33,7 +30,7 @@ public class LoanMapper {
                 .id(loan.getId())
                 .userId(loan.getUserId())
                 .bookId(loan.getBookId())
-                .book(bookService.findBookById(loan.getBookId())) //her response içinde Book gönderiliyor
+                .book(methodHelper.isBookExists(loan.getBookId())) //her response içinde Book gönderiliyor
                                                                   //Eğer Loan Response larda gerekmeyen varsa ayrı bir mapper oluşturulacak
                 .build();
     }
@@ -52,7 +49,15 @@ public class LoanMapper {
                 .userId(loan.getUserId())
                 .bookId(loan.getBookId())
                 .user(methodHelper.isUserExist(loan.getUserId()))
-                .book(bookService.findBookById(loan.getBookId()))
+                .book(methodHelper.isBookExists(loan.getBookId()))
+                .build();
+    }
+
+    public LoanResponseForUpdate mapLoanToLoanResponseForUpdate(Loan loan){
+        return LoanResponseForUpdate.builder()
+                .id(loan.getId())
+                .userId(loan.getUserId())
+                .bookId(loan.getBookId())
                 .build();
     }
 

@@ -4,6 +4,7 @@ import com.dev02.libraryproject.entity.concretes.business.Book;
 import com.dev02.libraryproject.payload.request.business.BookRequest;
 import com.dev02.libraryproject.payload.response.business.BookResponse;
 
+import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -74,11 +75,10 @@ public class BookMapper {
                 .build();
 
     }
-<<<<<<< HEAD
-    public Book mapBookUpdateRequestToBook(BookRequest bookRequest,Long bookId) {
-=======
-    public Book mapBookUpdateRequestToBook(BookRequest bookRequest, Long bookId){
->>>>>>> main
+
+
+    public Book mapBookUpdateRequestToBook(BookRequest bookRequest, Long bookId) {
+
         return Book.builder()
                 .id(bookId)
                 .name(bookRequest.getName())
@@ -96,9 +96,14 @@ public class BookMapper {
                 .createDate(bookRequest.getCreateDate())
                 .builtIn(bookRequest.isBuiltIn())
                 .build();
-<<<<<<< HEAD
 
-=======
->>>>>>> main
+    }
+
+    public BookResponseForReport mapBookToBookResponseForReport(Book book) {
+        return BookResponseForReport.builder()
+                .id(book.getId())
+                .name(book.getName())
+                .isbn(book.getIsbn())
+                .build();
     }
 }

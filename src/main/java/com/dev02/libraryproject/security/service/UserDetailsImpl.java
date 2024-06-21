@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
@@ -25,15 +24,13 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private Collection<? extends  GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String email, String name, String  password,
-                           String role) {
+    public UserDetailsImpl(Long id, String email, String name, String password,
+                           Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = email;
         this.name = name;
-        this.password= password;
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(role));
-        this.authorities=grantedAuthorities;
+        this.password = password;
+        this.authorities = new ArrayList<>(authorities);
     }
 
 

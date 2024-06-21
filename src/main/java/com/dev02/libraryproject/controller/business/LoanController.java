@@ -1,14 +1,11 @@
 package com.dev02.libraryproject.controller.business;
 
 import com.dev02.libraryproject.payload.request.business.LoanRequest;
-import com.dev02.libraryproject.payload.response.business.LoanResponse;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUser;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUserAndBook;
-import com.dev02.libraryproject.payload.response.business.ResponseMessage;
+import com.dev02.libraryproject.payload.request.business.LoanRequestForUpdate;
+import com.dev02.libraryproject.payload.response.business.*;
 import com.dev02.libraryproject.service.business.LoanService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 
@@ -17,10 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.List;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/loans")
@@ -47,10 +40,10 @@ public class LoanController {
         return loanService.getAllLoansByMemberByPage(httpServletRequest,page,size,sort,type);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{loanId}")
     @PreAuthorize("hasAnyAuthority('MEMBER')") // http://localhost:8080/loans/2
-    public ResponseMessage<LoanResponse> getLoanByIdWithMember(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        return loanService.getLoanByIdWithMember(id, httpServletRequest);
+    public ResponseMessage<LoanResponse> getLoanByIdWithMember(@PathVariable Long loanId, HttpServletRequest httpServletRequest){
+        return loanService.getLoanByIdWithMember(loanId, httpServletRequest);
     }
 
 
@@ -83,6 +76,11 @@ public class LoanController {
         return loanService.getLoanById(loanId);
     }
 
+    @PutMapping("/{loanId}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')") // http://localhost:8080/loans/6
+    public ResponseEntity<LoanResponseForUpdate> updateLoanById(@PathVariable Long loanId, @RequestBody @Valid LoanRequestForUpdate loanRequestForUpdate){
+        return loanService.updateLoanById(loanId, loanRequestForUpdate);
+    }
 
 
 

@@ -9,10 +9,8 @@ import com.dev02.libraryproject.payload.mappers.LoanMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
 import com.dev02.libraryproject.payload.request.business.LoanRequest;
-import com.dev02.libraryproject.payload.response.business.LoanResponse;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUser;
-import com.dev02.libraryproject.payload.response.business.LoanResponseWithUserAndBook;
-import com.dev02.libraryproject.payload.response.business.ResponseMessage;
+import com.dev02.libraryproject.payload.request.business.LoanRequestForUpdate;
+import com.dev02.libraryproject.payload.response.business.*;
 import com.dev02.libraryproject.repository.business.LoanRepository;
 import com.dev02.libraryproject.repository.user.UserRepository;
 import com.dev02.libraryproject.service.helper.MethodHelper;
@@ -26,7 +24,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,6 @@ public class LoanService {
 
     private final LoanRepository loanRepository;
     private final BookService bookService;
-    private final UserService userService;
     private final MethodHelper methodHelper;
     private final LoanMapper loanMapper;
     private final PageableHelper pageableHelper;
@@ -108,15 +108,15 @@ public class LoanService {
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
         User member = (User) httpServletRequest.getAttribute("email");
 
-        return ResponseEntity.ok(loanRepository.findByUser_IdEquals(member.getId(), pageable).map(loanMapper::mapLoanToLoanResponse));
+        return ResponseEntity.ok(loanRepository.findByUserId(member.getId(), pageable).map(loanMapper::mapLoanToLoanResponse));
     }
 
-    public ResponseMessage<LoanResponse> getLoanByIdWithMember(Long id, HttpServletRequest httpServletRequest) {
+    public ResponseMessage<LoanResponse> getLoanByIdWithMember(Long loanId, HttpServletRequest httpServletRequest) {
         String email = (String) httpServletRequest.getAttribute("email");
 
         User foundUser = userRepository.findByEmailEquals(email);
 
-        Loan loan = isLoanExistsById(id);
+        Loan loan = isLoanExistsById(loanId);
 
         if(!foundUser.getLoanList().contains(loan)){
             throw new BadRequestException(String.format(ErrorMessages.LOAN_NOT_FOUND_BY_USER,foundUser.getId()));
@@ -139,15 +139,14 @@ public class LoanService {
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
         methodHelper.isUserExist(userId);
 
-        return ResponseEntity.ok(loanRepository.findByUser_IdEquals(userId, pageable).map(loanMapper::mapLoanToLoanResponse));
+        return ResponseEntity.ok(loanRepository.findByUserId(userId, pageable).map(loanMapper::mapLoanToLoanResponse));
     }
 
     public ResponseEntity<Page<LoanResponseWithUser>> getAllLoansByBookIdByPage(Long bookId, int page, int size, String sort, String type) {
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
         methodHelper.isBookExists(bookId);
 
-        return ResponseEntity.ok(loanRepository.findByBook_IdEquals(bookId, pageable).map(loanMapper::mapLoanToLoanResponseWithUser));
-
+        return ResponseEntity.ok(loanRepository.findByBookId(bookId, pageable).map(loanMapper::mapLoanToLoanResponseWithUser));
 
     }
 
@@ -159,4 +158,34 @@ public class LoanService {
     }
 
 
+    public ResponseEntity<LoanResponseForUpdate> updateLoanById(Long loanId, LoanRequestForUpdate loanRequestForUpdate) {
+        Loan foundLoan = isLoanExistsById(loanId);
+        User user = methodHelper.isUserExist(foundLoan.getUserId());
+        if(loanRequestForUpdate.getReturnDate()!=null){ //kitabı iade ediyorsa veya önceki iade alma işlemini güncelliyorsa
+            Book foundBook = methodHelper.isBookExists(foundLoan.getBookId());
+            foundBook.setLoanable(true);
+            foundLoan.setReturnDate(loanRequestForUpdate.getReturnDate());
+            if(loanRequestForUpdate.getExpireDate().isAfter(loanRequestForUpdate.getReturnDate())){
+                user.setScore(user.getScore()+1);
+            } else {
+                user.setScore(user.getScore()-1);
+            }
+        } else if(foundLoan.getReturnDate()==null&&loanRequestForUpdate.getReturnDate()==null){ //teslim tarihini uzatma talebi varsa
+            LocalDateTime requestExpDate = loanRequestForUpdate.getExpireDate();
+            LocalDateTime loanExpDate = foundLoan.getExpireDate();
+            LocalDateTime expireDateTime1 = requestExpDate; LocalDateTime expireDateTime2 = loanExpDate;
+            // İki tarih-saat arasındaki farkı gün olarak hesapla
+            long daysBetween = ChronoUnit.DAYS.between(expireDateTime1, expireDateTime2);
+
+            if (foundLoan.getExpireDate().isAfter(LocalDateTime.now())&&daysBetween<20) {
+                foundLoan.setExpireDate(loanRequestForUpdate.getExpireDate());
+                foundLoan.setNotes(loanRequestForUpdate.getNotes());
+            } else {
+                throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+            }
+        }
+
+        loanRepository.save(foundLoan);
+        return ResponseEntity.ok(loanMapper.mapLoanToLoanResponseForUpdate(foundLoan));
+    }
 }

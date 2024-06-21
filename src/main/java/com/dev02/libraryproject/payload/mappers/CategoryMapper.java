@@ -22,7 +22,10 @@ public class CategoryMapper {
 
     public Category mapCategoryRequestToCategory(CategoryRequest categoryRequest){
 
-        return null;
+        return Category.builder()
+                .name(categoryRequest.getName())
+                .builtIn(categoryRequest.getBuiltIn())
+                .sequence(categoryRequest.getSequence()).build();
     }
 
 

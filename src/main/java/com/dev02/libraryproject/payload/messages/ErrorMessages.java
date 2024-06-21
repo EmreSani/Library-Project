@@ -1,6 +1,10 @@
 package com.dev02.libraryproject.payload.messages;
 
 
+import javax.swing.plaf.PanelUI;
+import java.util.Locale;
+
+
 public class ErrorMessages {
 
 
@@ -10,7 +14,11 @@ public class ErrorMessages {
 //7-15 author
     public static final String AUTHOR_NOT_FOUND="Author is not found by id : %s.";
     public static final String USER_NOT_ADMIN = "User is not Admin";
-    public static final String CATEGORY_NOT_FOUND = "Category is not found";
+  
+  
+  public static final String CATEGORY_NOT_FOUND = "Category is not found with id %s";
+
+
 
 
 
@@ -37,6 +45,13 @@ public class ErrorMessages {
 
     public static final String PUBLISHER_NOT_FOUND = "Publisher is not found by id : %s";
     public static final String CANT_DELETE_PUBLISHER = "Publisher can not deleted";
+
+    public static final String CATEGORY_ALREADY_EXISTS = "Category has already exists";
+    public static final String CATEGORY_CAN_NOT_DELETED = "Category can not deleted because category has book(s)";
+
+
+    public static final String EXRPIRED_BOOK_NOT_FOUND = "Expired book not found";
+    public static final String UNRETURNED_BOOK_NOT_FOUND = "Unreturned book not found";
 
 
 

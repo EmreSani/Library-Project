@@ -1,11 +1,9 @@
 package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Book;
-import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 
 
-import com.dev02.libraryproject.entity.enums.RoleType;
 import com.dev02.libraryproject.exception.ConflictException;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
@@ -44,44 +42,44 @@ public class BookService {
     private final PageableHelper pageableHelper;
 
 
-   public Page<BookResponse> getBooks(HttpServletRequest httpServletRequest, String query, Long categoryId, Long authorId, Long publisherId, Integer page, Integer size, String sort, String type) {
-       // En az bir alanın dolu olmasını sağlayalım
-       if (query.isEmpty() && categoryId == null && authorId == null && publisherId == null) {
-           throw new IllegalArgumentException("At least one of the fields (q, cat, author and publisher) is required");
-       }
-       String username = (String) httpServletRequest.getAttribute("username");
-       methodHelper.isUserExistByUsername(username);
+    public Page<BookResponse> getBooks(HttpServletRequest httpServletRequest, String query, Long categoryId, Long authorId, Long publisherId, Integer page, Integer size, String sort, String type) {
+        // En az bir alanın dolu olmasını sağlayalım
+        if (query.isEmpty() && categoryId == null && authorId == null && publisherId == null) {
+            throw new IllegalArgumentException("At least one of the fields (q, cat, author and publisher) is required");
+        }
+        String username = (String) httpServletRequest.getAttribute("username");
+        methodHelper.isUserExistByUsername(username);
 
-       if (authorId != null) {
-           methodHelper.isAuthorExistsById(authorId);
-       }
-       if (categoryId != null) {
-           methodHelper.isCategoryExists(categoryId);
-       }
-       if (publisherId != null) {
-           methodHelper.isPublisherExists(publisherId);
-       }
+        if (authorId != null) {
+            methodHelper.isAuthorExistsById(authorId);
+        }
+        if (categoryId != null) {
+            methodHelper.isCategoryExists(categoryId);
+        }
+        if (publisherId != null) {
+            methodHelper.isPublisherExists(publisherId);
+        }
 
-       boolean isAdmin = methodHelper.isAdmin(httpServletRequest);
+        boolean isAdmin = methodHelper.isAdmin(httpServletRequest);
 
-       Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
 
-       Page<Book> bookPage;
+        Page<Book> bookPage;
 
-       if (isAdmin) {
-           bookPage = bookRepository.findAllBooks(query, categoryId, authorId, publisherId, pageable);
-       } else {
-           bookPage = bookRepository.findAllActiveBooks(query, categoryId, authorId, publisherId, pageable);
-       }
+        if (isAdmin) {
+            bookPage = bookRepository.findAllBooks(query, categoryId, authorId, publisherId, pageable);
+        } else {
+            bookPage = bookRepository.findAllActiveBooks(query, categoryId, authorId, publisherId, pageable);
+        }
 
 
-       List<BookResponse> bookResponses = bookPage.stream()
-               .map(bookMapper::mapBookToBookResponse)
-               .collect(Collectors.toList());
+        List<BookResponse> bookResponses = bookPage.stream()
+                .map(bookMapper::mapBookToBookResponse)
+                .collect(Collectors.toList());
 
-       // Sonuçları Page<BookResponse> olarak döndürme
-       return new PageImpl<>(bookResponses, pageable, bookPage.getTotalElements());
-   }
+        // Sonuçları Page<BookResponse> olarak döndürme
+        return new PageImpl<>(bookResponses, pageable, bookPage.getTotalElements());
+    }
 
     public ResponseMessage<BookResponse> findBookById(Long id) {
         Book foundBook = methodHelper.isBookExists(id);
@@ -103,8 +101,8 @@ public class BookService {
         methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
         methodHelper.isPublisherExists(bookRequest.getPublisherId());
 
-       // User admin = methodHelper.isUserExist(id);
-       // methodHelper.checkRole(admin, RoleType.ADMIN);
+        // User admin = methodHelper.isUserExist(id);
+        // methodHelper.checkRole(admin, RoleType.ADMIN);
 
         methodHelper.isCategoryExists(bookRequest.getCategoryId());
         methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
@@ -132,6 +130,7 @@ public class BookService {
     }
 
     public ResponseMessage<BookResponse> updateBook(HttpServletRequest httpServletRequest, Long bookId, BookRequest bookRequest) {
+
         Book book = methodHelper.isBookExists(bookId);
         methodHelper.isCategoryExists(bookRequest.getCategoryId());
         methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
@@ -160,5 +159,3 @@ public class BookService {
     }
 
 }
-
-

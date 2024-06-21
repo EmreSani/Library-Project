@@ -1,14 +1,11 @@
 package com.dev02.libraryproject.controller.business;
 
-import com.dev02.libraryproject.payload.request.business.AuthorRequest;
 import com.dev02.libraryproject.payload.request.business.PublisherRequest;
-import com.dev02.libraryproject.payload.response.business.AuthorResponse;
 import com.dev02.libraryproject.payload.response.business.PublisherResponse;
 import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.service.business.PublisherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -48,14 +45,14 @@ public class PublisherController {
     }
 
     @PreAuthorize("hasAnyAuthority('Admin')")
-    @PutMapping("/{id}")
+    @PutMapping("/{id}") //http://localhost:8080/publishers/1
     public ResponseMessage<PublisherResponse> updatePublisher(@PathVariable Long id,
                                                         @RequestBody @Valid PublisherRequest publisherRequest){
         return publisherService.updatePublisher(id,publisherRequest);
     }
 
     @PreAuthorize("hasAnyAuthority('Admin')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") //http://localhost:8080/publishers/1
     public ResponseMessage<PublisherResponse> deletePublisher(@PathVariable Long id){
         return publisherService.deletePublisher(id);
     }
