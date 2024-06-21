@@ -1,5 +1,6 @@
 package com.dev02.libraryproject.entity.concretes.business;
 
+import com.dev02.libraryproject.entity.concretes.user.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,12 +29,12 @@ public class Loan {
     @ManyToOne
     @JsonIgnore
     @NotNull
-    private Long userId;
+    private User user;
 
     @ManyToOne
     @JsonIgnore
     @NotNull
-    private Long bookId;
+    private Book book;
 
     @Past
     @NotNull

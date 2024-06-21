@@ -17,7 +17,7 @@ public class UniquePropertyValidator {
     public void checkDuplicate(String email, String phone){
 
 
-        if(userRepository.existByEmail(email)){
+        if(userRepository.existsByEmail(email)){
             throw new ConflictException(String.format(ErrorMessages.ALREADY_REGISTER_MESSAGE_EMAIL, email));
         }
 

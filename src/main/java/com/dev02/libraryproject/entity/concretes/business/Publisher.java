@@ -30,6 +30,6 @@ public class Publisher {
     @NotNull
     private Boolean builtIn;
 
-    @OneToMany(mappedBy = "publisherId")
+    @OneToMany(mappedBy = "publisher")
     private List<Book> bookList;
 }

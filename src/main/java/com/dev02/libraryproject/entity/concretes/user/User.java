@@ -81,7 +81,7 @@ public class User {
     @Column(nullable = false)
     private Boolean builtIn;
 
-    @OneToMany(mappedBy = "userId",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Loan> loanList;
 
     @ManyToMany

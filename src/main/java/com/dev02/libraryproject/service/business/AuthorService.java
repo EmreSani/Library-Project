@@ -11,17 +11,21 @@ import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.repository.business.AuthorRepository;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.helper.PageableHelper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
+@Service
+@RequiredArgsConstructor
 public class AuthorService {
 
-    private PageableHelper pageableHelper;
-    private AuthorRepository authorRepository;
-    private AuthorMapper authorMapper;
-    private ErrorMessages errorMessages;
-    private MethodHelper methodHelper;
+    private final PageableHelper pageableHelper;
+    private final AuthorRepository authorRepository;
+    private final AuthorMapper authorMapper;
+    private final ErrorMessages errorMessages;
+    private final MethodHelper methodHelper;
 
 
     public Page<AuthorResponse> getAuthorByPage(int page, int size, String sort, String type) {

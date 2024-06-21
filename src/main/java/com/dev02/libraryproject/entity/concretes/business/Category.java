@@ -28,7 +28,7 @@ public class Category {
     private Boolean builtIn;
 
     // Dökümantasyonda burası yok, doğrusu nasıl olmalı?
-    @OneToMany(mappedBy = "categoryId")
+    @OneToMany(mappedBy = "category")
     private List<Book> bookList;
 
     @Column(nullable = false)

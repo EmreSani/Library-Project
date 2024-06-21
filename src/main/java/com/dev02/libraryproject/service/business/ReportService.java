@@ -3,14 +3,11 @@ package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Book;
 import com.dev02.libraryproject.entity.concretes.business.Loan;
-import com.dev02.libraryproject.entity.concretes.user.User;
 import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
 
-import com.dev02.libraryproject.payload.response.business.ReportResponse;
-import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.repository.business.ReportRepository;
 
 import com.dev02.libraryproject.payload.response.user.UserResponse;
@@ -22,15 +19,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +49,7 @@ public class ReportService {
 
             if (loan.getExpireDate().isBefore(LocalDateTime.now()) && loan.getReturnDate() == null) {
 
-                Book expiredBook = methodHelper.isBookExists(loan.getBookId());
+                Book expiredBook = methodHelper.isBookExists(loan.getBook());
                 BookResponseForReport expiredBookForReport = bookMapper.mapBookToBookResponseForReport(expiredBook);
                 expiredBooks.add(expiredBookForReport);
 
@@ -83,7 +77,7 @@ public class ReportService {
 
             if (loan.getExpireDate().isAfter(LocalDateTime.now()) && loan.getReturnDate() == null) {
 
-                Book unreturnedBook = methodHelper.isBookExists(loan.getBookId());
+                Book unreturnedBook = methodHelper.isBookExists(loan.getBook());
                 BookResponseForReport unreturnedBookForReport = bookMapper.mapBookToBookResponseForReport(unreturnedBook);
                 unreturnedBooks.add(unreturnedBookForReport);
             }

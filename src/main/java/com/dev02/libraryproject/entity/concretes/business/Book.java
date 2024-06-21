@@ -36,18 +36,19 @@ public class Book {
 
     @ManyToOne
     @JsonIgnore
-    private Long authorId; //5 idli yazar
+    private Author author; //5 idli yazar
 
     @ManyToOne
-    private Long publisherId;
+    private Publisher publisher;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
     private int publishDate;
 
     @ManyToOne
-    private Long categoryId; //4 idli kategori - Bilim Kurgu
+    private Category category; //4 idli kategori - Bilim Kurgu
 
     @Column(nullable = true)
+    @Lob
     private File image;
 
     private boolean loanable = true;
@@ -68,7 +69,7 @@ public class Book {
     @Column(nullable = false)
     private boolean builtIn; //default false
 
-    @OneToMany(mappedBy = "bookId",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "book",cascade = CascadeType.REMOVE)
     private List<Loan> loanId;
 
 }

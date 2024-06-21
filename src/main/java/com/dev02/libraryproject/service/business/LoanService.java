@@ -15,7 +15,6 @@ import com.dev02.libraryproject.repository.business.LoanRepository;
 import com.dev02.libraryproject.repository.user.UserRepository;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.helper.PageableHelper;
-import com.dev02.libraryproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,9 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 @Service
@@ -160,9 +157,9 @@ public class LoanService {
 
     public ResponseEntity<LoanResponseForUpdate> updateLoanById(Long loanId, LoanRequestForUpdate loanRequestForUpdate) {
         Loan foundLoan = isLoanExistsById(loanId);
-        User user = methodHelper.isUserExist(foundLoan.getUserId());
+        User user = methodHelper.isUserExist(foundLoan.getUser());
         if(loanRequestForUpdate.getReturnDate()!=null){ //kitabı iade ediyorsa veya önceki iade alma işlemini güncelliyorsa
-            Book foundBook = methodHelper.isBookExists(foundLoan.getBookId());
+            Book foundBook = methodHelper.isBookExists(foundLoan.getBook());
             foundBook.setLoanable(true);
             foundLoan.setReturnDate(loanRequestForUpdate.getReturnDate());
             if(loanRequestForUpdate.getExpireDate().isAfter(loanRequestForUpdate.getReturnDate())){

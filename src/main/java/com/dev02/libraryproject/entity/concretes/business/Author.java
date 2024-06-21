@@ -27,7 +27,7 @@ public class Author {
     @Column(nullable = false)
     private Boolean builtIn;
 
-    @OneToMany(mappedBy = "authorId", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     private List<Book> bookList;
 
 
