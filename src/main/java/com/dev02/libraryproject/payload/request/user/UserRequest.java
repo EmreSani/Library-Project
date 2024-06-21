@@ -44,4 +44,6 @@ public class UserRequest {
     @NotNull
     private String password;
 
+    // @Size(min = -2, max = 2, message = "(${validatedValue}) {min} and {max} lengths allowed!")
+
 }

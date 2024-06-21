@@ -11,12 +11,10 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,8 +37,8 @@ public class User {
     private String lastName;
 
     @Column(nullable = false)
-    @Size(min = -2, max = 2, message = "(${validatedValue}) {min} and {max} lengths allowed!")
-    private int score = 0;
+    @Min(value = 0, message = "Score must be greater than or equal to {value}")
+    private int score;
 
     @Column(nullable = false)
     @Size(min = 10, max = 100, message = "(${validatedValue}) {min} and {max} lengths allowed!")
@@ -90,6 +88,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>(); // Initialize roles list
 
 }

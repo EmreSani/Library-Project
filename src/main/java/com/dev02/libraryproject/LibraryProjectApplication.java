@@ -62,6 +62,7 @@ public class LibraryProjectApplication implements CommandLineRunner {
 			adminRequest.setLastName("Dikbayir");
 			adminRequest.setPhone("111-111-1111");
 			adminRequest.setBirthDate(LocalDate.of(1980,2,2));
+			adminRequest.setAddress("Mehmet Akif Ersoy mahallesi Yenimahalle Ankara");
 			userService.saveUser(adminRequest, "Admin");
 		}
 	}

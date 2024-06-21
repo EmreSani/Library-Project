@@ -37,6 +37,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -275,6 +277,10 @@ public class UserService {
         uniquePropertyValidator.checkDuplicate(adminRequest.getPhone(), adminRequest.getEmail());
         //!!! DTO --> POJO
         User user = userMapper.mapUserRequestForAdminToUser(adminRequest);
+        // Initialize roles list if null
+        if (user.getRoles() == null) {
+            user.setRoles(new ArrayList<>());
+        }
         // !!! Rol bilgisi setleniyor
         if (userRole.equalsIgnoreCase(RoleType.ADMIN.name())) {
             if (Objects.equals(adminRequest.getEmail(), "admin@admin.com")) {
@@ -285,6 +291,10 @@ public class UserService {
         // !!! password encode ediliyor
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+        user.setCreateDate(LocalDateTime.now()); // Automatically set on create
+        user.setResetPasswordCode("default_reset_code"); // Set an appropriate reset code
+        user.setBuiltIn(true); // Assuming built-in admin is true
+        user.setScore(2);
         User savedUser = userRepository.save(user);
 
         return ResponseMessage.<UserResponse>builder()

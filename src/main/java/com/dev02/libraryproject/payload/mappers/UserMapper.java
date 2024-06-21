@@ -33,6 +33,7 @@ public class UserMapper {
 
     public User mapUserRequestForAdminToUser(UserRequest userRequest) {
         return User.builder().email(userRequest.getEmail())
+                .password(userRequest.getPassword())
                 .firstName(userRequest.getFirstName())
                 .lastName(userRequest.getLastName())
                 .address(userRequest.getAddress())
