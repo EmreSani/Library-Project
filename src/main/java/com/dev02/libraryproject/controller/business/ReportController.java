@@ -4,6 +4,7 @@ import com.dev02.libraryproject.payload.response.business.BookResponse;
 import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
 import com.dev02.libraryproject.payload.response.business.LoanResponse;
 import com.dev02.libraryproject.payload.response.business.ResponseMessage;
+import com.dev02.libraryproject.payload.response.user.UserResponse;
 import com.dev02.libraryproject.service.business.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ public class ReportController {
 
     private final ReportService reportService;
 
+    //4. endpoint
     @GetMapping("/expired-books")
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')") // http://localhost:8080/report/expired-books
     public ResponseEntity<Page<BookResponseForReport>> getAllExpiredBooksByPage(
@@ -43,6 +45,15 @@ public class ReportController {
         return reportService.getAllUnreturnedBooksByPage(page, size, sort, type);
     }
 
+    //5.endpoint
+    @GetMapping("/most-borrowers")
+    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')") // http://localhost:8080/report/most-borrowers
+    public ResponseEntity<Page<UserResponse>> getAllUsersMostBorrowersByPage(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size)
+            {
+        return reportService.getAllUsersMostBorrowersByPage(page, size);
+    }
 
 
 }

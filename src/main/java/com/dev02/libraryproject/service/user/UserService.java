@@ -8,6 +8,7 @@ import com.dev02.libraryproject.payload.mappers.UserMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
 import com.dev02.libraryproject.payload.request.user.SigninRequest;
+import com.dev02.libraryproject.payload.request.user.UserRequest;
 import com.dev02.libraryproject.payload.request.user.UserRequestForCreateOrUpdate;
 import com.dev02.libraryproject.payload.request.user.UserRequestForRegister;
 import com.dev02.libraryproject.payload.response.business.LoanResponse;
@@ -35,6 +36,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -252,5 +254,39 @@ public class UserService {
       return ResponseEntity.ok(userMapper.mapUserToUserResponse(savedUser));
 
 
+    }
+
+    public ResponseEntity<Page<UserResponse>> getAllUsersMostBorrowersByPage(int page, int size) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size);
+
+        return ResponseEntity.ok(userRepository.findByUsersMostBorrowers(pageable).map(userMapper::mapUserToUserResponse));
+    }
+
+    public long countAllAdmins(){
+        return userRepository.countAdmin(RoleType.ADMIN);
+    }
+
+    public ResponseMessage<UserResponse> saveUser(UserRequest adminRequest, String userRole) {
+
+        //!!! username - ssn- phoneNumber unique mi kontrolu ??
+        uniquePropertyValidator.checkDuplicate(adminRequest.getPhone(), adminRequest.getEmail());
+        //!!! DTO --> POJO
+        User user = userMapper.mapUserRequestForAdminToUser(adminRequest);
+        // !!! Rol bilgisi setleniyor
+        if(userRole.equalsIgnoreCase(RoleType.ADMIN.name())){
+            if(Objects.equals(adminRequest.getEmail(),"admin@admin.com")){
+                user.setBuiltIn(true);
+            }
+            user.getRoles().add(userRoleService.getUserRole(RoleType.ADMIN));
+        }
+        // !!! password encode ediliyor
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        User savedUser = userRepository.save(user);
+
+        return ResponseMessage.<UserResponse>builder()
+                .message(SuccessMessages.ADMIN_CREATE)
+                .object(userMapper.mapUserToUserResponse(savedUser))
+                .build() ;
     }
 }
