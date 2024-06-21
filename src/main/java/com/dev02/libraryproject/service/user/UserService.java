@@ -101,6 +101,7 @@ public class UserService {
             user.setRoles(new ArrayList<>());
         }
 
+        user.setBuiltIn(false);
         // !!! Rol bilgisi setleniyor
         user.getRoles().add(userRoleService.getUserRole(RoleType.MEMBER));
 
