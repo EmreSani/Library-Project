@@ -2,6 +2,7 @@ package com.dev02.libraryproject.payload.messages;
 
 public class SuccessMessages {
 
+
     private SuccessMessages() {
     }
 
@@ -30,5 +31,7 @@ public class SuccessMessages {
     public static final String PUBLISHER_UPDATED = "Publisher Deleted Successfully";
 
     public static final String CATEGORY_FOUND = "Category Found";
+  
+    public static final String ADMIN_CREATE = "Built in Admin created" ;
 
 }
