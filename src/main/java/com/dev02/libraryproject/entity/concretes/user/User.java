@@ -72,7 +72,7 @@ public class User {
         createDate = LocalDateTime.now();
     }
 
-    @Column(nullable = false)
+    @Column
     private String resetPasswordCode;
 
     @Column(nullable = false)
