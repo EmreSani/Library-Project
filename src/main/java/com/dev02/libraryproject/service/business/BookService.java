@@ -104,6 +104,10 @@ public class BookService {
         // User admin = methodHelper.isUserExist(id);
         // methodHelper.checkRole(admin, RoleType.ADMIN);
 
+        methodHelper.isCategoryExists(bookRequest.getCategoryId());
+        methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
+        methodHelper.isPublisherExists(bookRequest.getPublisherId());
+
         bookRequest.setCreateDate(LocalDateTime.now());
 
         Book savedBook = bookRepository.save(bookMapper.mapBookRequestToBook(bookRequest));
@@ -132,17 +136,18 @@ public class BookService {
         methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
         methodHelper.isPublisherExists(bookRequest.getPublisherId());
 
-        Book updatedBook = bookRepository.save(bookMapper.mapBookUpdateRequestToBook(bookRequest,bookId));
+        Book updatedBook = bookRepository.save(bookMapper.mapBookUpdateRequestToBook(bookRequest, bookId));
 
         return ResponseMessage.<BookResponse>builder()
                 .object(bookMapper.mapBookToBookResponse(updatedBook))
                 .message(SuccessMessages.UPDATED_BOOK)
                 .httpStatus(HttpStatus.CREATED)
                 .build();
-
     }
 
-    public ResponseMessage<BookResponse> deleteBook(Long bookId) {
+
+    public ResponseMessage<BookResponse> deleteBook( Long bookId) {
+
         Book book = methodHelper.isBookExists(bookId);
 
         bookRepository.deleteById(bookId);

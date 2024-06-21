@@ -1,7 +1,9 @@
 package com.dev02.libraryproject.payload.messages;
 
+
 import javax.swing.plaf.PanelUI;
 import java.util.Locale;
+
 
 public class ErrorMessages {
 
@@ -12,18 +14,21 @@ public class ErrorMessages {
 //7-15 author
     public static final String AUTHOR_NOT_FOUND="Author is not found by id : %s.";
     public static final String USER_NOT_ADMIN = "User is not Admin";
-    public static final String CATEGORY_NOT_FOUND = "Category is not found with id %s";
+  
+  
+  public static final String CATEGORY_NOT_FOUND = "Category is not found with id %s";
+
+
 
 
 
 
     public static final String ROLE_NOT_FOUND = "Role doesn't exist";
 
-
     public static final String BOOK_NOT_FOUND_MESSAGE ="Book is not found by id : %s.";
     public static final String BOOK_NOT_LOANABLE="Book is not loanable";
     public static final String BOOK_ALREADY_EXISTS_WITH_NAME ="Book is already exists" ;
-
+    public static final String BOOK_CAN_NOT_BE_DELETED ="Book can not be deleted" ;
     public static final String ALREADY_REGISTER_MESSAGE_EMAIL= "Email is exists already : %s";
     public static final String ALREADY_REGISTER_MESSAGE_PHONE= "Email is exists already : %s";
 

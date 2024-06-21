@@ -76,7 +76,9 @@ public class BookMapper {
 
     }
 
+
     public Book mapBookUpdateRequestToBook(BookRequest bookRequest, Long bookId) {
+
         return Book.builder()
                 .id(bookId)
                 .name(bookRequest.getName())
@@ -94,6 +96,7 @@ public class BookMapper {
                 .createDate(bookRequest.getCreateDate())
                 .builtIn(bookRequest.isBuiltIn())
                 .build();
+
     }
 
     public BookResponseForReport mapBookToBookResponseForReport(Book book) {
