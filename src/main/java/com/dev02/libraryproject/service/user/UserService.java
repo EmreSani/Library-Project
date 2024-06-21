@@ -292,8 +292,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         user.setCreateDate(LocalDateTime.now()); // Automatically set on create
-        user.setResetPasswordCode("default_reset_code"); // Set an appropriate reset code
-        user.setBuiltIn(true); // Assuming built-in admin is true
+
         user.setScore(2);
         User savedUser = userRepository.save(user);
 
