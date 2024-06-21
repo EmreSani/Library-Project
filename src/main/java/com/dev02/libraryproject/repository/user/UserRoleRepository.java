@@ -9,10 +9,8 @@ import java.util.Optional;
 @Repository
 public interface UserRoleRepository extends JpaRepository<Role,Long> {
 
-    @Query("SELECT r FROM UserRole r WHERE r.roleType = ?1")
+    @Query("SELECT r FROM Role r WHERE r.roleType = ?1")
     Optional<Role> findByEnumRoleEquals(RoleType roleType);
 
-    @Query(value = "SELECT COUNT(u) FROM User u WHERE u.userRole.roleType = ?1")
-    long countAdmin(RoleType roleType);
 
 }

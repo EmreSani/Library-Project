@@ -69,7 +69,7 @@ public class MethodHelper {
     //!!! isUserExistWithUsername
     public User isUserExistByUsername(String username) {
 
-        User user = userRepository.findByUsernameEquals(username);
+        User user = userRepository.findByEmail(username);
         if (user.getId() == null) {
             throw new ResourceNotFoundException(ErrorMessages.NOT_FOUND_USER_MESSAGE);
         }

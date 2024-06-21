@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface BookRepository extends JpaRepository<Book,Long> {
 
@@ -22,15 +23,16 @@ public interface BookRepository extends JpaRepository<Book,Long> {
                             Long publisherId,
                             Pageable pageable);
 
-    @Query("SELECT b FROM Book b WHERE b.active = true " +
-            "(b.name LIKE %:query% OR b.author.name LIKE %:query% OR b.isbn LIKE %:query% OR b.publisher.name LIKE %:query%) " +
+    @Query("SELECT b FROM Book b " +
+            "WHERE b.active = true " +
+            "AND (b.name LIKE %:query% OR b.author.name LIKE %:query% OR b.isbn LIKE %:query% OR b.publisher.name LIKE %:query%) " +
             "AND b.category.id = :categoryId " +
             "AND b.author.id = :authorId " +
             "AND b.publisher.id = :publisherId")
-    Page<Book> findAllActiveBooks(String query,
-                                  Long categoryId,
-                                  Long authorId,
-                                  Long publisherId,
+    Page<Book> findAllActiveBooks(@Param("query") String query,
+                                  @Param("categoryId") Long categoryId,
+                                  @Param("authorId") Long authorId,
+                                  @Param("publisherId") Long publisherId,
                                   Pageable pageable);
 
 

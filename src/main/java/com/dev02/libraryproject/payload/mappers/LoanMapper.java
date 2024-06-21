@@ -13,9 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoanMapper {
 
-    private final BookResponse bookResponse;
-    private final BookService bookService;
-    private final UserService userService;
     private final MethodHelper methodHelper;
 
     public Loan mapLoanRequestToLoan(LoanRequest loanRequest){

@@ -3,7 +3,9 @@ package com.dev02.libraryproject.payload.mappers;
 import com.dev02.libraryproject.entity.concretes.business.Author;
 import com.dev02.libraryproject.payload.request.business.AuthorRequest;
 import com.dev02.libraryproject.payload.response.business.AuthorResponse;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuthorMapper {
 
     public AuthorResponse mapAuthorToAuthorResponse(Author author){

@@ -38,6 +38,7 @@ public class Book {
     private Author author; //5 idli yazar
 
     @ManyToOne
+    @JsonIgnore
     private Publisher publisher;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")

@@ -266,7 +266,7 @@ public class UserService {
     }
 
     public long countAllAdmins() {
-        return userRoleRepository.countAdmin(RoleType.ADMIN);
+        return userRepository.countAdmin(RoleType.ADMIN);
     }
 
     public ResponseMessage<UserResponse> saveUser(UserRequest adminRequest, String userRole) {

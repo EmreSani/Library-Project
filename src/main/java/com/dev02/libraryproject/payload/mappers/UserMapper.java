@@ -6,7 +6,9 @@ import com.dev02.libraryproject.payload.request.user.UserRequest;
 import com.dev02.libraryproject.payload.request.user.UserRequestForCreateOrUpdate;
 import com.dev02.libraryproject.payload.request.user.UserRequestForRegister;
 import com.dev02.libraryproject.payload.response.user.UserResponse;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
     public User mapUserRequestToUser(UserRequestForRegister userRequestForRegister) {

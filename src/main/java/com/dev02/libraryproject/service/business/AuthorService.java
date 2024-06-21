@@ -1,7 +1,6 @@
 package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Author;
-import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.mappers.AuthorMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
@@ -24,19 +23,18 @@ public class AuthorService {
     private final PageableHelper pageableHelper;
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
-    private final ErrorMessages errorMessages;
     private final MethodHelper methodHelper;
 
 
     public Page<AuthorResponse> getAuthorByPage(int page, int size, String sort, String type) {
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        return authorRepository.findByAuthor(pageable)
+        return authorRepository.findAll(pageable)
                 .map(authorMapper::mapAuthorToAuthorResponse) ;
     }
 
     public ResponseMessage<AuthorResponse> getAuthorById(Long id) {
-        methodHelper.isAuthorExistsById(id);
-        Author author=authorRepository.findByAuthorId(id);
+
+        Author author=methodHelper.isAuthorExistsById(id);
         return ResponseMessage.<AuthorResponse>builder()
                 .message(SuccessMessages.AUTHOR_FOUND)
                 .httpStatus(HttpStatus.OK)
