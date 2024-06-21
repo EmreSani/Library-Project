@@ -21,8 +21,7 @@ public class AuthorController {
     private  final AuthorMapper authorMapper;
 
 
-    @GetMapping// http://localhost:8080/authors/ +GET
-    @PreAuthorize("hasAnyAuthority('Anonymous')")
+    @GetMapping// http://localhost:8080/authors?page=1&size=10&sort=name&type=asc +GET
     public ResponseEntity<Page<AuthorResponse>> getAuthorsByPage(
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -35,13 +34,13 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}") // http://localhost:8080/authors/4 + GET
-    @PreAuthorize("hasAnyAuthority('Anonymous')")
     public ResponseMessage<AuthorResponse> getAuthorById(@PathVariable Long id){
         return authorService.getAuthorById(id);
     }
 
     @PreAuthorize("hasAnyAuthority('Admin')")
     @PostMapping("/publishers")     //http://localhost:8080/authors/publishers  +POST +JSON
+ //   @PostMapping("/saveAuthors")     //http://localhost:8080/authors/saveAuthors  +POST +JSON
     public ResponseMessage<AuthorResponse> saveAuthor(@RequestBody @Valid AuthorRequest authorRequest){
 
         return authorService.saveAuthor(authorRequest);

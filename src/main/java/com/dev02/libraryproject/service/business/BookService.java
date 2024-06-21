@@ -1,6 +1,7 @@
 package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Book;
+import com.dev02.libraryproject.entity.concretes.business.Loan;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 
 
@@ -36,7 +37,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final CategoryService categoryService;
 
-    private  final  PublisherService publisherService;
+    private final PublisherService publisherService;
     private final MethodHelper methodHelper;
     private final BookMapper bookMapper;
     private final PageableHelper pageableHelper;
@@ -146,10 +147,12 @@ public class BookService {
     }
 
 
-    public ResponseMessage<BookResponse> deleteBook( Long bookId) {
+    public ResponseMessage<BookResponse> deleteBook(Long bookId) {
 
         Book book = methodHelper.isBookExists(bookId);
-
+        if (book.isLoanable()==false) {
+            throw new RuntimeException(ErrorMessages.BOOK_CAN_NOT_BE_DELETED);
+        }
         bookRepository.deleteById(bookId);
         return ResponseMessage.<BookResponse>builder()
                 .object(bookMapper.mapBookToBookResponse(book))

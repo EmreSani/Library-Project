@@ -8,12 +8,16 @@ import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
+import com.dev02.libraryproject.payload.response.business.ReportResponse;
+import com.dev02.libraryproject.payload.response.business.ResponseMessage;
+import com.dev02.libraryproject.repository.business.ReportRepository;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +36,7 @@ public class ReportService {
     private final MethodHelper methodHelper;
     private final BookMapper bookMapper;
     private final BookService bookService;
+    private final ReportRepository reportRepository;
 
 
     public ResponseEntity<Page<BookResponseForReport>> getAllExpiredBooksByPage(int page, int size, String sort, String type) {
@@ -48,7 +53,7 @@ public class ReportService {
                 BookResponseForReport expiredBookForReport = bookMapper.mapBookToBookResponseForReport(expiredBook);
                 expiredBooks.add(expiredBookForReport);
 
-            }else {
+            } else {
                 throw new ResourceNotFoundException(ErrorMessages.EXRPIRED_BOOK_NOT_FOUND);
             }
 
@@ -82,6 +87,19 @@ public class ReportService {
 
         return ResponseEntity.ok(unreturnedBooksPage);
 
+    }
+
+    public ReportResponse getReportObject() {
+        return reportRepository.getReportObject();
+    }
+
+    public ResponseMessage2<Page<BookResponseForReport,Integer>> getMostPopularBooks(int amount,int page, int size) {
+        Pageable pageable = pageableHelper.getPageableWithProperties(page, size);
+        reportRepository.findAllPopularBooks(pageable);
+
+        Page<ReportResponse> popularBooks = reportRepository.findAllPopularBooks(pageable, amount);
+        List<BookResponseForReport> popularBooks = new ArrayList<>();
+        return new ResponseMessage<>(popularBooks);
     }
 }
 

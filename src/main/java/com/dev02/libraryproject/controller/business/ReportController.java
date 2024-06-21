@@ -1,12 +1,10 @@
 package com.dev02.libraryproject.controller.business;
 
-import com.dev02.libraryproject.payload.response.business.BookResponse;
-import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
-import com.dev02.libraryproject.payload.response.business.LoanResponse;
-import com.dev02.libraryproject.payload.response.business.ResponseMessage;
+import com.dev02.libraryproject.payload.response.business.*;
 import com.dev02.libraryproject.service.business.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +42,27 @@ public class ReportController {
     }
 
 
+    //1.ENDPOINT
+    @GetMapping("/getObjects")
+    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
+    public ResponseMessage<ReportResponse> getReportObjects() {
+        ReportResponse reportResponse = reportService.getReportObject();
+        return ResponseMessage.<ReportResponse>builder()
+                .object(reportResponse)
+                .message("Report fetched successfully")
+                .httpStatus(HttpStatus.OK)
+                .build();
+    }
+//2.ENDPOINT
+    @GetMapping("/most-popular-books/{amount}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
+    public ResponseMessage2<Page<ReportResponse,Integer>> getMostPopularBooks(
+            @RequestParam(value = "amount", defaultValue = "10") int amount,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size
 
+//todo duzenlenecek
+    ){
+        return reportService.getMostPopularBooks(amount, page, size);
+    }
 }

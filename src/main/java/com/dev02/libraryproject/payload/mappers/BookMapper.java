@@ -28,7 +28,7 @@ public class BookMapper {
                 .featured(book.isFeatured())
                 .createDate(book.getCreateDate())
                 .builtIn(book.isBuiltIn())
-                .bookId(book.getBookId())
+                .bookId(book.getLoanId())
                 .build();
 
 
@@ -50,7 +50,7 @@ public class BookMapper {
                 .featured(bookResponse.isFeatured())
                 .createDate(bookResponse.getCreateDate())
                 .builtIn(bookResponse.isBuiltIn())
-                .bookId(bookResponse.getBookId())
+                .loanId(bookResponse.getBookId())
                 .build();
 
 
