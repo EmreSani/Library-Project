@@ -2,9 +2,6 @@ package com.dev02.libraryproject.payload.messages;
 
 public class SuccessMessages {
 
-
-
-
     private SuccessMessages() {
     }
 
@@ -24,6 +21,8 @@ public class SuccessMessages {
     public static final String BOOK_SAVED = "Book is saved successfully!";
     public static final String BOOK_DELETED = "Book is deleted successfully!";
     public static final String BOOK_UPDATED ="Book is updated";
+
+    public static final String UPDATED_BOOK = "Book is Updated" ;
 
     public static final String PUBLISHER_FOUND = "Publisher Found";
     public static final String PUBLISHER_CREATED = "Publisher Created Successfully";

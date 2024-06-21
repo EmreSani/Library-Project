@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class MethodHelper {
     private final UserRepository userRepository;
-
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
     private final PublisherRepository publisherRepository;
