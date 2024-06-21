@@ -8,14 +8,15 @@ import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Data
+
 @Component
-@RequiredArgsConstructor
 public class BookMapper {
 
-    private final MethodHelper methodHelper;
+    @Autowired
+    private MethodHelper methodHelper;
 
     public BookResponse mapBookToBookResponse(Book book) {
         return BookResponse.builder()

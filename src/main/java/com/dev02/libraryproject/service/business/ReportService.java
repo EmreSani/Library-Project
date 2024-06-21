@@ -8,8 +8,6 @@ import com.dev02.libraryproject.payload.mappers.BookMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
 
-import com.dev02.libraryproject.repository.business.ReportRepository;
-
 import com.dev02.libraryproject.payload.response.user.UserResponse;
 
 import com.dev02.libraryproject.service.helper.MethodHelper;
@@ -31,11 +29,8 @@ import java.util.List;
 public class ReportService {
 
     private final PageableHelper pageableHelper;
-    private final LoanService loanService;
     private final MethodHelper methodHelper;
     private final BookMapper bookMapper;
-    private final BookService bookService;
-    private final ReportRepository reportRepository;
     private final UserService userService;
 
 

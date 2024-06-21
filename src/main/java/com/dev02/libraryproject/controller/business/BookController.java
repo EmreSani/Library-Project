@@ -39,7 +39,7 @@ public class BookController {
     }
 
     @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN','MEMBER')")
-    @GetMapping("{/id}") // http://localhost:8080/books/5
+    @GetMapping("/{id}") // http://localhost:8080/books/5
     public ResponseMessage<BookResponse> getBookById(@RequestParam Long id) {
 
         return bookService.findBookById(id);
