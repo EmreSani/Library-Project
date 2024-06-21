@@ -16,6 +16,7 @@ import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.payload.response.user.SigninResponse;
 import com.dev02.libraryproject.payload.response.user.UserResponse;
 import com.dev02.libraryproject.repository.user.UserRepository;
+import com.dev02.libraryproject.repository.user.UserRoleRepository;
 import com.dev02.libraryproject.security.jwt.JwtUtils;
 import com.dev02.libraryproject.security.service.UserDetailsImpl;
 import com.dev02.libraryproject.service.business.LoanService;
@@ -44,6 +45,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
     public final JwtUtils jwtUtils;
     public final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
@@ -76,7 +78,7 @@ public class UserService {
 
         // AuthResponse nesnesi olusturuluyor ve gerekli alanlar setleniyor
         SigninResponse signinResponse = SigninResponse.builder()
-                .email(userDetails.getUsername())
+                .email(userDetails.getEmail())
                 .token(token.substring(7))
                 .name(userDetails.getName())
                 .roles(roles)
@@ -111,7 +113,7 @@ public class UserService {
 
         String email = (String) httpServletRequest.getAttribute("email");
 
-        User foundUser = userRepository.findByEmailEquals(email);
+        User foundUser = userRepository.findByEmail(email);
 
         return ResponseMessage.<UserResponse>builder().message(SuccessMessages.USER_FOUND)
                 .httpStatus(HttpStatus.OK)
@@ -125,7 +127,7 @@ public class UserService {
 
         String email = (String) httpServletRequest.getAttribute("email");
 
-        User foundUser = userRepository.findByEmailEquals(email);
+        User foundUser = userRepository.findByEmail(email);
 
        return loanService.getAllLoansByUserIdByPage(foundUser.getId(), page, size, sort, type);
 
@@ -169,7 +171,7 @@ public class UserService {
 
         String email = (String) httpServletRequest.getAttribute("email");
 
-        User foundUser = userRepository.findByEmailEquals(email);
+        User foundUser = userRepository.findByEmail(email);
 
         //!!! email - phoneNumber unique mi kontrolu ??
         uniquePropertyValidator.checkDuplicate(userRequestForCreateOrUpdate.getEmail(),
@@ -217,7 +219,7 @@ public class UserService {
     public ResponseEntity<UserResponse> updateUser(UserRequestForCreateOrUpdate userRequestForCreateOrUpdate, Long userId, HttpServletRequest httpServletRequest) {
         String email = (String) httpServletRequest.getAttribute("email");
         // işlemi yapan user
-        User foundUser = userRepository.findByEmailEquals(email);
+        User foundUser = userRepository.findByEmail(email);
 
         // güncellenecek user
         User userToUpdate = methodHelper.isUserExist(userId);
@@ -264,7 +266,7 @@ public class UserService {
     }
 
     public long countAllAdmins() {
-        return userRepository.countAdmin(RoleType.ADMIN);
+        return userRoleRepository.countAdmin(RoleType.ADMIN);
     }
 
     public ResponseMessage<UserResponse> saveUser(UserRequest adminRequest, String userRole) {

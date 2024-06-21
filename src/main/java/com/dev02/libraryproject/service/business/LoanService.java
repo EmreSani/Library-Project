@@ -111,7 +111,7 @@ public class LoanService {
     public ResponseMessage<LoanResponse> getLoanByIdWithMember(Long loanId, HttpServletRequest httpServletRequest) {
         String email = (String) httpServletRequest.getAttribute("email");
 
-        User foundUser = userRepository.findByEmailEquals(email);
+        User foundUser = userRepository.findByEmail(email);
 
         Loan loan = isLoanExistsById(loanId);
 
@@ -157,9 +157,9 @@ public class LoanService {
 
     public ResponseEntity<LoanResponseForUpdate> updateLoanById(Long loanId, LoanRequestForUpdate loanRequestForUpdate) {
         Loan foundLoan = isLoanExistsById(loanId);
-        User user = methodHelper.isUserExist(foundLoan.getUser());
+        User user = methodHelper.isUserExist(foundLoan.getUser().getId());
         if(loanRequestForUpdate.getReturnDate()!=null){ //kitabı iade ediyorsa veya önceki iade alma işlemini güncelliyorsa
-            Book foundBook = methodHelper.isBookExists(foundLoan.getBook());
+            Book foundBook = methodHelper.isBookExists(foundLoan.getBook().getId());
             foundBook.setLoanable(true);
             foundLoan.setReturnDate(loanRequestForUpdate.getReturnDate());
             if(loanRequestForUpdate.getExpireDate().isAfter(loanRequestForUpdate.getReturnDate())){

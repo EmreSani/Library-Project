@@ -8,16 +8,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
+import com.dev02.libraryproject.entity.concretes.user.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
-
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);
 
     boolean existsByPhone(String phone);
 
     boolean existsByEmail(String email);
-
-    User findByEmailEquals(String email);
 
     User findByUsernameEquals(String username);
 
@@ -25,6 +27,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query(value = "SELECT u FROM User u LEFT JOIN u.loanList l GROUP BY u.id ORDER BY COUNT(l) DESC")
     Page<User> findByUsersMostBorrowers(Pageable pageable);
 
-    @Query(value = "SELECT COUNT(u) FROM User u WHERE u.userRole.roleType = ?1")
-    long countAdmin(RoleType roleType);
+
 }

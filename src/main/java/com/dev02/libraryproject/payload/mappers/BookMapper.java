@@ -5,22 +5,27 @@ import com.dev02.libraryproject.payload.request.business.BookRequest;
 import com.dev02.libraryproject.payload.response.business.BookResponse;
 
 import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
+import com.dev02.libraryproject.service.helper.MethodHelper;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Data
 @Component
+@RequiredArgsConstructor
 public class BookMapper {
+
+    private final MethodHelper methodHelper;
 
     public BookResponse mapBookToBookResponse(Book book) {
         return BookResponse.builder()
                 .name(book.getName())
                 .isbn(book.getIsbn())
                 .pageCount(book.getPageCount())
-                .authorId(book.getAuthor())
-                .publisherId(book.getPublisher())
+                .authorId(book.getAuthor().getId())
+                .publisherId(book.getPublisher().getId())
                 .publishDate(book.getPublishDate())
-                .categoryId(book.getCategory())
+                .categoryId(book.getCategory().getId())
                 .image(book.getImage())
                 .loanable(book.isLoanable())
                 .shelfCode(book.getShelfCode())
@@ -39,10 +44,10 @@ public class BookMapper {
                 .name(bookResponse.getName())
                 .isbn(bookResponse.getIsbn())
                 .pageCount(bookResponse.getPageCount())
-                .author(bookResponse.getAuthorId())
-                .publisher(bookResponse.getPublisherId())
+                .author(methodHelper.isAuthorExistsById(bookResponse.getAuthorId()))
+                .publisher(methodHelper.isPublisherExists(bookResponse.getPublisherId()))
                 .publishDate(bookResponse.getPublishDate())
-                .category(bookResponse.getCategoryId())
+                .category(methodHelper.isCategoryExists(bookResponse.getCategoryId()))
                 .image(bookResponse.getImage())
                 .loanable(bookResponse.isLoanable())
                 .shelfCode(bookResponse.getShelfCode())
@@ -61,17 +66,17 @@ public class BookMapper {
                 .name(bookRequest.getName())
                 .isbn(bookRequest.getIsbn())
                 .pageCount(bookRequest.getPageCount())
-                .author(bookRequest.getAuthorId())
-                .publisher(bookRequest.getPublisherId())
+                .author(methodHelper.isAuthorExistsById(bookRequest.getAuthorId()))
+                .publisher(methodHelper.isPublisherExists(bookRequest.getPublisherId()))
                 .publishDate(bookRequest.getPublishDate())
-                .category(bookRequest.getCategoryId())
+                .featured(bookRequest.isFeatured())
+                .createDate(bookRequest.getCreateDate())
+                .builtIn(bookRequest.isBuiltIn())
+                .category(methodHelper.isCategoryExists(bookRequest.getCategoryId()))
                 .image(bookRequest.getImage())
                 .loanable(bookRequest.isLoanable())
                 .shelfCode(bookRequest.getShelfCode())
                 .active(bookRequest.isActive())
-                .featured(bookRequest.isFeatured())
-                .createDate(bookRequest.getCreateDate())
-                .builtIn(bookRequest.isBuiltIn())
                 .build();
 
     }
@@ -84,17 +89,17 @@ public class BookMapper {
                 .name(bookRequest.getName())
                 .isbn(bookRequest.getIsbn())
                 .pageCount(bookRequest.getPageCount())
-                .author(bookRequest.getAuthorId())
-                .publisher(bookRequest.getPublisherId())
+                .author(methodHelper.isAuthorExistsById(bookRequest.getAuthorId()))
+                .publisher(methodHelper.isPublisherExists(bookRequest.getPublisherId()))
                 .publishDate(bookRequest.getPublishDate())
-                .category(bookRequest.getCategoryId())
+                .featured(bookRequest.isFeatured())
+                .createDate(bookRequest.getCreateDate())
+                .builtIn(bookRequest.isBuiltIn())
+                .category(methodHelper.isCategoryExists(bookRequest.getCategoryId()))
                 .image(bookRequest.getImage())
                 .loanable(bookRequest.isLoanable())
                 .shelfCode(bookRequest.getShelfCode())
                 .active(bookRequest.isActive())
-                .featured(bookRequest.isFeatured())
-                .createDate(bookRequest.getCreateDate())
-                .builtIn(bookRequest.isBuiltIn())
                 .build();
 
     }

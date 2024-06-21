@@ -49,7 +49,7 @@ public class ReportService {
 
             if (loan.getExpireDate().isBefore(LocalDateTime.now()) && loan.getReturnDate() == null) {
 
-                Book expiredBook = methodHelper.isBookExists(loan.getBook());
+                Book expiredBook = methodHelper.isBookExists(loan.getBook().getId());
                 BookResponseForReport expiredBookForReport = bookMapper.mapBookToBookResponseForReport(expiredBook);
                 expiredBooks.add(expiredBookForReport);
 
@@ -77,7 +77,7 @@ public class ReportService {
 
             if (loan.getExpireDate().isAfter(LocalDateTime.now()) && loan.getReturnDate() == null) {
 
-                Book unreturnedBook = methodHelper.isBookExists(loan.getBook());
+                Book unreturnedBook = methodHelper.isBookExists(loan.getBook().getId());
                 BookResponseForReport unreturnedBookForReport = bookMapper.mapBookToBookResponseForReport(unreturnedBook);
                 unreturnedBooks.add(unreturnedBookForReport);
             }
