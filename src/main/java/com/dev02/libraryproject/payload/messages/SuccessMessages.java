@@ -3,6 +3,7 @@ package com.dev02.libraryproject.payload.messages;
 public class SuccessMessages {
 
 
+    public static final String ADMIN_CREATE = "Built in Admin created" ;
 
     private SuccessMessages() {
     }

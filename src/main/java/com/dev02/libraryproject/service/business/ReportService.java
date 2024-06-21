@@ -8,8 +8,10 @@ import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
+import com.dev02.libraryproject.payload.response.user.UserResponse;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.helper.PageableHelper;
+import com.dev02.libraryproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,6 +34,7 @@ public class ReportService {
     private final MethodHelper methodHelper;
     private final BookMapper bookMapper;
     private final BookService bookService;
+    private final UserService userService;
 
 
     public ResponseEntity<Page<BookResponseForReport>> getAllExpiredBooksByPage(int page, int size, String sort, String type) {
@@ -47,11 +50,10 @@ public class ReportService {
                 Book expiredBook = methodHelper.isBookExists(loan.getBookId());
                 BookResponseForReport expiredBookForReport = bookMapper.mapBookToBookResponseForReport(expiredBook);
                 expiredBooks.add(expiredBookForReport);
-
-            }else {
-                throw new ResourceNotFoundException(ErrorMessages.EXRPIRED_BOOK_NOT_FOUND);
             }
-
+        }
+        if(expiredBooks.size()==0){
+            throw new ResourceNotFoundException(ErrorMessages.EXRPIRED_BOOK_NOT_FOUND);
         }
 
         Page<BookResponseForReport> expiredBooksPage = new PageImpl<>(expiredBooks, pageable, expiredBooks.size());// TODO : tekrar gözden geçirilmeli
@@ -82,6 +84,10 @@ public class ReportService {
 
         return ResponseEntity.ok(unreturnedBooksPage);
 
+    }
+
+    public ResponseEntity<Page<UserResponse>> getAllUsersMostBorrowersByPage(int page, int size) {
+      return userService.getAllUsersMostBorrowersByPage(page, size);
     }
 }
 
