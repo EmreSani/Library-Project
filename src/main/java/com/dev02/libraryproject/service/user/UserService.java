@@ -124,7 +124,7 @@ public class UserService {
 
     public ResponseMessage<UserResponse> getAuthenticatedUser(HttpServletRequest httpServletRequest) {
 
-        String email = (String) httpServletRequest.getAttribute("email");
+        String email = (String) httpServletRequest.getAttribute("username");
 
         User foundUser = userRepository.findByEmail(email);
 
