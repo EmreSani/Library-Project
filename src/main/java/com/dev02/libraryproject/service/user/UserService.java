@@ -194,7 +194,13 @@ public class UserService {
         //!!! DTO --> POJO
         User userToCreate = userMapper.mapUserRequestToUser(userRequestForCreateOrUpdate);
 
+        if (userToCreate.getRoles() == null) {
+            userToCreate.setRoles(new ArrayList<>());
+        }
+
         setRoleForNewUser(foundUser, userToCreate, userRole);
+
+        userToCreate.setCreateDate(LocalDateTime.now());
 
         // !!! password encode ediliyor
         userToCreate.setPassword(passwordEncoder.encode(userRequestForCreateOrUpdate.getPassword()));
@@ -249,6 +255,7 @@ public class UserService {
 
         updatedUser.setPassword(passwordEncoder.encode(userRequestForCreateOrUpdate.getPassword()));
         updatedUser.setRoles(userToUpdate.getRoles());
+        updatedUser.setCreateDate(foundUser.getCreateDate());
 
         User savedUser = userRepository.save(updatedUser);
 

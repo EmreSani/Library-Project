@@ -28,6 +28,7 @@ public class UserMapper {
                 .address(userRequestForCreateOrUpdate.getAddress())
                 .phone(userRequestForCreateOrUpdate.getPhone())
                 .birthDate(userRequestForCreateOrUpdate.getBirthDate())
+                .builtIn(userRequestForCreateOrUpdate.getBuiltIn())
                 .build();
     }
 
@@ -61,6 +62,7 @@ public class UserMapper {
                 .address(userRequestForCreateOrUpdate.getAddress())
                 .phone(userRequestForCreateOrUpdate.getPhone())
                 .birthDate(userRequestForCreateOrUpdate.getBirthDate())
+                .builtIn(userRequestForCreateOrUpdate.getBuiltIn())
                 .build();
 
     }

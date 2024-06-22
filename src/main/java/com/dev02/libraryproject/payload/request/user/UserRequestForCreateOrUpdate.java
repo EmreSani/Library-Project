@@ -44,6 +44,10 @@ public class UserRequestForCreateOrUpdate {
     @NotNull
     private String password;
 
+    private Boolean builtIn = false;
+
+
+
    // private String userRole; controllerda pathvariable olarak almaktansa burdan da alınabilir.
 
 }

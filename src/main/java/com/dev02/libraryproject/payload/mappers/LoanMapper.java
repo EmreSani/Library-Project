@@ -27,8 +27,10 @@ public class LoanMapper {
                 .id(loan.getId())
                 .userId(loan.getUser().getId())
                 .bookId(loan.getBook().getId())
-                .book(methodHelper.isBookExists(loan.getBook().getId())) //her response içinde Book gönderiliyor
-                                                                  //Eğer Loan Response larda gerekmeyen varsa ayrı bir mapper oluşturulacak
+                .loanDate(loan.getLoanDate())
+                .expireDate(loan.getExpireDate())
+                .returnDate(loan.getReturnDate())
+                .notes(loan.getNotes())
                 .build();
     }
 

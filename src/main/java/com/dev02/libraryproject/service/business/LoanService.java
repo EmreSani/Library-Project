@@ -132,11 +132,11 @@ public class LoanService {
     }
 
     public ResponseEntity<Page<LoanResponse>> getAllLoansByUserIdByPage(Long userId, int page, int size, String sort, String type) {
-
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
         methodHelper.isUserExist(userId);
 
-        return ResponseEntity.ok(loanRepository.findByUserId(userId, pageable).map(loanMapper::mapLoanToLoanResponse));
+        Page<LoanResponse> loans = loanRepository.findByUserId(userId, pageable).map(loanMapper::mapLoanToLoanResponse);
+        return ResponseEntity.ok(loans);
     }
 
     public ResponseEntity<Page<LoanResponseWithUser>> getAllLoansByBookIdByPage(Long bookId, int page, int size, String sort, String type) {
