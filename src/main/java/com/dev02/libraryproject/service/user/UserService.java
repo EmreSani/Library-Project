@@ -81,7 +81,6 @@ public class UserService {
                 .collect(Collectors.toSet());
 
 
-
         // AuthResponse nesnesi olusturuluyor ve gerekli alanlar setleniyor
         SigninResponse signinResponse = SigninResponse.builder()
                 .email(userDetails.getEmail())
@@ -135,14 +134,14 @@ public class UserService {
     }
 
     public ResponseEntity<Page<LoanResponse>> getAllLoansByUserByPage(HttpServletRequest httpServletRequest,
-                                                                       int page, int size,
-                                                                       String sort, String type) {
+                                                                      int page, int size,
+                                                                      String sort, String type) {
 
-        String email = (String) httpServletRequest.getAttribute("email");
+        String email = (String) httpServletRequest.getAttribute("username");
 
         User foundUser = userRepository.findByEmail(email);
 
-       return loanService.getAllLoansByUserIdByPage(foundUser.getId(), page, size, sort, type);
+        return loanService.getAllLoansByUserIdByPage(foundUser.getId(), page, size, sort, type);
 
     }
 
@@ -169,6 +168,8 @@ public class UserService {
     public ResponseEntity<UserResponse> deleteUserById(Long userId) {
         User user = methodHelper.isUserExist(userId);
 
+        methodHelper.checkBuiltIn(user);
+
         if (!user.getLoanList().isEmpty()) {
             throw new BadRequestException(ErrorMessages.USER_HAS_LOAN);
         }
@@ -183,7 +184,7 @@ public class UserService {
 
     public ResponseEntity<UserResponse> createUser(UserRequestForCreateOrUpdate userRequestForCreateOrUpdate, HttpServletRequest httpServletRequest, String userRole) {
 
-        String email = (String) httpServletRequest.getAttribute("email");
+        String email = (String) httpServletRequest.getAttribute("username");
 
         User foundUser = userRepository.findByEmail(email);
 
@@ -231,7 +232,7 @@ public class UserService {
     }
 
     public ResponseEntity<UserResponse> updateUser(UserRequestForCreateOrUpdate userRequestForCreateOrUpdate, Long userId, HttpServletRequest httpServletRequest) {
-        String email = (String) httpServletRequest.getAttribute("email");
+        String email = (String) httpServletRequest.getAttribute("username");
         // işlemi yapan user
         User foundUser = userRepository.findByEmail(email);
 

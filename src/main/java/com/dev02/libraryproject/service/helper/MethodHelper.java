@@ -69,7 +69,7 @@ public class MethodHelper {
     }
 
     //!!! isUserExistWithUsername
-    public User isUserExistByUsername(String username) {
+    public User isUserExistByEmail(String username) {
 
         User user = userRepository.findByEmail(username);
         if (user.getId() == null) {

@@ -1,7 +1,8 @@
 package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Book;
-import com.dev02.libraryproject.entity.concretes.business.Loan;
+import com.dev02.libraryproject.entity.concretes.user.User;
+import com.dev02.libraryproject.entity.enums.RoleType;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 
 
@@ -15,6 +16,7 @@ import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.repository.business.BookRepository;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import com.dev02.libraryproject.service.helper.PageableHelper;
+import com.dev02.libraryproject.service.user.UserRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,7 @@ public class BookService {
     private final AuthorService authorService;
     private final BookRepository bookRepository;
     private final CategoryService categoryService;
+    private final UserRoleService userRoleService;
 
     private final PublisherService publisherService;
     private final MethodHelper methodHelper;
@@ -49,7 +52,7 @@ public class BookService {
             throw new IllegalArgumentException("At least one of the fields (q, cat, author and publisher) is required");
         }
         String username = (String) httpServletRequest.getAttribute("username");
-        methodHelper.isUserExistByUsername(username);
+        User user = methodHelper.isUserExistByEmail(username);
 
         if (authorId != null) {
             methodHelper.isAuthorExistsById(authorId);
@@ -61,7 +64,7 @@ public class BookService {
             methodHelper.isPublisherExists(publisherId);
         }
 
-        boolean isAdmin = methodHelper.isAdmin(httpServletRequest);
+        boolean isAdmin = (user.getRoles().contains(userRoleService.getUserRole(RoleType.ADMIN)));
 
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
 
@@ -94,7 +97,7 @@ public class BookService {
 
     public ResponseMessage<BookResponse> saveBook(HttpServletRequest httpServletRequest, BookRequest bookRequest) {
         String username = (String) httpServletRequest.getAttribute("username");
-        methodHelper.isUserExistByUsername(username);
+        methodHelper.isUserExistByEmail(username);
 
         Long id = bookMapper.mapBookRequestToBook(bookRequest).getId();
         methodHelper.isBookExists(id);

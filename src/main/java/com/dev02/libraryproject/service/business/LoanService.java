@@ -103,13 +103,13 @@ public class LoanService {
             int page, int size, String sort, String type) {
 
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        User member = (User) httpServletRequest.getAttribute("email");
+        User member = (User) httpServletRequest.getAttribute("username");
 
         return ResponseEntity.ok(loanRepository.findByUserId(member.getId(), pageable).map(loanMapper::mapLoanToLoanResponse));
     }
 
     public ResponseMessage<LoanResponse> getLoanByIdWithMember(Long loanId, HttpServletRequest httpServletRequest) {
-        String email = (String) httpServletRequest.getAttribute("email");
+        String email = (String) httpServletRequest.getAttribute("username");
 
         User foundUser = userRepository.findByEmail(email);
 
