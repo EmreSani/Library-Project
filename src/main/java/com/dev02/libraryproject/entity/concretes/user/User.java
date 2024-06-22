@@ -81,13 +81,13 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
     private List<Loan> loanList;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Role> roles = new ArrayList<>(); // Initialize roles list
+    private List<Role> roles = new ArrayList<>();
 
 }

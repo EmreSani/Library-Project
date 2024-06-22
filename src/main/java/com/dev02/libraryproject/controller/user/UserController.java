@@ -38,7 +38,7 @@ public class UserController {
 
     // http://localhost:8080/user + POST
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE','MEMBER')")
+  //  @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE','MEMBER')")
     public ResponseMessage<UserResponse> getAuthenticatedUser(HttpServletRequest httpServletRequest) {
         return userService.getAuthenticatedUser(httpServletRequest);
     }
@@ -70,7 +70,7 @@ public class UserController {
 
     // http://localhost:8080/user/{userId} + GET
     @GetMapping("/{userId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_EMPLOYEE')")
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }

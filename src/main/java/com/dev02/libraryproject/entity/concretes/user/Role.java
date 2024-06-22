@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,8 +29,8 @@ public class Role {
     @Column(length = 20)
     private RoleType roleType;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private List<User> users = new ArrayList<>();
 
     private String name;
 }

@@ -35,6 +35,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -45,6 +46,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
@@ -77,6 +79,8 @@ public class UserService {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
+
+
 
         // AuthResponse nesnesi olusturuluyor ve gerekli alanlar setleniyor
         SigninResponse signinResponse = SigninResponse.builder()
@@ -153,6 +157,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public ResponseEntity<UserResponse> getUserById(Long userId) {
 
         User user = methodHelper.isUserExist(userId);

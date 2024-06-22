@@ -13,6 +13,7 @@ import com.dev02.libraryproject.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -28,6 +29,7 @@ public class MethodHelper {
     private final LoanRepository loanRepository;
 
 
+    @Transactional
     public User isUserExist(Long userId) {
         return userRepository.findById(userId).orElseThrow(() ->
                 new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE,
