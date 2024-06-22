@@ -1,5 +1,6 @@
 package com.dev02.libraryproject.security.jwt;
 
+
 import com.dev02.libraryproject.security.service.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(com.dev02.libraryproject.security.jwt.JwtUtils.class);
 
     @Value("${backendapi.app.jwtExpirationMs}")
     private long jwtExpirationMs;

@@ -25,7 +25,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-private static final Logger LOGGER = LoggerFactory.getLogger(AuthTokenFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(com.dev02.libraryproject.security.jwt.AuthTokenFilter.class);
 
     @Autowired
     private JwtUtils jwtUtils;

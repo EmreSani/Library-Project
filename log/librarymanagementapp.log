@@ -4594,3 +4594,72 @@ Caused by: org.hibernate.AnnotationException: Illegal use of mappedBy on both si
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:840)
+"2024-06-22 17:29:38,840 INFO  [main] com.dev02.libraryproject.LibraryProjectApplication:Starting LibraryProjectApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 27726 (/Users/emresani/IdeaProjects/Library-Project/target/classes started by emresani in /Users/emresani/IdeaProjects/Library-Project)
+""2024-06-22 17:29:38,844 INFO  [main] com.dev02.libraryproject.LibraryProjectApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-22 17:29:39,914 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-22 17:29:40,019 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 96 ms. Found 8 JPA repository interfaces.
+""2024-06-22 17:29:40,752 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8082 (http)
+""2024-06-22 17:29:40,759 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-22 17:29:40,759 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-22 17:29:40,850 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-22 17:29:40,851 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 1914 ms
+""2024-06-22 17:29:41,086 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-22 17:29:41,112 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-22 17:29:41,182 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-22 17:29:41,285 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-22 17:29:41,432 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-22 17:29:41,442 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-22 17:29:42,245 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-22 17:29:42,255 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-22 17:29:43,782 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@32e9c3af, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@796e2187, org.springframework.security.web.context.SecurityContextPersistenceFilter@297454f7, org.springframework.security.web.header.HeaderWriterFilter@759b05d1, org.springframework.web.filter.CorsFilter@632d1b1b, org.springframework.security.web.authentication.logout.LogoutFilter@53b8a0f7, com.dev02.libraryproject.security.jwt.AuthTokenFilter@254cc548, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5f8d4b51, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@55821edf, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3c2fa57a, org.springframework.security.web.session.SessionManagementFilter@70273633, org.springframework.security.web.access.ExceptionTranslationFilter@408d12fc, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@394e504d]
+""2024-06-22 17:29:43,956 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8082 (http) with context path ''
+""2024-06-22 17:29:43,966 INFO  [main] com.dev02.libraryproject.LibraryProjectApplication:Started LibraryProjectApplication in 5.662 seconds (JVM running for 6.106)
+""2024-06-22 17:30:40,018 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-22 17:30:40,025 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-22 17:30:40,028 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-22 17:30:43,973 INFO  [main] com.dev02.libraryproject.LibraryProjectApplication:Starting LibraryProjectApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 27773 (/Users/emresani/IdeaProjects/Library-Project/target/classes started by emresani in /Users/emresani/IdeaProjects/Library-Project)
+""2024-06-22 17:30:43,976 INFO  [main] com.dev02.libraryproject.LibraryProjectApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-22 17:30:45,047 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-22 17:30:45,149 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 95 ms. Found 8 JPA repository interfaces.
+""2024-06-22 17:30:45,917 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8082 (http)
+""2024-06-22 17:30:45,925 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-22 17:30:45,925 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-22 17:30:46,019 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-22 17:30:46,020 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 1947 ms
+""2024-06-22 17:30:46,258 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-22 17:30:46,281 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-22 17:30:46,354 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-22 17:30:46,459 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-22 17:30:46,607 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-22 17:30:46,615 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-22 17:30:47,444 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-22 17:30:47,454 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-22 17:30:49,070 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@79aba813, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@20a18cc9, org.springframework.security.web.context.SecurityContextPersistenceFilter@69d1ad64, org.springframework.security.web.header.HeaderWriterFilter@3e170abe, org.springframework.web.filter.CorsFilter@61555218, org.springframework.security.web.authentication.logout.LogoutFilter@37393dab, com.dev02.libraryproject.security.jwt.AuthTokenFilter@24e7087a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@53016c98, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@296a71df, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1fcf73b9, org.springframework.security.web.session.SessionManagementFilter@ea45a5b, org.springframework.security.web.access.ExceptionTranslationFilter@62732be7, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@63d75087]
+""2024-06-22 17:30:49,259 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8082 (http) with context path ''
+""2024-06-22 17:30:49,271 INFO  [main] com.dev02.libraryproject.LibraryProjectApplication:Started LibraryProjectApplication in 5.84 seconds (JVM running for 6.289)
+""2024-06-22 17:30:50,421 INFO  [http-nio-8082-exec-2] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2024-06-22 17:32:15,991 INFO  [SpringApplicationShutdownHook] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Closing JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-22 17:32:15,999 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown initiated...
+""2024-06-22 17:32:16,003 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Shutdown completed.
+""2024-06-22 17:32:19,517 INFO  [main] com.dev02.libraryproject.LibraryProjectApplication:Starting LibraryProjectApplication using Java 17.0.11 on Emre-MacBook-Pro.local with PID 27813 (/Users/emresani/IdeaProjects/Library-Project/target/classes started by emresani in /Users/emresani/IdeaProjects/Library-Project)
+""2024-06-22 17:32:19,520 INFO  [main] com.dev02.libraryproject.LibraryProjectApplication:No active profile set, falling back to 1 default profile: "default"
+""2024-06-22 17:32:20,583 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+""2024-06-22 17:32:20,695 INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate:Finished Spring Data repository scanning in 103 ms. Found 8 JPA repository interfaces.
+""2024-06-22 17:32:21,433 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat initialized with port(s): 8082 (http)
+""2024-06-22 17:32:21,440 INFO  [main] org.apache.catalina.core.StandardService:Starting service [Tomcat]
+""2024-06-22 17:32:21,440 INFO  [main] org.apache.catalina.core.StandardEngine:Starting Servlet engine: [Apache Tomcat/9.0.68]
+""2024-06-22 17:32:21,538 INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring embedded WebApplicationContext
+""2024-06-22 17:32:21,539 INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:Root WebApplicationContext: initialization completed in 1921 ms
+""2024-06-22 17:32:21,778 INFO  [main] org.hibernate.jpa.internal.util.LogHelper:HHH000204: Processing PersistenceUnitInfo [name: default]
+""2024-06-22 17:32:21,803 INFO  [main] org.hibernate.Version:HHH000412: Hibernate ORM core version 5.6.12.Final
+""2024-06-22 17:32:21,871 INFO  [main] org.hibernate.annotations.common.Version:HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+""2024-06-22 17:32:21,974 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Starting...
+""2024-06-22 17:32:22,126 INFO  [main] com.zaxxer.hikari.HikariDataSource:HikariPool-1 - Start completed.
+""2024-06-22 17:32:22,135 INFO  [main] org.hibernate.dialect.Dialect:HHH000400: Using dialect: org.hibernate.dialect.PostgreSQL81Dialect
+""2024-06-22 17:32:22,911 INFO  [main] org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+""2024-06-22 17:32:22,919 INFO  [main] org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean:Initialized JPA EntityManagerFactory for persistence unit 'default'
+""2024-06-22 17:32:24,493 INFO  [main] org.springframework.security.web.DefaultSecurityFilterChain:Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6f926d01, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@c67a89, org.springframework.security.web.context.SecurityContextPersistenceFilter@3b0c38f2, org.springframework.security.web.header.HeaderWriterFilter@688efeb2, org.springframework.web.filter.CorsFilter@1e3a2177, org.springframework.security.web.authentication.logout.LogoutFilter@ab94a32, com.dev02.libraryproject.security.jwt.AuthTokenFilter@6c737fdb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@36f497b1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4b86a656, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@58720eb9, org.springframework.security.web.session.SessionManagementFilter@7e532f2d, org.springframework.security.web.access.ExceptionTranslationFilter@15c3849f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@60f1f95b]
+""2024-06-22 17:32:24,675 INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer:Tomcat started on port(s): 8082 (http) with context path ''
+""2024-06-22 17:32:24,694 INFO  [main] com.dev02.libraryproject.LibraryProjectApplication:Started LibraryProjectApplication in 5.723 seconds (JVM running for 6.168)
+""2024-06-22 17:32:29,066 INFO  [http-nio-8082-exec-1] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]:Initializing Spring DispatcherServlet 'dispatcherServlet'
+"
