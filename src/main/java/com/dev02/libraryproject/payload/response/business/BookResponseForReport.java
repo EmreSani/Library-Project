@@ -23,4 +23,6 @@ public class BookResponseForReport {
 
     private String isbn;
 
+    private int amount;
+
 }

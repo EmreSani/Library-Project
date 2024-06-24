@@ -30,8 +30,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
 
 //    //TODO: Bu JPQL gözden geçirilebilir
+
+    @Query("SELECT COUNT(u) FROM User u JOIN u.roles r WHERE r.roleType = :roleType")
+    long countByRoleType(@Param("roleType") String roleType);
     @Query(value = "SELECT u FROM User u LEFT JOIN u.loanList l GROUP BY u.id ORDER BY COUNT(l) DESC")
-  Page<User> findByUsersMostBorrowers(Pageable pageable);
+    Page<User> findByUsersMostBorrowers(Pageable pageable);
 
 
 }

@@ -92,5 +92,8 @@ public class PublisherService {
                 .object(publisherMapper.mapPublisherToPublisherResponse(publisher))
                 .build();
     }
+    public long countPublishers() {
+        return publisherRepository.count();
+    }
 }
 

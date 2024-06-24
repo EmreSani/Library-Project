@@ -112,4 +112,12 @@ public class BookMapper {
                 .isbn(book.getIsbn())
                 .build();
     }
+    public BookResponseForReport mapBookToBookResponseForReportMostPopular(Book book, int amount) {
+        return BookResponseForReport.builder()
+                .id(book.getId())
+                .name(book.getName())
+                .isbn(book.getIsbn())
+                .amount(amount)
+                .build();
+    }
 }

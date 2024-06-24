@@ -81,4 +81,7 @@ public class CategoryService {
                 .object(categoryMapper.mapCategoryToCategoryResponse(category))
                 .build();
     }
+    public long countCategories() {
+        return categoryRepository.count();
+    }
 }

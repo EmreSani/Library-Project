@@ -1,10 +1,7 @@
 package com.dev02.libraryproject.controller.business;
 
 
-import com.dev02.libraryproject.payload.response.business.BookResponse;
-import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
-import com.dev02.libraryproject.payload.response.business.LoanResponse;
-import com.dev02.libraryproject.payload.response.business.ResponseMessage;
+import com.dev02.libraryproject.payload.response.business.*;
 import com.dev02.libraryproject.payload.response.user.UserResponse;
 
 import com.dev02.libraryproject.service.business.ReportService;
@@ -23,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ReportController {
 
     private final ReportService reportService;
+
 
     //4. endpoint
     @GetMapping("/expired-books")
@@ -56,28 +54,27 @@ public class ReportController {
             @RequestParam(value = "size", defaultValue = "20") int size) {
         return reportService.getAllUsersMostBorrowersByPage(page, size);
     }
-}
 
-//    //1.ENDPOINT
-//    @GetMapping("/getObjects")
-//    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
-//    public ResponseMessage<ReportResponse> getReportObjects() {
-//        ReportResponse reportResponse = reportService.getReportObject();
-//        return ResponseMessage.<ReportResponse>builder()
-//                .object(reportResponse)
-//                .message("Report fetched successfully")
-//                .httpStatus(HttpStatus.OK)
-//                .build();
-//    }
-////2.ENDPOINT
-//    @GetMapping("/most-popular-books/{amount}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
-//    public ResponseMessage2<Page<ReportResponse,Integer>> getMostPopularBooks(
-//            @RequestParam(value = "amount", defaultValue = "10") int amount,
-//            @RequestParam(value = "page", defaultValue = "0") int page,
-//            @RequestParam(value = "size", defaultValue = "20") int size
-//
-////todo duzenlenecek
-//    ){
-//        return reportService.getMostPopularBooks(amount, page, size);
-//    }
+
+    //1.ENDPOINT
+    @GetMapping("/getReport")
+    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
+    public ResponseMessage<ReportResponse> getReport() {
+        ReportResponse reportResponse = reportService.getReport();
+        return ResponseMessage.<ReportResponse>builder()
+                .object(reportResponse)
+                .message("Report fetched successfully")
+                .httpStatus(HttpStatus.OK)
+                .build();
+    }
+
+    //2. ENDPOINT
+    @GetMapping("/most-popular-books")
+    @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
+    // http://localhost:8080/report/most-popular-books?amount=10&page=1&size=10
+    public ResponseEntity<Page<BookResponseForReport>> getAllBooksMostPopularByPage(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+        return reportService.getAllBookMostPopularByPage(page, size);
+    }
+}

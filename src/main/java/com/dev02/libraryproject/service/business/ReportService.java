@@ -3,11 +3,13 @@ package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Book;
 import com.dev02.libraryproject.entity.concretes.business.Loan;
+import com.dev02.libraryproject.entity.enums.RoleType;
 import com.dev02.libraryproject.exception.ResourceNotFoundException;
 import com.dev02.libraryproject.payload.mappers.BookMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
 
+import com.dev02.libraryproject.payload.response.business.ReportResponse;
 import com.dev02.libraryproject.payload.response.user.UserResponse;
 
 import com.dev02.libraryproject.service.helper.MethodHelper;
@@ -32,6 +34,11 @@ public class ReportService {
     private final MethodHelper methodHelper;
     private final BookMapper bookMapper;
     private final UserService userService;
+    private final BookService bookService;
+    private final AuthorService authorService;
+    private final PublisherService publisherService;
+    private final CategoryService categoryService;
+    private final LoanService loanService;
 
 
     public ResponseEntity<Page<BookResponseForReport>> getAllExpiredBooksByPage(int page, int size, String sort, String type) {
@@ -89,22 +96,27 @@ public class ReportService {
 
     }
 
-//
-//    public ReportResponse getReportObject() {
-//        return reportRepository.getReportObject();
-//    }
-//
-//    public ResponseMessage2<Page<BookResponseForReport,Integer>> getMostPopularBooks(int amount,int page, int size) {
-//        Pageable pageable = pageableHelper.getPageableWithProperties(page, size);
-//        reportRepository.findAllPopularBooks(pageable);
-//
-//        Page<ReportResponse> popularBooks = reportRepository.findAllPopularBooks(pageable, amount);
-//        List<BookResponseForReport> popularBooks = new ArrayList<>();
-//        return new ResponseMessage<>(popularBooks);
-//
     public ResponseEntity<Page<UserResponse>> getAllUsersMostBorrowersByPage(int page, int size) {
       return userService.getAllUsersMostBorrowersByPage(page, size);
 
+    }
+
+    public ResponseEntity<Page<BookResponseForReport>> getAllBookMostPopularByPage(int page, int size) {
+        return bookService.getAllBookMostPopularByPage(page,size);
+    }
+
+    public ReportResponse getReport() {
+        long numberOfBooks = bookService.countBooks();
+        long numberOfAuthors = authorService.countAuthors();
+        long numberOfPublishers = publisherService.countPublishers();
+        long numberOfCategories = categoryService.countCategories();
+        long numberOfLoans = loanService.countLoans();
+        long numberOfUnreturnedBooks = loanService.countUnreturnedBooks();
+        long numberOfExpiredBooks = loanService.countExpiredBooks();
+        long numberOfMembers = userService.countMembers(RoleType.MEMBER);
+
+        return new ReportResponse((int) numberOfBooks, (int) numberOfAuthors, (int) numberOfPublishers, (int) numberOfCategories,
+                (int) numberOfLoans, (int) numberOfUnreturnedBooks, (int) numberOfExpiredBooks, (int) numberOfMembers);
     }
 }
 

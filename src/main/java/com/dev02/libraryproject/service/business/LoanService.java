@@ -185,4 +185,16 @@ public class LoanService {
         loanRepository.save(foundLoan);
         return ResponseEntity.ok(loanMapper.mapLoanToLoanResponseForUpdate(foundLoan));
     }
+
+    public long countLoans() {
+        return loanRepository.count();
+    }
+
+    public long countUnreturnedBooks() {
+        return loanRepository.countByReturnDateIsNull();
+    }
+
+    public long countExpiredBooks() {
+        return loanRepository.countByExpireDateBefore(LocalDateTime.now());
+    }
 }

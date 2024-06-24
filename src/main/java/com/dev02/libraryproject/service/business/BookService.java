@@ -12,6 +12,7 @@ import com.dev02.libraryproject.payload.messages.SuccessMessages;
 import com.dev02.libraryproject.payload.request.business.BookRequest;
 
 import com.dev02.libraryproject.payload.response.business.BookResponse;
+import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
 import com.dev02.libraryproject.payload.response.business.ResponseMessage;
 import com.dev02.libraryproject.repository.business.BookRepository;
 import com.dev02.libraryproject.service.helper.MethodHelper;
@@ -19,6 +20,7 @@ import com.dev02.libraryproject.service.helper.PageableHelper;
 import com.dev02.libraryproject.service.user.UserRoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -163,5 +165,21 @@ public class BookService {
                 .httpStatus(HttpStatus.OK)
                 .build();
     }
+
+    public ResponseEntity<Page<BookResponseForReport>> getAllBookMostPopularByPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Book> booksPage = bookRepository.findMostPopularBooks(pageable);
+
+        Page<BookResponseForReport> bookResponses = booksPage.map(book -> {
+            int amount = bookRepository.getLoanCountForBook(book.getId());
+            return bookMapper.mapBookToBookResponseForReportMostPopular(book, amount);
+        });
+
+        return ResponseEntity.ok(bookResponses);
+    }
+    public long countBooks() {
+        return bookRepository.count();
+    }
+
 
 }

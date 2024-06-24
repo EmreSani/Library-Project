@@ -321,4 +321,8 @@ public class UserService {
                 .object(userMapper.mapUserToUserResponse(savedUser))
                 .build();
     }
+
+    public long countMembers(RoleType roleType) {
+        return userRepository.countByRoleType(roleType.getName());
+    }
 }

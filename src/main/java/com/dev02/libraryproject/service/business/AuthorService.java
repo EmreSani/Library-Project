@@ -78,5 +78,8 @@ public class AuthorService {
                 .object(authorMapper.mapAuthorToAuthorResponse(author))
                 .build();
     }
+    public long countAuthors() {
+        return authorRepository.count();
+    }
 
 }
