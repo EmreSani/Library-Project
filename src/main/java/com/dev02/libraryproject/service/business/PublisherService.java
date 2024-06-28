@@ -2,6 +2,7 @@
 package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Author;
+import com.dev02.libraryproject.entity.concretes.business.Category;
 import com.dev02.libraryproject.entity.concretes.business.Publisher;
 import com.dev02.libraryproject.exception.ConflictException;
 import com.dev02.libraryproject.exception.ResourceNotFoundException;
@@ -54,6 +55,12 @@ public class PublisherService {
 
 
     public ResponseMessage<PublisherResponse> savePublisher(PublisherRequest publisherRequest) {
+
+        for (Publisher publisher : publisherRepository.findAll()){
+            if (publisherRequest.getName().equalsIgnoreCase(publisher.getName())){
+                throw new ConflictException(ErrorMessages.CATEGORY_ALREADY_EXISTS);
+            }
+        }
 
         Publisher publisher= publisherRepository.save(publisherMapper.mapPublisherRequestToPublisher(publisherRequest));
 

@@ -1,6 +1,8 @@
 package com.dev02.libraryproject.service.business;
 
 import com.dev02.libraryproject.entity.concretes.business.Author;
+import com.dev02.libraryproject.entity.concretes.business.Category;
+import com.dev02.libraryproject.exception.ConflictException;
 import com.dev02.libraryproject.payload.mappers.AuthorMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
@@ -47,6 +49,12 @@ public class AuthorService {
 
 
     public ResponseMessage<AuthorResponse> saveAuthor(AuthorRequest authorRequest) {
+
+        for (Author author : authorRepository.findAll()){
+            if (authorRequest.getName().equalsIgnoreCase(author.getName())){
+                throw new ConflictException(ErrorMessages.CATEGORY_ALREADY_EXISTS);
+            }
+        }
 
         Author author=authorRepository.save(authorMapper.mapAuthorRequestToAuthor(authorRequest));
 
