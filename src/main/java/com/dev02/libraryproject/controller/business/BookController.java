@@ -26,10 +26,10 @@ public class BookController {
     // http://localhost:8080/books?q=sefiller&cat=4&author=34&publisher=42&page=1&size=10&sort=name&type=asc +GET
     public Page<BookResponse> getAllBookByPage(
             HttpServletRequest httpServletRequest,
-            @RequestParam(name = "q", defaultValue = "sefiller") String query,
-            @RequestParam(name = "cat", defaultValue = "4") Long categoryId,
-            @RequestParam(name = "author", defaultValue = "34") Long authorId,
-            @RequestParam(name = "publisher", defaultValue = "42") Long publisherId,
+            @RequestParam(name = "q") String query,
+            @RequestParam(name = "cat") Long categoryId,
+            @RequestParam(name = "author") Long authorId,
+            @RequestParam(name = "publisher") Long publisherId,
             @RequestParam(name = "page", defaultValue = "1") Integer page,
             @RequestParam(name = "size", defaultValue = "10") Integer size,
             @RequestParam(name = "sort", defaultValue = "name") String sort,
