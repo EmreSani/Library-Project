@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface BookRepository extends JpaRepository<Book,Long> {
 
 
@@ -39,8 +41,12 @@ public interface BookRepository extends JpaRepository<Book,Long> {
 
     boolean findByNameIgnoreCase(String bookName);
 
-    @Query("SELECT b FROM Book b LEFT JOIN b.loans l GROUP BY b.name ORDER BY COUNT(l) DESC")
+//    @Query("SELECT b FROM Book b LEFT JOIN b.loans l GROUP BY b.name ORDER BY COUNT(l) DESC")
+//    Page<Book> findMostPopularBooks(Pageable pageable);
+
+    @Query("SELECT b FROM Book b LEFT JOIN b.loans l GROUP BY b.id ORDER BY COUNT(l) DESC")
     Page<Book> findMostPopularBooks(Pageable pageable);
+
 
     @Query("SELECT COUNT(l) FROM Loan l WHERE l.book.id = :bookId")
     int getLoanCountForBook(@Param("bookId") Long bookId);
