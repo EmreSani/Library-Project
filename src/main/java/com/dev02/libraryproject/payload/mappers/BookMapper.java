@@ -71,7 +71,7 @@ public class BookMapper {
                 .publisher(methodHelper.isPublisherExists(bookRequest.getPublisherId()))
                 .publishDate(bookRequest.getPublishDate())
                 .featured(bookRequest.isFeatured())
-                .createDate(bookRequest.getCreateDate())
+       //         .createDate(bookRequest.getCreateDate()) entity classında pre persist ile çöz.
                 .builtIn(bookRequest.isBuiltIn())
                 .category(methodHelper.isCategoryExists(bookRequest.getCategoryId()))
                 .image(bookRequest.getImage())
@@ -94,7 +94,7 @@ public class BookMapper {
                 .publisher(methodHelper.isPublisherExists(bookRequest.getPublisherId()))
                 .publishDate(bookRequest.getPublishDate())
                 .featured(bookRequest.isFeatured())
-                .createDate(bookRequest.getCreateDate())
+           //     .createDate(bookRequest.getCreateDate())
                 .builtIn(bookRequest.isBuiltIn())
                 .category(methodHelper.isCategoryExists(bookRequest.getCategoryId()))
                 .image(bookRequest.getImage())

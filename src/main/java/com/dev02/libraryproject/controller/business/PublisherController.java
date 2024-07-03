@@ -37,21 +37,21 @@ public class PublisherController {
         return publisherService.getPublisherById(id);
     }
 
-    @PreAuthorize("hasAnyAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping     //http://localhost:8080/publishers  +POST +JSON
     public ResponseMessage<PublisherResponse> savePublisher(@RequestBody @Valid PublisherRequest publisherRequest){
 
         return publisherService.savePublisher(publisherRequest);
     }
 
-    @PreAuthorize("hasAnyAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/{id}") //http://localhost:8080/publishers/1
     public ResponseMessage<PublisherResponse> updatePublisher(@PathVariable Long id,
                                                         @RequestBody @Valid PublisherRequest publisherRequest){
         return publisherService.updatePublisher(id,publisherRequest);
     }
 
-    @PreAuthorize("hasAnyAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @DeleteMapping("/{id}") //http://localhost:8080/publishers/1
     public ResponseMessage<PublisherResponse> deletePublisher(@PathVariable Long id){
         return publisherService.deletePublisher(id);

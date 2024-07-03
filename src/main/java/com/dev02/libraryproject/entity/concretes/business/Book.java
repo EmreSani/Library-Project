@@ -9,6 +9,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class Book {
     private Publisher publisher;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
-    private int publishDate;
+    private LocalDate publishDate;
 
     @ManyToOne
     private Category category; //4 idli kategori - Bilim Kurgu
@@ -62,7 +63,7 @@ public class Book {
     @Column(nullable = false)
     private boolean featured; //default false
 
-    @Column(nullable = false)
+    @Column(nullable = true) //false a çek ve 76daki methodu yaz.
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm", timezone = "US")
     private LocalDateTime createDate;
 
@@ -72,5 +73,6 @@ public class Book {
     @OneToMany(mappedBy = "book",cascade = CascadeType.REMOVE)
     private List<Loan> loans; // Changed from loanId to loans
 
+    //create date atamasını pre persist ile yapılması lazım.
 
 }

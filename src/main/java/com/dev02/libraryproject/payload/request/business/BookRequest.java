@@ -12,6 +12,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -38,10 +39,14 @@ public class BookRequest {
 
     private Long publisherId;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
-    @Past(message = "Year must be in the past.")
-    @Pattern(regexp = "^\\d{4}$", message = "Year must be a valid four-digit year")
-    private int publishDate;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
+//    @Past(message = "Year must be in the past.")
+//    @Pattern(regexp = "^\\d{4}$", message = "Year must be a valid four-digit year")
+//    private LocalDate publishDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Past(message = "Publish date must be in the past")
+    private LocalDate publishDate;
 
     @NotNull(message = "Field cannot be null")
     private Long categoryId;
@@ -65,9 +70,9 @@ public class BookRequest {
     @NotNull(message = "Field cannot be null")
     private boolean featured;
 
-    @NotNull(message = "Create date cannot be null")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'-HH:mm:ssZ")
-    private LocalDateTime createDate;
+//    @NotNull(message = "Create date cannot be null")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'-HH:mm:ssZ")
+//    private LocalDateTime createDate;
 
 
     @NotNull(message = "Field cannot be null")
