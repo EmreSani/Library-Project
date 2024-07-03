@@ -101,20 +101,13 @@ public class BookService {
         String username = (String) httpServletRequest.getAttribute("username");
         methodHelper.isUserExistByEmail(username);
 
-        Long id = bookMapper.mapBookRequestToBook(bookRequest).getId();
-        methodHelper.isBookExists(id);
-        methodHelper.isCategoryExists(bookRequest.getCategoryId());
-        methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
-        methodHelper.isPublisherExists(bookRequest.getPublisherId());
+        //todo: kitap kaydederken unique kontrolü yapılmalı mı? isbn üzerinden vs?
 
         // User admin = methodHelper.isUserExist(id);
         // methodHelper.checkRole(admin, RoleType.ADMIN);
 
-        methodHelper.isCategoryExists(bookRequest.getCategoryId());
-        methodHelper.isAuthorExistsById(bookRequest.getAuthorId());
-        methodHelper.isPublisherExists(bookRequest.getPublisherId());
 
-        bookRequest.setCreateDate(LocalDateTime.now());
+     //   bookRequest.setCreateDate(LocalDateTime.now());
 
         Book savedBook = bookRepository.save(bookMapper.mapBookRequestToBook(bookRequest));
 

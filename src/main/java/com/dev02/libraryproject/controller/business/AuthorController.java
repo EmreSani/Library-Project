@@ -38,7 +38,7 @@ public class AuthorController {
         return authorService.getAuthorById(id);
     }
 
-    @PreAuthorize("hasAnyAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/publishers")     //http://localhost:8080/authors/publishers  +POST +JSON
  //   @PostMapping("/saveAuthors")     //http://localhost:8080/authors/saveAuthors  +POST +JSON
     public ResponseMessage<AuthorResponse> saveAuthor(@RequestBody @Valid AuthorRequest authorRequest){
@@ -46,14 +46,14 @@ public class AuthorController {
         return authorService.saveAuthor(authorRequest);
     }
 
-    @PreAuthorize("hasAnyAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/{id}")//http://localhost:8080/authors/4 +PUT +JSON
     public ResponseMessage<AuthorResponse> updateAuthor(@PathVariable Long id,
                                                         @RequestBody @Valid AuthorRequest authorRequest){
         return authorService.updateAuthor(id,authorRequest);
     }
 
-    @PreAuthorize("hasAnyAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @DeleteMapping("/{id}")//http://localhost:8080/authors/4
     public ResponseMessage<AuthorResponse> deleteAuthor(@PathVariable Long id){
         return authorService.deleteAuthor(id);

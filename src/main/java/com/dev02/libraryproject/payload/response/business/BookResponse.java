@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class BookResponse {
 
     private Long publisherId;
 
-    private int publishDate;
+    private LocalDate publishDate;
 
     private Long categoryId;
 
