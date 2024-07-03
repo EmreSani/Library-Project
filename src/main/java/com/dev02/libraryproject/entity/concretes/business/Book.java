@@ -70,6 +70,7 @@ public class Book {
     private boolean builtIn; //default false
 
     @OneToMany(mappedBy = "book",cascade = CascadeType.REMOVE)
-    private List<Loan> loanId;
+    private List<Loan> loans; // Changed from loanId to loans
+
 
 }
