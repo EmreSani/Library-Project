@@ -15,7 +15,7 @@ public class CategoryMapper {
     return CategoryResponse.builder().name(category.getName())
             .id(category.getId())
             .builtIn(category.getBuiltIn())
-            .bookList(category.getBookList())
+          //  .bookList(category.getBookList())
             .sequence(category.getSequence()).build();
 
     }

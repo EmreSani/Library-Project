@@ -16,9 +16,12 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class AuthorResponse {
 
+    private Long id;
     private String name;
     private Boolean builtIn;
-    private List<Book> bookList;
+//    private String name;
+//    private Boolean builtIn;
+//    private List<Book> bookList; //kitap listesini döndürürken hata verdi, düşünülsün.
 
 
 }
