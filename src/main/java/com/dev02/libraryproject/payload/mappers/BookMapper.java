@@ -4,6 +4,7 @@ import com.dev02.libraryproject.entity.concretes.business.Book;
 import com.dev02.libraryproject.payload.request.business.BookRequest;
 import com.dev02.libraryproject.payload.response.business.BookResponse;
 
+import com.dev02.libraryproject.payload.response.business.BookResponseForLoan;
 import com.dev02.libraryproject.payload.response.business.BookResponseForReport;
 import com.dev02.libraryproject.service.helper.MethodHelper;
 import lombok.Data;
@@ -119,5 +120,26 @@ public class BookMapper {
                 .isbn(book.getIsbn())
                 .amount(amount)
                 .build();
+    }
+
+    public BookResponseForLoan mapBookToBookResponseForLoan(Book book){
+
+        return BookResponseForLoan.builder()
+                .name(book.getName())
+                .isbn(book.getIsbn())
+                .pageCount(book.getPageCount())
+                .authorId(book.getAuthor().getId())
+                .publisherId(book.getPublisher().getId())
+                .publishDate(book.getPublishDate())
+                .categoryId(book.getCategory().getId())
+                .image(book.getImage())
+                .loanable(book.isLoanable())
+                .shelfCode(book.getShelfCode())
+                .active(book.isActive())
+                .featured(book.isFeatured())
+                .createDate(book.getCreateDate())
+                .builtIn(book.isBuiltIn())
+                .build();
+
     }
 }
