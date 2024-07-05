@@ -26,7 +26,7 @@ public class CategoryResponse {
     private Boolean builtIn;
 
 
-    private List<Book> bookList;
+//    private List<Book> bookList; kitap listesini döndürmek için ne düşünmemiz lazım
 
 
     private int sequence;

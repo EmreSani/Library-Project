@@ -50,7 +50,7 @@ public class BookService {
 
     public Page<BookResponse> getBooks(HttpServletRequest httpServletRequest, String query, Long categoryId, Long authorId, Long publisherId, Integer page, Integer size, String sort, String type) {
         // En az bir alanın dolu olmasını sağlayalım
-        if (query.isEmpty() && categoryId == null && authorId == null && publisherId == null) {
+        if (query == null && categoryId == null && authorId == null && publisherId == null) {
             throw new IllegalArgumentException("At least one of the fields (q, cat, author and publisher) is required");
         }
         String username = (String) httpServletRequest.getAttribute("username");

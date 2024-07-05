@@ -10,8 +10,10 @@ public class AuthorMapper {
 
     public AuthorResponse mapAuthorToAuthorResponse(Author author){
         return AuthorResponse.builder()
+                .id(author.getId())
                 .name(author.getName())
-                .bookList(author.getBookList())
+                //.bookList(author.getBookList())
+                //built in  eklenebilir
                 .build();
     }
 

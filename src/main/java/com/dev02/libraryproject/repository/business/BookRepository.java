@@ -15,10 +15,10 @@ public interface BookRepository extends JpaRepository<Book,Long> {
 
 
     @Query("SELECT b FROM Book b WHERE " +
-            "(b.name LIKE %:query% OR b.author.name LIKE %:query% OR b.isbn LIKE %:query% OR b.publisher.name LIKE %:query%) " +
-            "AND b.category.id = :categoryId " +
-            "AND b.author.id = :authorId " +
-            "AND b.publisher.id = :publisherId")
+            "(:query IS NULL OR b.name LIKE %:query% OR b.author.name LIKE %:query% OR b.isbn LIKE %:query% OR b.publisher.name LIKE %:query%) " +
+            "AND (:categoryId IS NULL OR b.category.id = :categoryId) " +
+            "AND (:authorId IS NULL OR b.author.id = :authorId) " +
+            "AND (:publisherId IS NULL OR b.publisher.id = :publisherId)")
     Page<Book> findAllBooks(String query,
                             Long categoryId,
                             Long authorId,
