@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 public class LoanRequestForUpdate {
 
     @NotNull
-    @Future
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime expireDate;
 

@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 public class LoanMapper {
 
     private final MethodHelper methodHelper;
+    private final UserMapper userMapper;
+    private final BookMapper bookMapper;
 
     public Loan mapLoanRequestToLoan(LoanRequest loanRequest){
         return Loan.builder().user(methodHelper.isUserExist(loanRequest.getUserId()))
@@ -47,8 +49,10 @@ public class LoanMapper {
                 .id(loan.getId())
                 .userId(loan.getUser().getId())
                 .bookId(loan.getBook().getId())
-                .user(methodHelper.isUserExist(loan.getUser().getId()))
-                .book(methodHelper.isBookExists(loan.getBook().getId()))
+                .userInfos(userMapper.mapUserToUserResponse(methodHelper.isUserExist(loan.getUser().getId())))
+                .bookResponseForLoan(bookMapper.mapBookToBookResponseForLoan(methodHelper.isBookExists(loan.getBook().getId())))
+                //.user(methodHelper.isUserExist(loan.getUser().getId()))
+                //.book(methodHelper.isBookExists(loan.getBook().getId()))
                 .build();
     }
 

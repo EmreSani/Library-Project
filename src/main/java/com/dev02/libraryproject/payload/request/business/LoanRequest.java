@@ -22,7 +22,6 @@ public class LoanRequest {
     @NotNull
     private Long userId;
 
-
     @NotNull
     private Long bookId;
 

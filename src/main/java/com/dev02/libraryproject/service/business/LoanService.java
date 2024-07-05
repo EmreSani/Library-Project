@@ -48,7 +48,7 @@ public class LoanService {
 
         for(Loan loan : user.getLoanList()){
             if(LocalDateTime.now().isAfter(loan.getExpireDate())){
-                throw new BadRequestException(String.format(ErrorMessages.USER_HAS_EXPIRE_LOAN, String.valueOf(loan.getId())));
+                throw new BadRequestException(String.format(ErrorMessages.USER_HAS_EXPIRE_LOAN, loan.getId()));
             }
         }
 
@@ -87,6 +87,7 @@ public class LoanService {
         }
         user.getLoanList().add(loan); //user's loan list size added this loan
         //Loan is saving by using LoanRepository.save() methods
+        loan.setLoanDate(LocalDateTime.now()); //pre persist düşünülebilir todo:
         loanRepository.save(loan);
 
 
@@ -103,7 +104,10 @@ public class LoanService {
             int page, int size, String sort, String type) {
 
         Pageable pageable = pageableHelper.getPageableWithProperties(page, size, sort, type);
-        User member = (User) httpServletRequest.getAttribute("username");
+
+        String email = (String) httpServletRequest.getAttribute("username");
+
+        User member = userRepository.findByEmail(email); //userrepodan işlem yapmak yerine user service üzerinden işlem yapılabilir.
 
         return ResponseEntity.ok(loanRepository.findByUserId(member.getId(), pageable).map(loanMapper::mapLoanToLoanResponse));
     }
@@ -158,10 +162,11 @@ public class LoanService {
     public ResponseEntity<LoanResponseForUpdate> updateLoanById(Long loanId, LoanRequestForUpdate loanRequestForUpdate) {
         Loan foundLoan = isLoanExistsById(loanId);
         User user = methodHelper.isUserExist(foundLoan.getUser().getId());
-        if(loanRequestForUpdate.getReturnDate()!=null){ //kitabı iade ediyorsa veya önceki iade alma işlemini güncelliyorsa
+        if(loanRequestForUpdate.getReturnDate()!=null && loanRequestForUpdate.getReturnDate().isBefore(LocalDateTime.now())){ //kitabı iade ediyorsa veya önceki iade alma işlemini güncelliyorsa
             Book foundBook = methodHelper.isBookExists(foundLoan.getBook().getId());
             foundBook.setLoanable(true);
             foundLoan.setReturnDate(loanRequestForUpdate.getReturnDate());
+            bookService.updateReturnedBook(foundBook);
             if(loanRequestForUpdate.getExpireDate().isAfter(loanRequestForUpdate.getReturnDate())){
                 user.setScore(user.getScore()+1);
             } else {
@@ -174,13 +179,16 @@ public class LoanService {
             // İki tarih-saat arasındaki farkı gün olarak hesapla
             long daysBetween = ChronoUnit.DAYS.between(expireDateTime1, expireDateTime2);
 
+//           LocalDateTime mevcutExpireDate = foundLoan.getExpireDate();
+//           foundLoan.setExpireDate(mevcutExpireDate.plusDays(20));
+
             if (foundLoan.getExpireDate().isAfter(LocalDateTime.now())&&daysBetween<20) {
                 foundLoan.setExpireDate(loanRequestForUpdate.getExpireDate());
                 foundLoan.setNotes(loanRequestForUpdate.getNotes());
             } else {
                 throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
             }
-        }
+        } else throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
 
         loanRepository.save(foundLoan);
         return ResponseEntity.ok(loanMapper.mapLoanToLoanResponseForUpdate(foundLoan));

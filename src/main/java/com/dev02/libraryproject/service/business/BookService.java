@@ -174,5 +174,9 @@ public class BookService {
         return bookRepository.count();
     }
 
+    public void updateReturnedBook(Book book){
+        bookRepository.save(book);
+    }
+
 
 }
