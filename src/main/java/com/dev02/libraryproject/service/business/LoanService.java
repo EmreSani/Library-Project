@@ -159,8 +159,6 @@ public class LoanService {
 
     }
 
-//todo: methodu controllerda ikiye böl; güncelleme ve iade için ayrı iki method.
-//todo: return date loan dateten önce olamaz kontrolü de ekle
     public ResponseEntity<LoanResponseForUpdate> updateLoanForExpireDateById(Long loanId, LoanRequestForUpdateExpireDate loanRequestForUpdateExpireDate) {
         Loan foundLoan = isLoanExistsById(loanId);
         User user = methodHelper.isUserExist(foundLoan.getUser().getId());
@@ -175,7 +173,7 @@ public class LoanService {
 //           LocalDateTime mevcutExpireDate = foundLoan.getExpireDate();
 //           foundLoan.setExpireDate(mevcutExpireDate.plusDays(20));
 
-            if (foundLoan.getExpireDate().isAfter(LocalDateTime.now())&&daysBetween<20) {
+            if ((foundLoan.getExpireDate().isAfter(LocalDateTime.now())&&daysBetween<20) && loanRequestForUpdateExpireDate.getExpireDate().isAfter(LocalDateTime.now())) {
                 foundLoan.setExpireDate(loanRequestForUpdateExpireDate.getExpireDate());
                 foundLoan.setNotes(loanRequestForUpdateExpireDate.getNotes());
             } else {
@@ -199,6 +197,7 @@ public class LoanService {
         return loanRepository.countByExpireDateBefore(LocalDateTime.now());
     }
 
+    //todo: iade edilmiş kitap başkası tarafından ödünç alınmadıysa tekrar iade edilemesin.
     public ResponseEntity<LoanResponseForUpdate> updateLoanForReturnDateById(Long id, LoanRequestForReturnDate loanRequestForReturnDate) {
         Loan foundLoan = isLoanExistsById(id);
 
