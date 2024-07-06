@@ -83,8 +83,8 @@ public class LoanController {
         return loanService.updateLoanForExpireDateById(loanId, loanRequestForUpdateExpireDate);
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')") // http://localhost:8080/loans/6
+    @PutMapping("/returnDate/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')") // http://localhost:8080/loans/returnDate/6
     public ResponseEntity<LoanResponseForUpdate> updateLoanReturnDateById(@PathVariable Long id, @RequestBody @Valid LoanRequestForReturnDate loanRequestForReturnDate){
         return loanService.updateLoanForReturnDateById(id, loanRequestForReturnDate);
     }
