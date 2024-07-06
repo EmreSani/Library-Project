@@ -327,6 +327,6 @@ public class UserService {
     }
 
     public long countMembers(RoleType roleType) {
-        return userRepository.countByRoleType(roleType.getName());
+        return userRepository.countByRoleType(roleType);
     }
 }

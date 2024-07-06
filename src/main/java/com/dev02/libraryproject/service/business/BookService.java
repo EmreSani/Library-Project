@@ -98,8 +98,8 @@ public class BookService {
 
 
     public ResponseMessage<BookResponse> saveBook(HttpServletRequest httpServletRequest, BookRequest bookRequest) {
-        String username = (String) httpServletRequest.getAttribute("username");
-        methodHelper.isUserExistByEmail(username);
+//        String username = (String) httpServletRequest.getAttribute("username");
+//        methodHelper.isUserExistByEmail(username);
 
         //todo: kitap kaydederken unique kontrolü yapılmalı mı? isbn üzerinden vs?
 

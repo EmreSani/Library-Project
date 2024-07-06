@@ -39,8 +39,8 @@ public class AuthorController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PostMapping("/publishers")     //http://localhost:8080/authors/publishers  +POST +JSON
- //   @PostMapping("/saveAuthors")     //http://localhost:8080/authors/saveAuthors  +POST +JSON
+    //@PostMapping("/publishers")     //http://localhost:8080/authors/publishers  +POST +JSON
+    @PostMapping("/saveAuthors")     //http://localhost:8080/authors/saveAuthors  +POST +JSON
     public ResponseMessage<AuthorResponse> saveAuthor(@RequestBody @Valid AuthorRequest authorRequest){
 
         return authorService.saveAuthor(authorRequest);
