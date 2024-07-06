@@ -197,7 +197,6 @@ public class LoanService {
         return loanRepository.countByExpireDateBefore(LocalDateTime.now());
     }
 
-    //todo: iade edilmiş kitap başkası tarafından ödünç alınmadıysa tekrar iade edilemesin.
     public ResponseEntity<LoanResponseForUpdate> updateLoanForReturnDateById(Long id, LoanRequestForReturnDate loanRequestForReturnDate) {
         Loan foundLoan = isLoanExistsById(id);
 
