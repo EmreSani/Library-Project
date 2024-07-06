@@ -62,9 +62,9 @@ public class ReportService {
             throw new ResourceNotFoundException(ErrorMessages.EXRPIRED_BOOK_NOT_FOUND);
         }
 
-        Page<BookResponseForReport> expiredBooksPage = new PageImpl<>(expiredBooks, pageable, expiredBooks.size());// TODO : tekrar gözden geçirilmeli
+        Page<BookResponseForReport> expiredBooksPage = new PageImpl<>(expiredBooks, pageable, expiredBooks.size());
 
-        return ResponseEntity.ok(expiredBooksPage); //TODO : tekrar gözden geçirilmeli
+        return ResponseEntity.ok(expiredBooksPage);
 
     }
 
@@ -113,7 +113,7 @@ public class ReportService {
         long numberOfLoans = loanService.countLoans();
         long numberOfUnreturnedBooks = loanService.countUnreturnedBooks();
         long numberOfExpiredBooks = loanService.countExpiredBooks();
-        long numberOfMembers = userService.countMembers(RoleType.MEMBER);
+        long numberOfMembers = userService.countAllMembers();
 
         return new ReportResponse((int) numberOfBooks, (int) numberOfAuthors, (int) numberOfPublishers, (int) numberOfCategories,
                 (int) numberOfLoans, (int) numberOfUnreturnedBooks, (int) numberOfExpiredBooks, (int) numberOfMembers);
