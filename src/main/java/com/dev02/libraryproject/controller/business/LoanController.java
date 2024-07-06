@@ -1,7 +1,8 @@
 package com.dev02.libraryproject.controller.business;
 
 import com.dev02.libraryproject.payload.request.business.LoanRequest;
-import com.dev02.libraryproject.payload.request.business.LoanRequestForUpdate;
+import com.dev02.libraryproject.payload.request.business.LoanRequestForReturnDate;
+import com.dev02.libraryproject.payload.request.business.LoanRequestForUpdateExpireDate;
 import com.dev02.libraryproject.payload.response.business.*;
 import com.dev02.libraryproject.service.business.LoanService;
 import javax.validation.Valid;
@@ -78,8 +79,14 @@ public class LoanController {
 
     @PutMapping("/{loanId}")
     @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')") // http://localhost:8080/loans/6
-    public ResponseEntity<LoanResponseForUpdate> updateLoanById(@PathVariable Long loanId, @RequestBody @Valid LoanRequestForUpdate loanRequestForUpdate){
-        return loanService.updateLoanById(loanId, loanRequestForUpdate);
+    public ResponseEntity<LoanResponseForUpdate> updateLoanExpireDateById(@PathVariable Long loanId, @RequestBody @Valid LoanRequestForUpdateExpireDate loanRequestForUpdateExpireDate){
+        return loanService.updateLoanForExpireDateById(loanId, loanRequestForUpdateExpireDate);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('EMPLOYEE','ADMIN')") // http://localhost:8080/loans/6
+    public ResponseEntity<LoanResponseForUpdate> updateLoanReturnDateById(@PathVariable Long id, @RequestBody @Valid LoanRequestForReturnDate loanRequestForReturnDate){
+        return loanService.updateLoanForReturnDateById(id, loanRequestForReturnDate);
     }
 
 

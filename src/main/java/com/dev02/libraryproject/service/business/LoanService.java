@@ -9,7 +9,8 @@ import com.dev02.libraryproject.payload.mappers.LoanMapper;
 import com.dev02.libraryproject.payload.messages.ErrorMessages;
 import com.dev02.libraryproject.payload.messages.SuccessMessages;
 import com.dev02.libraryproject.payload.request.business.LoanRequest;
-import com.dev02.libraryproject.payload.request.business.LoanRequestForUpdate;
+import com.dev02.libraryproject.payload.request.business.LoanRequestForReturnDate;
+import com.dev02.libraryproject.payload.request.business.LoanRequestForUpdateExpireDate;
 import com.dev02.libraryproject.payload.response.business.*;
 import com.dev02.libraryproject.repository.business.LoanRepository;
 import com.dev02.libraryproject.repository.user.UserRepository;
@@ -160,36 +161,23 @@ public class LoanService {
 
 //todo: methodu controllerda ikiye böl; güncelleme ve iade için ayrı iki method.
 //todo: return date loan dateten önce olamaz kontrolü de ekle
-    public ResponseEntity<LoanResponseForUpdate> updateLoanById(Long loanId, LoanRequestForUpdate loanRequestForUpdate) {
+    public ResponseEntity<LoanResponseForUpdate> updateLoanForExpireDateById(Long loanId, LoanRequestForUpdateExpireDate loanRequestForUpdateExpireDate) {
         Loan foundLoan = isLoanExistsById(loanId);
         User user = methodHelper.isUserExist(foundLoan.getUser().getId());
-        if(loanRequestForUpdate.getReturnDate()!=null && loanRequestForUpdate.getReturnDate().isBefore(LocalDateTime.now())){ //kitabı iade ediyorsa veya önceki iade alma işlemini güncelliyorsa
-            Book foundBook = methodHelper.isBookExists(foundLoan.getBook().getId());
-            foundBook.setLoanable(true);
-            foundLoan.setReturnDate(loanRequestForUpdate.getReturnDate());
-            bookService.updateReturnedBook(foundBook);
-            if(loanRequestForUpdate.getExpireDate().isAfter(loanRequestForUpdate.getReturnDate())){
-               if (user.getScore()<2){
-                   user.setScore(user.getScore()+1);
-               }
-            } else {
-               if (user.getScore()>-2){
-                   user.setScore(user.getScore()-1);
-               }
-            }
-        } else if(foundLoan.getReturnDate()==null&&loanRequestForUpdate.getReturnDate()==null){ //teslim tarihini uzatma talebi varsa
-            LocalDateTime requestExpDate = loanRequestForUpdate.getExpireDate();
+
+        if(foundLoan.getReturnDate()==null){ //teslim tarihini uzatma talebi varsa
+            LocalDateTime requestExpDate = loanRequestForUpdateExpireDate.getExpireDate();
             LocalDateTime loanExpDate = foundLoan.getExpireDate();
-            LocalDateTime expireDateTime1 = requestExpDate; LocalDateTime expireDateTime2 = loanExpDate;
+
             // İki tarih-saat arasındaki farkı gün olarak hesapla
-            long daysBetween = ChronoUnit.DAYS.between(expireDateTime1, expireDateTime2);
+            long daysBetween = ChronoUnit.DAYS.between(requestExpDate, loanExpDate);
 
 //           LocalDateTime mevcutExpireDate = foundLoan.getExpireDate();
 //           foundLoan.setExpireDate(mevcutExpireDate.plusDays(20));
 
             if (foundLoan.getExpireDate().isAfter(LocalDateTime.now())&&daysBetween<20) {
-                foundLoan.setExpireDate(loanRequestForUpdate.getExpireDate());
-                foundLoan.setNotes(loanRequestForUpdate.getNotes());
+                foundLoan.setExpireDate(loanRequestForUpdateExpireDate.getExpireDate());
+                foundLoan.setNotes(loanRequestForUpdateExpireDate.getNotes());
             } else {
                 throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
             }
@@ -209,5 +197,30 @@ public class LoanService {
 
     public long countExpiredBooks() {
         return loanRepository.countByExpireDateBefore(LocalDateTime.now());
+    }
+
+    public ResponseEntity<LoanResponseForUpdate> updateLoanForReturnDateById(Long id, LoanRequestForReturnDate loanRequestForReturnDate) {
+        Loan foundLoan = isLoanExistsById(id);
+
+        if(foundLoan.getReturnDate()==null){ //kitabı iade ediyorsa veya önceki iade alma işlemini güncelliyorsa
+            //User ve book aktif loan olması durumunda getirilsin, aksi takdirde db yorulmasın.
+            User user = methodHelper.isUserExist(foundLoan.getUser().getId());
+            Book foundBook = methodHelper.isBookExists(foundLoan.getBook().getId());
+            foundBook.setLoanable(true);
+            foundLoan.setReturnDate(LocalDateTime.now());
+            foundLoan.setNotes(loanRequestForReturnDate.getNotes());
+            bookService.updateReturnedBook(foundBook);
+            if(foundLoan.getExpireDate().isAfter(LocalDateTime.now()) || foundLoan.getExpireDate().equals(LocalDateTime.now())){
+                if (user.getScore()<2){
+                    user.setScore(user.getScore()+1);
+                }
+            } else {
+                if (user.getScore()>-2){
+                    user.setScore(user.getScore()-1);
+                }
+            }
+        } else throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);
+        loanRepository.save(foundLoan);
+        return ResponseEntity.ok(loanMapper.mapLoanToLoanResponseForUpdate(foundLoan));
     }
 }
