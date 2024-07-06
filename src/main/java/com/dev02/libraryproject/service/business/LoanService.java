@@ -87,7 +87,7 @@ public class LoanService {
         }
         user.getLoanList().add(loan); //user's loan list size added this loan
         //Loan is saving by using LoanRepository.save() methods
-        loan.setLoanDate(LocalDateTime.now()); //pre persist düşünülebilir todo:
+        loan.setLoanDate(LocalDateTime.now()); //todo: pre persist düşünülebilir
         loanRepository.save(loan);
 
 
@@ -158,7 +158,8 @@ public class LoanService {
 
     }
 
-
+//todo: methodu controllerda ikiye böl; güncelleme ve iade için ayrı iki method.
+//todo: return date loan dateten önce olamaz kontrolü de ekle
     public ResponseEntity<LoanResponseForUpdate> updateLoanById(Long loanId, LoanRequestForUpdate loanRequestForUpdate) {
         Loan foundLoan = isLoanExistsById(loanId);
         User user = methodHelper.isUserExist(foundLoan.getUser().getId());
@@ -168,9 +169,13 @@ public class LoanService {
             foundLoan.setReturnDate(loanRequestForUpdate.getReturnDate());
             bookService.updateReturnedBook(foundBook);
             if(loanRequestForUpdate.getExpireDate().isAfter(loanRequestForUpdate.getReturnDate())){
-                user.setScore(user.getScore()+1);
+               if (user.getScore()<2){
+                   user.setScore(user.getScore()+1);
+               }
             } else {
-                user.setScore(user.getScore()-1);
+               if (user.getScore()>-2){
+                   user.setScore(user.getScore()-1);
+               }
             }
         } else if(foundLoan.getReturnDate()==null&&loanRequestForUpdate.getReturnDate()==null){ //teslim tarihini uzatma talebi varsa
             LocalDateTime requestExpDate = loanRequestForUpdate.getExpireDate();

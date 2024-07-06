@@ -22,7 +22,7 @@ public class ReportController {
     private final ReportService reportService;
 
 
-    //4. endpoint
+    //4. endpoint //todo: kitabın expire dateini geçirip tekrar test et.
     @GetMapping("/expired-books")
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')") // http://localhost:8080/report/expired-books
     public ResponseEntity<Page<BookResponseForReport>> getAllExpiredBooksByPage(
@@ -35,7 +35,7 @@ public class ReportController {
 
     //3.endpoint
     // http://localhost:8080/report/unreturned-books? page=1&size=10&sort=expireDate&type=desc
-    @PostMapping("/report/unreturned-books")
+    @GetMapping("/unreturned-books")
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
     public ResponseEntity<Page<BookResponseForReport>> getAllUnreturnedBooksByPage(
             @RequestParam(value = "page", defaultValue = "0") int page,
@@ -73,7 +73,7 @@ public class ReportController {
     @PreAuthorize("hasAnyAuthority('ADMIN','EMPLOYEE')")
     // http://localhost:8080/report/most-popular-books?amount=10&page=1&size=10
     public ResponseEntity<Page<BookResponseForReport>> getAllBooksMostPopularByPage(
-            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size) {
         return reportService.getAllBookMostPopularByPage(page, size);
     }

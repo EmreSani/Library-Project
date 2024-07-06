@@ -288,7 +288,11 @@ public class UserService {
     }
 
     public long countAllAdmins() {
-        return userRepository.countAdmin(RoleType.ADMIN);
+        return userRepository.countByRoleType(RoleType.ADMIN);
+    }
+
+    public long countAllMembers() {
+        return userRepository.countByRoleType(RoleType.MEMBER);
     }
 
     public ResponseMessage<UserResponse> saveUser(UserRequest adminRequest, String userRole) {
