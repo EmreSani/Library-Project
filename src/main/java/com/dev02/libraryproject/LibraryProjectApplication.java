@@ -59,11 +59,11 @@ public class LibraryProjectApplication implements CommandLineRunner {
 			UserRequest adminRequest = new UserRequest();
 			adminRequest.setEmail("admin@admin.com");
 			adminRequest.setPassword("123456");
-			adminRequest.setFirstName("Ahmet");
-			adminRequest.setLastName("Dikbayir");
+			adminRequest.setFirstName("Sukru");
+			adminRequest.setLastName("Harmanci");
 			adminRequest.setPhone("111-111-1111");
 			adminRequest.setBirthDate(LocalDate.of(1980,2,2));
-			adminRequest.setAddress("Mehmet Akif Ersoy mahallesi Yenimahalle Ankara");
+			adminRequest.setAddress("Cumhuriyet Mah Ataturk Cad");
 			userService.saveUser(adminRequest, "Admin");
 		}
 	}
