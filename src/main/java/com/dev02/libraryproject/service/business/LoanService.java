@@ -48,7 +48,7 @@ public class LoanService {
 
         for(Loan loan : user.getLoanList()){
             if(LocalDateTime.now().isAfter(loan.getExpireDate())){
-                throw new BadRequestException(String.format(ErrorMessages.USER_HAS_EXPIRE_LOAN, String.valueOf(loan.getId())));
+                throw new BadRequestException(String.format(ErrorMessages.USER_HAS_EXPIRE_LOAN, loan.getId()));
             }
         }
 
